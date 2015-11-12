@@ -1,0 +1,13 @@
+.img-rounded {border-radius: 6px;}
+img {
+	width:80px;
+}
+.top15{
+	margin-top: 15px;
+}
+.vertical-align-middle{
+	vertical-align:middle;
+}
+hr{
+	border-color:#cc6;
+}
