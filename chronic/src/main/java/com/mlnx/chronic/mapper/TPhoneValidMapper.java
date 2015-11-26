@@ -44,4 +44,11 @@ public interface TPhoneValidMapper {
      * @mbggenerated Thu Nov 12 15:45:41 CST 2015
      */
     int updateByPrimaryKey(TPhoneValid record);
+
+    /**
+     * 根据手机号查找
+     * @param phone
+     * @return
+     */
+	TPhoneValid selectByPhone(String phone);
 }

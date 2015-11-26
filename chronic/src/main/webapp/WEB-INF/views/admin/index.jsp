@@ -167,6 +167,15 @@
 						<li><a class="ajax-link" href="report_content_info.do">报告内容列表</a></li>
 					</ul>
 				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle">
+						<i class="fa fa-table"></i>
+						 <span class="hidden-xs">反馈管理</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a class="ajax-link" href="feedbacks_info">反馈列表</a></li>
+					</ul>
+				</li>
 			</ul>
 		</div>
 		<!--Start Content-->

@@ -13,7 +13,6 @@
 	rel="stylesheet">
 <link href="${ctx}/common/plugins/jquery-ui/jquery-ui.min.css"
 	rel="stylesheet">
-<link href="${ctx}/common/css/report/css.css" rel="stylesheet">
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
 				<script src="http://getbootstrap.com/docs-assets/js/html5shiv.js"></script>

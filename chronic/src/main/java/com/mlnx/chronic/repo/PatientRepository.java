@@ -19,7 +19,6 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.exceptions.DriverException;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
-import com.mlnx.chronic.controller.HelloController;
 import com.mlnx.chronic.entity.Patient;
 import com.mlnx.chronic.entity.Patient.Gender;
 import com.mlnx.springmvc.service.CassandraService;

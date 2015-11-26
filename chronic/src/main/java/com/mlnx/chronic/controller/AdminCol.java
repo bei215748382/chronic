@@ -1,13 +1,9 @@
 package com.mlnx.chronic.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,10 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mlnx.chronic.entity.TFeedback;
 import com.mlnx.chronic.entity.TReport;
 import com.mlnx.chronic.entity.TReportContent;
 import com.mlnx.chronic.entity.TUser;
 import com.mlnx.chronic.entity.TUserExt;
+import com.mlnx.chronic.mapper.TFeedbackMapper;
 import com.mlnx.chronic.mapper.TReportContentMapper;
 import com.mlnx.chronic.mapper.TReportMapper;
 import com.mlnx.chronic.mapper.TUserExtMapper;
@@ -52,6 +50,9 @@ public class AdminCol {
 
 	@Autowired
 	private TReportContentMapper tReportContentMapper;
+
+	@Autowired
+	private TFeedbackMapper tFeedbackMapper;
 
 	// 登陆提交
 	// userid：用户账号，pwd：密码
@@ -177,8 +178,10 @@ public class AdminCol {
 	public void user_ext_add_json(MultipartFile file, TUserExt userExt,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		String pic = FileUtil.savePic(request, file);
-		userExt.setPic(pic);
+		if (file != null && file.getOriginalFilename()!="") {
+			String pic = FileUtil.savePic(request, file);
+			userExt.setPic(pic);
+		}
 		tUserExtMapper.insert(userExt);
 		response.sendRedirect("index.do#users_info.do");
 	}
@@ -187,8 +190,10 @@ public class AdminCol {
 	public void user_ext_edit_json(MultipartFile file, TUserExt userExt,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		String pic = FileUtil.savePic(request, file);
-		userExt.setPic(pic);
+		if (file != null && file.getOriginalFilename()!="") {
+			String pic = FileUtil.savePic(request, file);
+			userExt.setPic(pic);
+		}
 		tUserExtMapper.updateByPrimaryKey(userExt);
 		response.sendRedirect("index.do#users_info.do");
 	}
@@ -289,5 +294,22 @@ public class AdminCol {
 			throws IOException {
 		tReportContentMapper.deleteByPrimaryKey(id);
 		response.sendRedirect("index.do#report_content_info.do");
+	}
+
+	// --------------------------------------- 用户反馈管理
+	// ---------------------------------------------------------------------
+	@RequestMapping(value = "feedbacks_info")
+	public ModelAndView feedbacks_info() {
+		List<TFeedback> feedbacks = tFeedbackMapper.selectAll();
+		ModelAndView modelAndView = new ModelAndView(
+				"admin/ajax/feedbacks_info");
+		modelAndView.addObject("feedbacks", feedbacks);
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "feedback_delete")
+	public String feedback_delete(int id) {
+		tFeedbackMapper.deleteByPrimaryKey(id);
+		return "redirect:index#feedbacks_info";
 	}
 }

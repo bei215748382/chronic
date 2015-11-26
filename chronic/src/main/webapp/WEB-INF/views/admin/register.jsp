@@ -11,8 +11,6 @@
 <link href="${ctx}/common/plugins/bootstrap/bootstrap.css"
 	rel="stylesheet">
 <link href="${ctx}/common/css/admin/font-awesome.css" rel="stylesheet">
-<link href='${ctx}/common/css/admin/css.css' rel='stylesheet'
-	type='text/css'>
 <link href="${ctx}/common/css/admin/style.css" rel="stylesheet">
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>

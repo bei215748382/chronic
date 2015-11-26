@@ -12,7 +12,15 @@ public class EnumCollection {
 				"000014", "删除省成功"), ORDER_REMIND_SUCCESS("000015", "设置提醒成功"), DOCTOR_MODIFY_SUCCESS(
 				"000016", "修改医生信息成功"), UPDATE_BLOODPRESSURESETTING_SUCCESS(
 				"000017", "修改血压设置成功"), UPDATE_BLOODSUGARSETTING_SUCCESS(
-				"000018", "修改血糖设置成功"),REGISTER_VALIDCODE_ERROR("000019","验证码验证失败");
+				"000018", "修改血糖设置成功"), REGISTER_VALIDCODE_ERROR("000019",
+				"验证码验证失败"), USER_ADD_FRIEND_REQUEST("000020", "已成功发送添加好友请求"), USER_ADD_FRIEND_REQUEST_FAIL(
+				"000021", "好友请求已发送过了"), ADD_FRIENDS_CANCEL("000022", "取消添加好友"), UPDATE_FRIEND_REMARK_SUCCESS(
+				"000023", "修改好友备注成功"), ADD_PHONE_VALID_CODE_SUCCESS("000024",
+				"获取手机验证码成功"), UPDATE_USER_PHONE_NOT_EXIST("000025", "修改的手机号不存在"), UPDATE_USER_PASSWORD_SUCCESS(
+				"000026", "修改用户密码成功"), ADD_FRIENDS_SUCCESS_ALREADY("000027",
+				"已经添加过好友"), ADD_FRIENDS_ERROR("000028", "添加好友失败"), NO_PERMISSION_OPEN(
+				"000029", "对不起，对方设置了权限，无法查看"), PERMISSION_OPEN_ALLOWED(
+				"000030", "对方的信息你能查看"), ADD_FEEDBACK_SUCCESS("000031","提交反馈问题成功");
 		// 成员变量
 		private String code;
 		private String msg;

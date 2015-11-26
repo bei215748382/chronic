@@ -1949,18 +1949,17 @@ function DemoFormValidator(){
 			},
 			phone: {
 				validators: {
-					digits: {
-						message: '请输入数字'
+					notEmpty: {
+						message: '必须输入手机号'
 					},
 					remote: {
                         message: '手机号已注册',
                         url: '../admin/findByPhone.do'
                     },
-					stringLength: {
-						min: 11,
-						max: 11,
-						message: '请输入11位手机号'
-					},
+                    regexp: {
+                        regexp: '^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$',
+                        message: '必须是移动、联通、电信支持的手机号'
+                    }
 				}
 			},
 			color: {
