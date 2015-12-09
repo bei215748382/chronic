@@ -1,12 +1,12 @@
 package com.mlnx.chronic.service.imp;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.antlr.grammar.v3.ANTLRv3Parser.throwsSpec_return;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +27,18 @@ import com.mlnx.chronic.mapper.TPhoneValidMapper;
 import com.mlnx.chronic.mapper.TUserExtMapper;
 import com.mlnx.chronic.mapper.TUserFriendsMapper;
 import com.mlnx.chronic.mapper.TUserMapper;
+import com.mlnx.chronic.mapper.TVoipAccountMapper;
 import com.mlnx.chronic.repo.PatientRepository;
+import com.mlnx.chronic.vo.FriendsInfo;
 import com.mlnx.chronic.vo.RegistUser;
+import com.mlnx.chronic.vo.UsrInfo;
+import com.mlnx.chronic.vo.UsrVoipInfo;
 import com.mlnx.springmvc.service.UserService;
 import com.mlnx.springmvc.util.ChronicResponse;
 import com.mlnx.springmvc.util.EnumCollection;
+import com.mlnx.springmvc.util.EnumCollection.ResponseCode;
 import com.mlnx.springmvc.util.PropertiyUtil;
+import com.mlnx.springmvc.util.RegistVoip;
 import com.mlnx.springmvc.util.StringUtil;
 
 @Service
@@ -59,6 +65,12 @@ public class UserServiceImp implements UserService {
 	@Autowired
 	private TUserFriendsMapper tUserFriendsMapper;
 
+	@Autowired
+	private TVoipAccountMapper tVoipAccountMapper;
+
+	/**
+	 * 这里是后台进行注册
+	 */
 	// 配置事务，回滚异常可自定义
 	@Transactional(rollbackFor = RegisterException.class)
 	@Override
@@ -81,12 +93,13 @@ public class UserServiceImp implements UserService {
 				int patientId = patientRepository.save(patient);
 				TUserExt userExt = new TUserExt(patientId, userId);
 				tUserExtMapper.insert(userExt);
+				RegistVoip.regist(userId, user.getPhone(), tVoipAccountMapper);
 				return new ChronicResponse(EnumCollection.ResponseCode.SUCCESS);
 			} else {
 				return new ChronicResponse(EnumCollection.ResponseCode.EXIST);
 			}
 		} catch (Exception e) {
-			throw new RegisterException();
+			throw new RegisterException(e);
 		}
 	}
 
@@ -95,7 +108,7 @@ public class UserServiceImp implements UserService {
 		Map<String, String> map = new HashMap<String, String>();
 		TUser user = tUserMapper.selectByPhone(phone);
 		if (user == null) {
-			map.put("code",
+			map.put("responseCode",
 					EnumCollection.ResponseCode.LOGIN_USERNAME_NOT_EXIST
 							.getCode());
 			map.put("msg", EnumCollection.ResponseCode.LOGIN_USERNAME_NOT_EXIST
@@ -103,12 +116,13 @@ public class UserServiceImp implements UserService {
 			return map;
 		}
 		if (user.getPassword().equals(password)) {
-			map.put("code", EnumCollection.ResponseCode.LOGIN_SUCCESS.getCode());
+			map.put("responseCode",
+					EnumCollection.ResponseCode.LOGIN_SUCCESS.getCode());
 			map.put("msg", EnumCollection.ResponseCode.LOGIN_SUCCESS.getMsg());
-			map.put("id", user.getId() + "");
+			map.put("obj", user.getId() + "");
 			return map;
 		} else {
-			map.put("code",
+			map.put("responseCode",
 					EnumCollection.ResponseCode.LOGIN_PASSWORD_ERROR.getCode());
 			map.put("msg",
 					EnumCollection.ResponseCode.LOGIN_PASSWORD_ERROR.getMsg());
@@ -132,6 +146,9 @@ public class UserServiceImp implements UserService {
 				EnumCollection.ResponseCode.UPDATE_BLOODSUGARSETTING_SUCCESS);
 	}
 
+	/**
+	 * 这里是手机号和验证码注册用户
+	 */
 	@Transactional(rollbackFor = RegisterException.class)
 	@Override
 	public ChronicResponse registUser(RegistUser u) throws Exception {
@@ -159,6 +176,7 @@ public class UserServiceImp implements UserService {
 					int patientId = patientRepository.save(patient);
 					TUserExt userExt = new TUserExt(patientId, userId);
 					tUserExtMapper.insert(userExt);
+					RegistVoip.regist(userId, u.getPhone(), tVoipAccountMapper);
 					return new ChronicResponse(
 							EnumCollection.ResponseCode.SUCCESS);
 				} else {
@@ -169,7 +187,7 @@ public class UserServiceImp implements UserService {
 				return new ChronicResponse(EnumCollection.ResponseCode.EXIST);
 			}
 		} catch (Exception e) {
-			throw new RegisterException();
+			throw new RegisterException(e);
 		}
 
 	}
@@ -181,10 +199,10 @@ public class UserServiceImp implements UserService {
 				.selectByUserFriends(tUserFriends);
 		if (result == null) {
 			tUserFriends.setConfirm(0);// 0表示用户只是发起添加好友请求
-			if(tUserFriends.getGroupId()==1){//用户组是家庭组的话，默认设置公开，其他组不公开
-				tUserFriends.setOpen(1);	
+			if (tUserFriends.getGroupId() == 1) {// 用户组是家庭组的话，默认设置公开，其他组不公开
+				tUserFriends.setOpen(1);
 			} else {
-				tUserFriends.setOpen(0);	
+				tUserFriends.setOpen(0);
 			}
 			tUserFriendsMapper.insert(tUserFriends);
 			return new ChronicResponse(
@@ -214,8 +232,9 @@ public class UserServiceImp implements UserService {
 	public ChronicResponse confirmAndCancel(TUserFriends tUserFriends,
 			int confirm) throws Exception {
 		try {
-			TUserFriends u = tUserFriendsMapper.selectByPrimaryKey(tUserFriends.getId());
-			if(u.getConfirm()==1){
+			TUserFriends u = tUserFriendsMapper.selectByPrimaryKey(tUserFriends
+					.getId());
+			if (u.getConfirm() == 1) {
 				return new ChronicResponse(
 						EnumCollection.ResponseCode.ADD_FRIENDS_SUCCESS_ALREADY);
 			}
@@ -240,7 +259,7 @@ public class UserServiceImp implements UserService {
 	}
 
 	private void toBeFriend(TUserFriends u) {
-		TUserFriends uu= new TUserFriends();
+		TUserFriends uu = new TUserFriends();
 		uu.setFriendId(u.getUserId());
 		uu.setUserId(u.getFriendId());
 		uu.setGroupId(u.getGroupId());
@@ -251,16 +270,20 @@ public class UserServiceImp implements UserService {
 		tUserFriendsMapper.insert(uu);
 
 	}
-	
+
 	@Override
 	public ChronicResponse modifyFriendMark(TUserFriends tUserFriends) {
+		try{
 		tUserFriendsMapper.updateFriendRemark(tUserFriends);
 		return new ChronicResponse(
 				EnumCollection.ResponseCode.UPDATE_FRIEND_REMARK_SUCCESS);
+		} catch(Exception e){
+			return new ChronicResponse(ResponseCode.UPDATE_FRIEND_REMARK_ERROR);
+		}
 	}
 
 	@Override
-	public Map<String, Object> getCode(String phone) {
+	public ChronicResponse getCode(String phone) {
 		HashMap<String, Object> result = null;
 		// 初始化SDK
 		CCPRestSmsSDK restAPI = new CCPRestSmsSDK();
@@ -319,7 +342,7 @@ public class UserServiceImp implements UserService {
 			// 异常返回输出错误码和错误信息
 			System.out.println("错误码=" + result.get("statusCode") + " 错误信息= "
 					+ result.get("statusMsg"));
-			return result;
+			return new ChronicResponse(ResponseCode.GET_CODE_ERROR);
 		}
 		TPhoneValid ph = tPhoneValidMapper.selectByPhone(phone);
 		if (ph != null) {
@@ -333,7 +356,7 @@ public class UserServiceImp implements UserService {
 			ph.setDate(new Date());
 			tPhoneValidMapper.insert(ph);
 		}
-		return result;
+		return new ChronicResponse(ResponseCode.GET_CODE_SUCCESS);
 	}
 
 	/**
@@ -344,9 +367,14 @@ public class UserServiceImp implements UserService {
 		if (user.getPhone() != null) {
 			user.setPhone(null);
 		}
-		tUserMapper.updateByPrimaryKey(user);
-		return new ChronicResponse(
-				EnumCollection.ResponseCode.UPDATE_USER_PASSWORD_SUCCESS);
+		try {
+			tUserMapper.updateByPrimaryKey(user);
+			return new ChronicResponse(
+					EnumCollection.ResponseCode.UPDATE_USER_PASSWORD_SUCCESS);
+		} catch (Exception e) {
+			return new ChronicResponse(
+					EnumCollection.ResponseCode.UPDATE_USER_PASSWORD_ERROR);
+		}
 	}
 
 	/**
@@ -354,13 +382,69 @@ public class UserServiceImp implements UserService {
 	 */
 	@Override
 	public ChronicResponse havePermission(TUserFriends tUserFriends) {
-		TUserFriends tuf = tUserFriendsMapper.findByUserIdAndFriendId(tUserFriends);
-		if(tuf.getOpen()==0){
-			return new ChronicResponse(EnumCollection.ResponseCode.NO_PERMISSION_OPEN);
-		} else if(tuf.getOpen()==1){
-			return new ChronicResponse(EnumCollection.ResponseCode.PERMISSION_OPEN_ALLOWED);
+		TUserFriends tuf = tUserFriendsMapper
+				.findByUserIdAndFriendId(tUserFriends);
+		if (tuf.getOpen() == 0) {
+			return new ChronicResponse(
+					EnumCollection.ResponseCode.NO_PERMISSION_OPEN);
+		} else if (tuf.getOpen() == 1) {
+			return new ChronicResponse(
+					EnumCollection.ResponseCode.PERMISSION_OPEN_ALLOWED);
 		}
 		return null;//
+	}
+
+	@Override
+	public ChronicResponse updateUserExt(TUserExt user) {
+		try {
+			tUserExtMapper.updateByPrimaryKey(user);
+			return new ChronicResponse(ResponseCode.UPDATE_USER_EXT_SUCCESS);
+		} catch (Exception e) {
+			return new ChronicResponse(ResponseCode.UPDATE_USER_EXT_ERROR);
+		}
+	}
+
+	@Override
+	public List<UsrInfo> findUserListByIds(List<Integer> list) {
+		return tUserExtMapper.findUserListByIds(list);
+	}
+
+	@Override
+	public List<UsrVoipInfo> findVoipAccountList(List<Integer> list) {
+
+		return tVoipAccountMapper.findVoipAccountList(list);
+	}
+
+	@Override
+	public List<FriendsInfo> getFriendsIdsByIdAndGroupId(int id, int groupId) {
+		TUserFriends tUserFriends = new TUserFriends(id, groupId);
+		return tUserFriendsMapper.selectIdsByIdAndGroupId(tUserFriends);
+	}
+
+	@Override
+	public ChronicResponse addFriendByPhone(int id, int friend_id,
+			String remark, int groupId) {
+		TUserFriends tUserFriends = new TUserFriends();
+		tUserFriends.setUserId(id);
+		tUserFriends.setFriendId(friend_id);
+		tUserFriends.setGroupId(groupId);
+		tUserFriends.setConfirm(0);// 0表示暂时未通过好友验证
+		tUserFriends.setRemark(remark);
+		tUserFriendsMapper.insert(tUserFriends);
+		return new ChronicResponse(ResponseCode.ADD_FRIEND_REQUEST_SUCCESS);
+	}
+
+	@Override
+	public UsrInfo findFriendByPhone(String phone) {
+		TUser tu = tUserMapper.selectByPhone(phone);
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(tu.getId());
+		List<UsrInfo> uis = tUserExtMapper.findUserListByIds(list);
+		if (uis == null || uis.size() == 0) {
+			return null;
+		} else {
+			return uis.get(0);
+		}
 	}
 
 }

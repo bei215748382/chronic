@@ -6,4 +6,8 @@ public class StringUtil {
 	public static String appId = "aaf98f894fd44d15014fda6ffe770797";//贝的8a48b5514e5298b9014e717cc28e1f22
 
 	public static String friendConfirmerror="好友关系确认失败，事务将回滚";
+	public static String responseCode = "responseCode";
+	public static String responseMsg = "msg";
+	public static String responseObj = "obj";
+	public static String responseObjList="objList";
 }

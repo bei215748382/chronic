@@ -2,12 +2,20 @@ package com.mlnx.springmvc.service;
 
 import static org.junit.Assert.*;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.mlnx.chronic.entity.TUser;
 import com.mlnx.chronic.entity.TUserFriends;
 import com.mlnx.chronic.mapper.TestBase;
 import com.mlnx.chronic.vo.RegistUser;
@@ -16,11 +24,11 @@ import com.mlnx.springmvc.util.ChronicResponse;
 public class UserServiceTest extends TestBase {
 	@Autowired
 	private UserService userService;
-	
+
 	@Test
 	public void testGetCode() {
 		String phone = "15867404048";
-		Map<String, Object> str = userService.getCode(phone);
+		ChronicResponse str = userService.getCode(phone);
 		System.out.println(str.toString());
 	}
 
@@ -29,13 +37,13 @@ public class UserServiceTest extends TestBase {
 		RegistUser user = new RegistUser();
 		user.setPhone("15867404048");
 		user.setPassword("123456");
-		user.setCode(318094);
+		user.setCode(21977);
 		ChronicResponse str = userService.registUser(user);
 		System.out.println(str.toString());
 	}
 
 	@Test
-	public void testLogin(){
+	public void testLogin() {
 		String phone = "15867404047";
 		String password = "12345";
 		System.out.println(userService.login(phone, password));
@@ -97,8 +105,70 @@ public class UserServiceTest extends TestBase {
 	public void testModifyFriendMark() {
 		Integer a = 318094;
 		Integer b = 318094;
-		System.out.println(a==318094);
-		
+		System.out.println(a == 318094);
+
 	}
 
+	@Test
+	public void test() {
+		String httpUrl = "http://localhost:8080/chronic/user/update/userExt/pic";
+		BufferedReader reader = null;
+		String result = null;
+		StringBuffer sbf = new StringBuffer();
+		try {
+			URL url = new URL(httpUrl);
+			HttpURLConnection connection = (HttpURLConnection) url
+					.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("id", "1");
+			connection.setDoOutput(true);
+			OutputStream os = connection.getOutputStream();
+			FileInputStream fis = new FileInputStream(
+					"v://158_a37HvLUtMH35k3dhv3dl_square.jpg");
+			byte[] b = new byte[1024];
+			int i = 0;
+			while ((i = fis.read(b)) > 0) {
+				/* 写入流 */
+				os.write(b, 0, i);
+			}
+			connection.connect();
+			Map map = connection.getHeaderFields();
+			for (Object key : map.keySet()) {
+				System.out.println(key + " : " + map.get(key));
+			}
+
+			InputStream is = connection.getInputStream();
+			reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+			String strRead = null;
+			while ((strRead = reader.readLine()) != null) {
+				sbf.append(strRead);
+				sbf.append("\r\n");
+			}
+			reader.close();
+			result = sbf.toString();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void getUserInfo(){
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(15);
+		System.out.println(userService.findUserListByIds(list));
+	}
+
+	@Test
+	public void getUserVoipInfo(){
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(15);
+		list.add(29);
+		System.out.println(userService.findVoipAccountList(list));
+	}
+	
+	@Test
+	public void getFriendsById(){
+		System.out.println(userService.getFriendsIdsByIdAndGroupId(1, 1));
+	}
 }

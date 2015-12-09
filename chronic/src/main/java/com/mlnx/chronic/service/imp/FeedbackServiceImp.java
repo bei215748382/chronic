@@ -10,16 +10,23 @@ import com.mlnx.chronic.mapper.TFeedbackMapper;
 import com.mlnx.springmvc.service.FeedbackService;
 import com.mlnx.springmvc.util.ChronicResponse;
 import com.mlnx.springmvc.util.EnumCollection;
+import com.mlnx.springmvc.util.EnumCollection.ResponseCode;
+
 @Service
-public class FeedbackServiceImp implements FeedbackService{
-	
+public class FeedbackServiceImp implements FeedbackService {
+
 	@Autowired
 	private TFeedbackMapper tFeedbackMapper;
 
 	@Override
 	public ChronicResponse registFeedback(TFeedback feedback) {
-		tFeedbackMapper.insert(feedback);
-		return new ChronicResponse(EnumCollection.ResponseCode.ADD_FEEDBACK_SUCCESS);
+		try {
+			tFeedbackMapper.insert(feedback);
+			return new ChronicResponse(
+					EnumCollection.ResponseCode.ADD_FEEDBACK_SUCCESS);
+		} catch (Exception e) {
+			return new ChronicResponse(ResponseCode.ADD_FEEDBACK_ERROR);
+		}
 	}
 
 	@Override

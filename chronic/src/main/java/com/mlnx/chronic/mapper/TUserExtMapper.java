@@ -3,6 +3,7 @@ package com.mlnx.chronic.mapper;
 import java.util.List;
 
 import com.mlnx.chronic.entity.TUserExt;
+import com.mlnx.chronic.vo.UsrInfo;
 
 public interface TUserExtMapper {
     /**
@@ -44,4 +45,11 @@ public interface TUserExtMapper {
      * @mbggenerated Tue Nov 03 14:01:00 CST 2015
      */
     int updateByPrimaryKey(TUserExt record);
+
+    /**
+     * 获取用户信息
+     * @param list
+     * @return
+     */
+	List<UsrInfo> findUserListByIds(List<Integer> list);
 }

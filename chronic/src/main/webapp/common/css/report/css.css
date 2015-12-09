@@ -1,13 +1,121 @@
 .img-rounded {border-radius: 6px;}
-img {
-	width:80px;
+body{
+	font-size:1em;
+}
+body{
+  background-image:url("../../img/report2/mosha.jpg");
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:cover; 
+}
+#avatar {
+	width:60px;
 }
 .top15{
 	margin-top: 15px;
+}
+.pd-top15{
+	padding-top:15px;
+}
+.pd-4{
+	padding:4px;
+}
+.margin-left-10{
+	margin-left:10px;
+}
+.margin-top-20{
+	margin-top:20px;
+}
+.margin-top--20{
+	margin-top:-20px;
 }
 .vertical-align-middle{
 	vertical-align:middle;
 }
 hr{
 	border-color:#cc6;
+}
+.header{
+	height:105px;
+	background-color:#7fcaff;
+}
+.title{
+	font-size:1.5em;
+}
+.title ,.info{
+	color:white;
+}
+.info_panel{
+	margin-top:-55px;
+}
+.avatar,.box-center{
+	float:left;
+}
+.title,#score{
+	text-align:center;
+}
+#score,.box-center{
+	position:relative;
+}
+#score img{
+	width:100px;
+	z-index:0;
+}
+#score {
+	padding:5px;
+}
+.center-text,.box-center img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: white; 
+    transform: translate(-50%, -50%);
+    font-size: 1.2em;
+	z-index:1;
+  }
+
+.dividing{
+	margin-left:-15px;
+	margin-right:-15px;
+}
+hr{
+	border-color:#ADA8A8;
+}
+.report{
+	background-color:white;
+	border:2px solid white;
+	border-radius:7px;
+}
+.border-bottom-gray{
+	border-bottom:1px solid #CCC5C5;
+}
+.box-center{
+	width:55px;
+	height:50px;
+}
+.report-desc{
+	height:50px;
+}
+#suggest{
+	text-align:center;
+}
+#suggest img{
+	width:50px;
+	padding:5px;
+}
+.caption{
+	margin:10px;
+}
+.report-title{
+	font-size:1.2em;
+	font-weight:bold;
+}
+.caption,.report-content{
+	color:#606060;
+}
+.score-desc {
+	color:#121212;
+}
+.caption{
+	font-size:1.3em;
 }

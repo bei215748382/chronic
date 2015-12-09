@@ -13,6 +13,12 @@
 		<result column="friend_remark" property="friendRemark"
 			jdbcType="VARCHAR" />
 	</resultMap>
+		<resultMap id="FriendsInfoMap" type="friendsInfo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="friend_id" property="uid" jdbcType="INTEGER" />
+		<result column="friend_remark" property="mark" jdbcType="VARCHAR" />
+		<result column="pic" property="pic" jdbcType="VARCHAR" />
+	</resultMap>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from
 		t_user_friends
@@ -114,4 +120,11 @@
 		set friend_remark = #{friendRemark,jdbcType=VARCHAR}
 		where id = #{id}
 	</update>
+	<select id="selectIdsByIdAndGroupId" parameterType="tUserFriends"
+		resultMap="FriendsInfoMap">
+		select friends.id,friends.friend_id,friends.friend_remark,ext.pic
+		from t_user_friends friends left join t_user_ext ext on friend_id = ext.user_id where friends.user_id = #{userId} and
+		friends.group_id =
+		#{groupId} and friends.confirm = 1
+	</select>
 </mapper>

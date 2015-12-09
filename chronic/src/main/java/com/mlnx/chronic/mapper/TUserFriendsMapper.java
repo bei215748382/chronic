@@ -3,6 +3,7 @@ package com.mlnx.chronic.mapper;
 import java.util.List;
 
 import com.mlnx.chronic.entity.TUserFriends;
+import com.mlnx.chronic.vo.FriendsInfo;
 
 public interface TUserFriendsMapper {
     /**
@@ -77,4 +78,11 @@ public interface TUserFriendsMapper {
 	 * @return
 	 */
 	TUserFriends findByUserIdAndFriendId(TUserFriends tUserFriends);
+
+	/**
+	 * 返回id列表
+	 * @param tUserFriends
+	 * @return
+	 */
+	List<FriendsInfo> selectIdsByIdAndGroupId(TUserFriends tUserFriends);
 }

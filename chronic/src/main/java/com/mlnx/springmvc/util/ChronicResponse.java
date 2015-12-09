@@ -1,7 +1,9 @@
 package com.mlnx.springmvc.util;
 
 public class ChronicResponse {
+	
 	private String responseCode;
+	
 	private String msg;
 
 	public ChronicResponse(){

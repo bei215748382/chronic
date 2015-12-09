@@ -29,10 +29,5 @@ public class RegistUser {
 		this.code = code;
 	}
 
-	@Override
-	public String toString() {
-		return "RegistUser [phone=" + phone + ", password=" + password
-				+ ", code=" + code + "]";
-	}
 
 }

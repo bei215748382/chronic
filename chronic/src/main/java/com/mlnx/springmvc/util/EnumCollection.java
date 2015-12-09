@@ -1,6 +1,7 @@
 package com.mlnx.springmvc.util;
 
 public class EnumCollection {
+
 	public enum ResponseCode {
 		EXIST("000001", "注册用户已存在"), SUCCESS("000002", "用户注册成功"), PROVINCE_REGISTER_SUCCESS(
 				"000003", "注册城市成功"), CITY_REGISTER_SUSSESS("000004", "注册城市成功"), HOSPITAL_REGISTER_SUSSESS(
@@ -20,7 +21,24 @@ public class EnumCollection {
 				"000026", "修改用户密码成功"), ADD_FRIENDS_SUCCESS_ALREADY("000027",
 				"已经添加过好友"), ADD_FRIENDS_ERROR("000028", "添加好友失败"), NO_PERMISSION_OPEN(
 				"000029", "对不起，对方设置了权限，无法查看"), PERMISSION_OPEN_ALLOWED(
-				"000030", "对方的信息你能查看"), ADD_FEEDBACK_SUCCESS("000031","提交反馈问题成功");
+				"000030", "对方的信息你能查看"), ADD_FEEDBACK_SUCCESS("000031",
+				"提交反馈问题成功"), UPDATE_USER_EXT_SUCCESS("000032", "用户修改详细成功"), GET_CODE_ERROR(
+				"000033", "获取验证码失败"), GET_CODE_SUCCESS("000034", "获取验证码成功"), UPDATE_USER_PASSWORD_ERROR(
+				"000035", "修改用户密码失败"), UPDATE_USER_EXT_ERROR("000036",
+				"修改用户信息失败"), UPLOAD_PIC_SUCCESS("000037", "上传头像成功"), UPLOAD_PIC_ERROR(
+				"000038", "上传头像失败"), FIND_USER_INFO_SUCCESS("000039",
+				"获取用户信息成功"), FIND_USER_INFO_ERROR("000040", "获取用户信息失败"), FIND_VOIP_ACCOUNT_SUCCESS(
+				"000041", "用户voip信息查找成功"), FIND_VOIP_ACCOUNT_ERROR("000042",
+				"用户voip信息查找失败"), FIND_FRIENDS_COMFIRMED_SUCCESS("000043",
+				"获取确认的好友成功"), FIND_FRIENDS_COMFIRMED_ERROR("000044",
+				"获取确认的好友错误"), UPDATE_FRIEND_REMARK_ERROR("000045", "修改好友备注失败"), ADD_FRIEND_ERROR_PHONE_NOT_EXIST(
+				"000046", "请求添加的手机号用户不存在"), ADD_FRIEND_REQUEST_SUCCESS(
+				"000047", "添加好友请求发送成功"), FIND_USER_INFO_BY_PHONE_ERROR(
+				"000048", "该手机注册的用户不存在"), FIND_USER_INFO_BY_PHONE_SUCCESS(
+				"000049", "获取手机用户信息成功"), FIND_UNCONFIRMED_FRIEND_ERROR(
+				"000050", "暂无好友申请"), FIND_UNCONFIRMED_FRIEND_SUCCESS("000051",
+				"好友申请列表"), ADD_FEEDBACK_ERROR("000052", "问题反馈失败");
+
 		// 成员变量
 		private String code;
 		private String msg;
