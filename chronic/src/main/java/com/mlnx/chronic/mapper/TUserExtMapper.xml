@@ -62,14 +62,14 @@
 			<if test="pic != null and pic != ''">
 				pic = #{pic},
 			</if>
-			<if test="user_id != null and user_id != ''">
-				user_id = #{user_id},
+			<if test="userId != null and userId != ''">
+				user_id = #{userId},
 			</if>
 			<if test="sex != null and sex != ''">
 				sex = #{sex},
 			</if>
-			<if test="patient_id != null and patient_id != ''">
-				patient_id = #{patient_id},
+			<if test="patientId != null and patientId != ''">
+				patient_id = #{patientId},
 			</if>
 			<if test="height != null and height != ''">
 				height = #{height},
@@ -97,10 +97,47 @@
 	</select>
 	<select id="findUserListByIds" resultMap="userInfoMap">
 		select ext.*,u.phone from t_user_ext ext left join t_user u
-		on u.id = ext.user_id  where u.id in
+		on u.id =
+		ext.user_id where u.id in
 		<foreach collection="list" item="integer" open="(" separator=","
 			close=")">
 			#{integer}
 		</foreach>
 	</select>
+	<update id="updateByUserId" parameterType="com.mlnx.chronic.entity.TUserExt">
+		update t_user_ext
+		<set>
+			<if test="name != null and name != ''">
+				name = #{name},
+			</if>
+			<if test="age != null and age != ''">
+				age = #{age},
+			</if>
+			<if test="pic != null and pic != ''">
+				pic = #{pic},
+			</if>
+			<if test="userId != null and userId != ''">
+				user_id = #{userId},
+			</if>
+			<if test="sex != null and sex != ''">
+				sex = #{sex},
+			</if>
+			<if test="patientId != null and patientId != ''">
+				patient_id = #{patientId},
+			</if>
+			<if test="height != null and height != ''">
+				height = #{height},
+			</if>
+			<if test="weight != null and weight != ''">
+				weight = #{weight},
+			</if>
+			<if test="pregnant != null and pregnant != ''">
+				pregnant = #{pregnant},
+			</if>
+			<if test="pregnant != null and pregnant != ''">
+				birthday = #{birthday}
+			</if>
+		</set>
+		where user_id = #{userId,jdbcType=INTEGER}
+	</update>
 </mapper>

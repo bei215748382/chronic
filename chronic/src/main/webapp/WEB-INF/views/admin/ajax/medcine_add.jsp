@@ -4,8 +4,10 @@
 <div class="row">
 	<div id="breadcrumb" class="col-md-12">
 		<ol class="breadcrumb">
-			<li><a href="index.do">用户信息管理</a></li>
-			<li><a href="#" onclick="javacript:LoadAjaxContent('user_ext_add.do')">增加用户详情</a></li>
+			<li><a href="index.do">医生交流平台</a></li>
+			<li><a href="#"
+				onclick="javacript:LoadAjaxContent('medcine_info.do')">药物管理</a></li>
+			<li>药物添加</li>
 		</ol>
 	</div>
 </div>
@@ -14,7 +16,7 @@
 		<div class="box">
 			<div class="box-header">
 				<div class="box-name">
-					<i class="fa fa-search"></i> <span>增加用户详情</span>
+					<i class="fa fa-search"></i> <span>增加药物详情</span>
 				</div>
 				<div class="box-icons">
 					<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
@@ -25,61 +27,40 @@
 				<div class="no-move"></div>
 			</div>
 			<div class="box-content">
-				<h4 class="page-header">填写用户信息</h4>
+				<h4 class="page-header">填写药物信息</h4>
 				<form class="form-horizontal" role="form" method="POST"
-					id="defaultForm" action="user_ext_add_json.do" enctype="multipart/form-data"
-					>
+					id="defaultForm" action="medcine_add_json.do"
+					enctype="multipart/form-data">
 					<div class="form-group">
-						<label class="col-sm-2 control-label">姓名</label>
+						<label class="col-sm-2 control-label">名称</label>
 						<div class="col-sm-4">
 							<input type="text" class="form-control" name="name" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">性别</label>
-						<div class="col-sm-4">
-							<div class="radio-inline">
-								<label> <input type="radio" name="sex" checked value="男">
-									男 <i class="fa fa-circle-o"></i>
-								</label>
-							</div>
-							<div class="radio-inline">
-								<label> <input type="radio" name="sex" value="女">
-									女 <i class="fa fa-circle-o"></i>
-								</label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">年龄</label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control"
-								name="age" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">头像</label>
+						<label class="col-sm-2 control-label">图片</label>
 						<div id="localImag" class="col-sm-4">
-							<img id="preview" class="img-rounded" 
-								alt="头像" />
+							<img id="preview" class="img-rounded" alt="图片" />
 							<div class="margin-top-15">
-								<input id="doc" type="file" name="file" onchange="javascript:setImagePreview(this,localImag,preview);">
+								<input id="doc" type="file" name="file"
+									onchange="javascript:setImagePreview(this,localImag,preview);">
 							</div>
 						</div>
 						<div class="col-sm-4">
-						<p>说明：预览图的图片大小为400*300，图片尺寸以真实图片为准</p>
+							<p>说明：预览图的图片大小为400*300，图片尺寸以真实图片为准</p>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">属于哪个用户</label>
+						<label class="col-sm-2 control-label">描述</label>
 						<div class="col-sm-4">
-							<select class="populate placeholder" name="userId" id="s2_country">
-									<option value="">-- 选择一个关联用户 --</option>
-									<c:forEach items="${users}" var="user">
-									<option value="${user.id}">${user.phone}</option>
-									</c:forEach>
-									
-								</select>
+							<textarea class="form-control" rows="5" id="description"
+								name="description"></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">类别</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" name="type" />
 						</div>
 					</div>
 					<div class="clearfix"></div>
@@ -102,6 +83,7 @@
 </div>
 <script type="text/javascript">
 	$(document).ready(function() {
+		TinyMCEStart('#description', null);
 		// Add tooltip to form-controls
 		$('.form-control').tooltip();
 		LoadBootstrapValidatorScript(DemoFormValidator);

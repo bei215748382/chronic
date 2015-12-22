@@ -91,4 +91,13 @@ public class BloodPressure {
         this.comment = comment;
     }
 
+	@Override
+	public String toString() {
+		return "BloodPressure [patientId=" + patientId + ", deivceId="
+				+ deivceId + ", dateTime=" + dateTime + ", value_diastolic="
+				+ value_diastolic + ", value_systolic=" + value_systolic
+				+ ", heart_rate=" + heart_rate + ", state=" + state
+				+ ", comment=" + comment + "]";
+	}
+
 }

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -128,7 +127,7 @@ public class UserCol {
 	@ResponseBody
 	public ChronicResponse updateUserExt(@RequestHeader("id") int id,
 			@RequestBody TUserExt user) {
-		user.setId(id);
+		user.setUserId(id);
 		return userService.updateUserExt(user);
 	}
 
@@ -146,7 +145,7 @@ public class UserCol {
 			@RequestHeader("id") int id, InputStream in) {
 		try {
 			TUserExt user = new TUserExt();
-			user.setId(id);
+			user.setUserId(id);
 			String pic = FileUtil.savePic(request, in);
 			user.setPic(pic);
 			return userService.updateUserExt(user);

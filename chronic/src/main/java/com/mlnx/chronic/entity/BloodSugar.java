@@ -94,4 +94,14 @@ public class BloodSugar {
         this.remark = remark;
     }
 
+	@Override
+	public String toString() {
+		return "BloodSugar [patient_id=" + patient_id + ", sugar_value="
+				+ sugar_value + ", date=" + date + ", state=" + state
+				+ ", medicine=" + medicine + ", insulin=" + insulin
+				+ ", other_medicine=" + other_medicine + ", carbohybrate="
+				+ carbohybrate + ", exercise_time=" + exercise_time
+				+ ", remark=" + remark + "]";
+	}
+
 }

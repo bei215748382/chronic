@@ -48,7 +48,7 @@
 								<td>${user.id}</td>
 								<td>${user.phone}</td>
 								<td><fmt:formatDate value="${user.date}"
-										pattern="yyyy-MM-dd HH:mm:ss" /></td>
+										pattern="yyyy-MM-dd HH:MM:ss" /></td>
 								<td><a
 									href="#" onclick="javacript:LoadAjaxContent('user_edit.do?id=${user.id}&phone=${user.phone}')">编辑</a>|<a
 									href="user_delete.do?id=${user.id}">删除</a></td>

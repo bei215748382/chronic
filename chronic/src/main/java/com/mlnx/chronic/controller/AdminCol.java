@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,18 +19,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cloopen.rest.sdk.CCPRestSDK;
 import com.mlnx.chronic.entity.TFeedback;
+import com.mlnx.chronic.entity.TMedcine;
+import com.mlnx.chronic.entity.TRemind;
 import com.mlnx.chronic.entity.TReport;
 import com.mlnx.chronic.entity.TReportContent;
 import com.mlnx.chronic.entity.TUser;
 import com.mlnx.chronic.entity.TUserExt;
 import com.mlnx.chronic.mapper.TFeedbackMapper;
+import com.mlnx.chronic.mapper.TMedcineMapper;
+import com.mlnx.chronic.mapper.TRemindMapper;
 import com.mlnx.chronic.mapper.TReportContentMapper;
 import com.mlnx.chronic.mapper.TReportMapper;
 import com.mlnx.chronic.mapper.TUserExtMapper;
 import com.mlnx.chronic.mapper.TUserMapper;
 import com.mlnx.springmvc.service.UserService;
 import com.mlnx.springmvc.util.FileUtil;
+import com.mlnx.springmvc.util.StringUtil;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -53,7 +60,13 @@ public class AdminCol {
 
 	@Autowired
 	private TFeedbackMapper tFeedbackMapper;
+	
+	@Autowired
+	private TMedcineMapper tMedcineMapper;
 
+	@Autowired
+	private TRemindMapper tRemindMapper;
+	
 	// 登陆提交
 	// userid：用户账号，pwd：密码
 	@RequestMapping("/login")
@@ -204,6 +217,52 @@ public class AdminCol {
 		return "admin/index";
 	}
 
+	//------用户提醒设置------
+	@RequestMapping(value = "remind_info")
+	public ModelAndView remind_info() {
+		List<TRemind> reminds = tRemindMapper.selectAll();
+		ModelAndView mav = new ModelAndView("admin/ajax/remind_info");
+		mav.addObject("reminds", reminds);
+		return mav;
+	}
+	
+	@RequestMapping(value = "remind_add")
+	public String remind_add() {
+		return "admin/ajax/medcine_add";
+	}
+	
+	@RequestMapping(value = "remind_edit")
+	public ModelAndView remind_edit(int id) {
+		ModelAndView mav = new ModelAndView("admin/ajax/medcine_edit");
+		return mav;
+	}
+	 
+	@RequestMapping(value = "remind_add_json")
+	public void remind_add_json(MultipartFile file,TMedcine tMedcine,HttpServletRequest request, HttpServletResponse response) throws IOException {
+		if (file != null && file.getOriginalFilename()!="") {
+			String pic = FileUtil.savePic(request, file);
+			tMedcine.setPic(pic);
+		}
+		tMedcineMapper.insert(tMedcine);
+		response.sendRedirect("index.do#medcine_info.do");
+	}
+	
+	@RequestMapping(value = "remind_edit_json")
+	public void remind_edit_json(MultipartFile file,TMedcine tMedcine,HttpServletRequest request, HttpServletResponse response) throws IOException {
+		if (file != null && file.getOriginalFilename()!="") {
+			String pic = FileUtil.savePic(request, file);
+			tMedcine.setPic(pic);
+		}
+		tMedcineMapper.updateByPrimaryKey(tMedcine);
+		response.sendRedirect("index.do#medcine_info.do");
+	}
+	
+	@RequestMapping(value = "remind_delete_json")
+	public void remind_delete_json(int id , HttpServletResponse response) throws IOException {
+		tMedcineMapper.deleteByPrimaryKey(id);
+		response.sendRedirect("index.do#medcine_info.do");
+	}
+	
 	// --------------------------------------- 报告管理
 	// ---------------------------------------------------------------------
 	@RequestMapping(value = "reports_info")
@@ -311,5 +370,86 @@ public class AdminCol {
 	public String feedback_delete(int id) {
 		tFeedbackMapper.deleteByPrimaryKey(id);
 		return "redirect:index#feedbacks_info";
+	}
+	// -------------------------------------- voip账号信息
+	// ---------------------------------------
+	@RequestMapping(value = "voip_info")
+	public ModelAndView voip_all() {
+		ModelAndView modelAndView = new ModelAndView("admin/ajax/voip_info");
+		HashMap<String, Object> result = null;
+
+		CCPRestSDK restAPI = new CCPRestSDK();
+		restAPI.init("sandboxapp.cloopen.com", "8883");// 初始化服务器地址和端口，格式如下，服务器地址不需要写https://
+		restAPI.setAccount(StringUtil.accountSid, StringUtil.accountToken);// 初始化主帐号和主帐号TOKEN
+		restAPI.setAppId(StringUtil.appId);// 初始化应用ID
+		result = restAPI.getSubAccounts("0", "100");
+
+		System.out.println("SDKTestGetSubAccounts result=" + result);
+
+		if ("000000".equals(result.get("statusCode"))) {
+			// 正常返回输出data包体信息（map）
+			HashMap<String, Object> data = (HashMap<String, Object>) result
+					.get("data");
+			Set<String> keySet = data.keySet();
+			for (String key : keySet) {
+				Object object = data.get(key);
+				System.out.println(key + " = " + object);
+			}
+			modelAndView.addObject("data", data);
+		} else {
+			// 异常返回输出错误码和错误信息
+			System.out.println("错误码=" + result.get("statusCode") + " 错误信息= "
+					+ result.get("statusMsg"));
+		}
+		return modelAndView;
+	}
+	
+	// -------------------------------------- 药物管理
+		// ---------------------------------------
+	@RequestMapping(value = "medcine_info")
+	public ModelAndView medcine_info() {
+		List<TMedcine> medcines = tMedcineMapper.selectAll();
+		ModelAndView modelAndView = new ModelAndView("admin/ajax/medcine_info");
+		modelAndView.addObject("medcines",medcines);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "medcine_add")
+	public String medcine_add() {
+		return "admin/ajax/medcine_add";
+	}
+	
+	@RequestMapping(value = "medcine_edit")
+	public ModelAndView medcine_edit(int id) {
+		TMedcine medcine = tMedcineMapper.selectByPrimaryKey(id);
+		ModelAndView mav = new ModelAndView("admin/ajax/medcine_edit");
+		mav.addObject("medcine", medcine);
+		return mav;
+	}
+	 
+	@RequestMapping(value = "medcine_add_json")
+	public void medcine_add_json(MultipartFile file,TMedcine tMedcine,HttpServletRequest request, HttpServletResponse response) throws IOException {
+		if (file != null && file.getOriginalFilename()!="") {
+			String pic = FileUtil.savePic(request, file);
+			tMedcine.setPic(pic);
+		}
+		tMedcineMapper.insert(tMedcine);
+		response.sendRedirect("index.do#medcine_info.do");
+	}
+	
+	@RequestMapping(value = "medcine_edit_json")
+	public void medcine_edit_json(MultipartFile file,TMedcine tMedcine,HttpServletRequest request, HttpServletResponse response) throws IOException {
+		if (file != null && file.getOriginalFilename()!="") {
+			String pic = FileUtil.savePic(request, file);
+			tMedcine.setPic(pic);
+		}
+		tMedcineMapper.updateByPrimaryKey(tMedcine);
+		response.sendRedirect("index.do#medcine_info.do");
+	}
+	
+	@RequestMapping(value = "medcine_delete_json")
+	public void medcine_delete_json(int id , HttpServletResponse response) throws IOException {
+		tMedcineMapper.deleteByPrimaryKey(id);
+		response.sendRedirect("index.do#medcine_info.do");
 	}
 }

@@ -155,6 +155,7 @@
 					</a>
 					<ul class="dropdown-menu">
 						<li><a class="ajax-link" href="users_info.do">信息预览</a></li>
+						<li><a class="ajax-link" href="remind_info.do">个人提醒设置</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
@@ -174,6 +175,24 @@
 					</a>
 					<ul class="dropdown-menu">
 						<li><a class="ajax-link" href="feedbacks_info">反馈列表</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle">
+						<i class="fa fa-table"></i>
+						 <span class="hidden-xs">voip账号管理</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a class="ajax-link" href="voip_info">列表</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle">
+						<i class="fa fa-table"></i>
+						 <span class="hidden-xs">药物管理</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a class="ajax-link" href="medcine_info">列表</a></li>
 					</ul>
 				</li>
 			</ul>

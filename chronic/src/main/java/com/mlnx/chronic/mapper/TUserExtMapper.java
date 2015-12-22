@@ -52,4 +52,10 @@ public interface TUserExtMapper {
      * @return
      */
 	List<UsrInfo> findUserListByIds(List<Integer> list);
+
+	/**
+	 * 根据用户id修改用户详细信息
+	 * @param user
+	 */
+	void updateByUserId(TUserExt user);
 }

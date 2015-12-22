@@ -41,6 +41,7 @@ import com.mlnx.springmvc.util.PropertiyUtil;
 import com.mlnx.springmvc.util.RegistVoip;
 import com.mlnx.springmvc.util.StringUtil;
 
+@Transactional(rollbackFor=TransactionalException.class)
 @Service
 public class UserServiceImp implements UserService {
 
@@ -397,7 +398,7 @@ public class UserServiceImp implements UserService {
 	@Override
 	public ChronicResponse updateUserExt(TUserExt user) {
 		try {
-			tUserExtMapper.updateByPrimaryKey(user);
+			tUserExtMapper.updateByUserId(user);
 			return new ChronicResponse(ResponseCode.UPDATE_USER_EXT_SUCCESS);
 		} catch (Exception e) {
 			return new ChronicResponse(ResponseCode.UPDATE_USER_EXT_ERROR);

@@ -16,6 +16,7 @@ import java.util.Map;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.mlnx.chronic.entity.TUserExt;
 import com.mlnx.chronic.entity.TUserFriends;
 import com.mlnx.chronic.mapper.TestBase;
 import com.mlnx.chronic.vo.RegistUser;
@@ -170,5 +171,13 @@ public class UserServiceTest extends TestBase {
 	@Test
 	public void getFriendsById(){
 		System.out.println(userService.getFriendsIdsByIdAndGroupId(1, 1));
+	}
+	
+	@Test
+	public void updateUserExt(){
+		TUserExt user = new TUserExt();
+		user.setUserId(15);
+		user.setName("33");
+		System.out.println(userService.updateUserExt(user));
 	}
 }

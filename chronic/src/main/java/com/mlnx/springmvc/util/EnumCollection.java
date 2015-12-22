@@ -37,7 +37,20 @@ public class EnumCollection {
 				"000048", "该手机注册的用户不存在"), FIND_USER_INFO_BY_PHONE_SUCCESS(
 				"000049", "获取手机用户信息成功"), FIND_UNCONFIRMED_FRIEND_ERROR(
 				"000050", "暂无好友申请"), FIND_UNCONFIRMED_FRIEND_SUCCESS("000051",
-				"好友申请列表"), ADD_FEEDBACK_ERROR("000052", "问题反馈失败");
+				"好友申请列表"), ADD_FEEDBACK_ERROR("000052", "问题反馈失败"), FIND_BLOOD_SUGAR_LAST_INFO_SUCCESS(
+				"000053", "获取最近血糖成功"), FIND_BLOOD_SUGAR_LAST_INFO_ERROR(
+				"000054", "获取最近血糖失败"), ADD_MEDCINE_SUCCESS("000055", "添加医药成功"), ADD_MEDCINE_ERROR(
+				"000056", "添加医药失败"), DELETE_MEDCINE_SUCCESS("000057", "删除医药成功"), DELETE_MEDCINE_ERROR(
+				"000058", "删除医药失败"), UPDATE_MEDCINE_SUCCESS("000059", "更新医药成功"), UPDATE_MEDCINE_ERROR(
+				"000060", "更新医药失败"), FIND_PATIENT_FIRST_BLOOD_PRESSURE_SUCCESS(
+				"000061", "获取病人第一条血压测试数据成功"), FIND_PATIENT_FIRST_BLOOD_PRESSURE_ERROR(
+				"000062", "获取病人第一条血压测试数据失败"), FIND_PATIENT_BLOOD_PRESSURE_COUNT_SUCCESS(
+				"000063", "获取病人血压记录数成功"), FIND_PATIENT_BLOOD_PRESSURE_COUNT_ERROR(
+				"000064", "获取病人血压记录数失败"), FIND_PATIENT_FIRST_BLOOD_SUGAR_SUCCESS(
+				"000065", "获取病人第一条血糖测试数据成功"), FIND_PATIENT_FIRST_BLOOD_SUGAR_ERROR(
+				"000066", "获取病人第一条血糖测试数据失败"), FIND_PATIENT_BLOOD_SUGAR_COUNT_SUCCESS(
+				"000067", "获取病人血糖记录数成功"), FIND_PATIENT_BLOOD_SUGAR_COUNT_ERROR(
+				"000068", "获取病人血糖记录数失败");
 
 		// 成员变量
 		private String code;

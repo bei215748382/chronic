@@ -7,11 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cloopen.rest.sdk.CCPRestSDK;
-import com.mlnx.chronic.controller.HelloController;
 import com.mlnx.chronic.entity.TVoipAccount;
 import com.mlnx.chronic.exception.RegisterException;
 import com.mlnx.chronic.mapper.TVoipAccountMapper;
-import com.mlnx.springmvc.util.EnumCollection.ResponseCode;
 
 /**
  * 用于注册容联云子账号
@@ -40,11 +38,18 @@ public class RegistVoip {
 				Object object = data.get(key);
 				log.info(key + " = " + object);
 				String[] s = object.toString().split(",");
-				String[] a = s[1].split("=");
-				String[] b = s[3].split("=");
+				String[] subAccountSidStr = s[0].split("=");
+				String[] voipAccountStr = s[1].split("=");
+				String[] dateCreatedStr = s[2].split("=");
+				String[] voipPwdtStr = s[3].split("=");
+				String[] subTokenStr = s[4].split("=");
 				TVoipAccount tv = new TVoipAccount();
-				tv.setVoipAccount(a[1]);
-				tv.setVoipPassword(b[1]);
+				tv.setVoipAccount(voipAccountStr[1]);
+				tv.setVoipPassword(voipPwdtStr[1]);
+				tv.setSubAccountSid(subAccountSidStr[1]);
+				tv.setSubToken(subTokenStr[1]);
+				tv.setDateCreated(dateCreatedStr[1]);
+				tv.setFriendName(friendName);
 				tv.setUserId(userId);
 				tVoipAccountMapper.insert(tv);
 			}
