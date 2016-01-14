@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mlnx.chronic.entity.TFeedback;
-import com.mlnx.chronic.entity.TUser;
-import com.mlnx.chronic.mapper.TFeedbackMapper;
-import com.mlnx.springmvc.service.FeedbackService;
-import com.mlnx.springmvc.util.ChronicResponse;
+import com.mlnx.chronic.service.FeedbackService;
+import com.mlnx.chronic.util.ChronicResponse;
 
 @Controller
 @RequestMapping(value = "/feedback")

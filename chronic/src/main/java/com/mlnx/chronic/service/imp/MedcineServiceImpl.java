@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mlnx.chronic.entity.TMedcine;
 import com.mlnx.chronic.mapper.TMedcineMapper;
-import com.mlnx.springmvc.service.MedcineService;
-import com.mlnx.springmvc.util.ChronicResponse;
-import com.mlnx.springmvc.util.EnumCollection.ResponseCode;
+import com.mlnx.chronic.service.MedcineService;
+import com.mlnx.chronic.util.ChronicResponse;
+import com.mlnx.chronic.util.EnumCollection.ResponseCode;
 
 @Transactional
 @Service

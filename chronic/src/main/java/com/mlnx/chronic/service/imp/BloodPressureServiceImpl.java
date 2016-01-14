@@ -6,13 +6,12 @@ import java.util.Map;
 
 import com.mlnx.chronic.entity.BloodPressure;
 import com.mlnx.chronic.repo.BloodPressureRepository;
+import com.mlnx.chronic.service.BloodPressureService;
+import com.mlnx.chronic.util.StringUtil;
+import com.mlnx.chronic.util.EnumCollection.ResponseCode;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.mlnx.springmvc.service.BloodPressureService;
-import com.mlnx.springmvc.util.EnumCollection.ResponseCode;
-import com.mlnx.springmvc.util.StringUtil;
 
 @Service
 public class BloodPressureServiceImpl implements BloodPressureService {

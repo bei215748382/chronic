@@ -13,7 +13,7 @@
 		<result column="friend_remark" property="friendRemark"
 			jdbcType="VARCHAR" />
 	</resultMap>
-		<resultMap id="FriendsInfoMap" type="friendsInfo">
+	<resultMap id="FriendsInfoMap" type="friendsInfo">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="friend_id" property="uid" jdbcType="INTEGER" />
 		<result column="friend_remark" property="mark" jdbcType="VARCHAR" />
@@ -22,7 +22,7 @@
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from
 		t_user_friends
-		where id = #{id,jdbcType=INTEGER}
+		where id = #{id}
 	</delete>
 	<insert id="insert" parameterType="com.mlnx.chronic.entity.TUserFriends">
 		insert into t_user_friends
@@ -30,45 +30,45 @@
 		group_id, fouce,
 		open,
 		remark,confirm,friend_remark)
-		values (#{id,jdbcType=INTEGER},
-		#{userId,jdbcType=INTEGER},
-		#{friendId,jdbcType=INTEGER},
-		#{groupId,jdbcType=INTEGER}, #{fouce,jdbcType=INTEGER},
-		#{open,jdbcType=INTEGER},
-		#{remark,jdbcType=VARCHAR},
-		#{confirm,jdbcType=INTEGER},
-		#{friendRemark,jdbcType=VARCHAR})
+		values (#{id},
+		#{userId},
+		#{friendId},
+		#{groupId}, #{fouce},
+		#{open},
+		#{remark},
+		#{confirm},
+		#{friendRemark})
 	</insert>
 	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TUserFriends">
 		update
 		t_user_friends
 		<set>
 			<if test="userId != null and userId !=''">
-				user_id = #{userId,jdbcType=INTEGER},
+				user_id = #{userId},
 			</if>
 			<if test="friendId != null and friendId !=''">
-				friend_id = #{friendId,jdbcType=INTEGER},
+				friend_id = #{friendId},
 			</if>
 			<if test="groupId != null and groupId !=''">
-				group_id = #{groupId,jdbcType=INTEGER},
+				group_id = #{groupId},
 			</if>
 			<if test="fouce != null and fouce !=''">
-				fouce = #{fouce,jdbcType=INTEGER},
+				fouce = #{fouce},
 			</if>
 			<if test="open != null and open !=''">
-				open = #{open,jdbcType=INTEGER},
+				open = #{open},
 			</if>
 			<if test="remark != null and remark !=''">
-				remark = #{remark,jdbcType=VARCHAR},
+				remark = #{remark},
 			</if>
 			<if test="confirm != null and confirm !=''">
-				confirm = #{confirm,jdbcType=INTEGER},
+				confirm = #{confirm},
 			</if>
 			<if test="friendRemark != null and friendRemark !=''">
-				friend_remark = #{friendRemark,jdbcType=VARCHAR}
+				friend_remark = #{friendRemark}
 			</if>
 		</set>
-		where id = #{id,jdbcType=INTEGER}
+		where id = #{id}
 	</update>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
@@ -76,7 +76,7 @@
 		remark,confirm,friend_remark
 		from t_user_friends
 		where id =
-		#{id,jdbcType=INTEGER}
+		#{id}
 	</select>
 	<select id="selectAll" resultMap="BaseResultMap">
 		select id, user_id, friend_id,
@@ -117,13 +117,16 @@
 	<update id="updateFriendRemark" parameterType="tUserFriends">
 		update
 		t_user_friends
-		set friend_remark = #{friendRemark,jdbcType=VARCHAR}
+		set friend_remark = #{friendRemark}
 		where id = #{id}
 	</update>
 	<select id="selectIdsByIdAndGroupId" parameterType="tUserFriends"
 		resultMap="FriendsInfoMap">
-		select friends.id,friends.friend_id,friends.friend_remark,ext.pic
-		from t_user_friends friends left join t_user_ext ext on friend_id = ext.user_id where friends.user_id = #{userId} and
+		select
+		friends.id,friends.friend_id,friends.friend_remark,ext.pic
+		from
+		t_user_friends friends left join t_user_ext ext on friend_id =
+		ext.user_id where friends.user_id = #{userId} and
 		friends.group_id =
 		#{groupId} and friends.confirm = 1
 	</select>

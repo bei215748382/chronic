@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.mlnx.chronic.entity.TFeedback;
 import com.mlnx.chronic.mapper.TFeedbackMapper;
-import com.mlnx.springmvc.service.FeedbackService;
-import com.mlnx.springmvc.util.ChronicResponse;
-import com.mlnx.springmvc.util.EnumCollection;
-import com.mlnx.springmvc.util.EnumCollection.ResponseCode;
+import com.mlnx.chronic.service.FeedbackService;
+import com.mlnx.chronic.util.ChronicResponse;
+import com.mlnx.chronic.util.EnumCollection;
+import com.mlnx.chronic.util.EnumCollection.ResponseCode;
 
 @Service
 public class FeedbackServiceImp implements FeedbackService {

@@ -1,6 +1,5 @@
 package com.mlnx.chronic.repo;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -20,9 +19,9 @@ import com.datastax.driver.core.exceptions.DriverException;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
 import com.mlnx.chronic.entity.BloodPressure;
-import com.mlnx.springmvc.service.CassandraService;
-import com.mlnx.springmvc.util.ResultIterator;
-import com.mlnx.springmvc.util.ResultTransformer;
+import com.mlnx.chronic.service.CassandraService;
+import com.mlnx.chronic.util.ResultIterator;
+import com.mlnx.chronic.util.ResultTransformer;
 
 @Service
 public class BloodPressureRepository implements

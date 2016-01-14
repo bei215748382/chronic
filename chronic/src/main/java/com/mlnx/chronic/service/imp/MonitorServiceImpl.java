@@ -4,9 +4,10 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.lang.management.ManagementFactory;
 import java.text.NumberFormat;
+
 import com.mlnx.chronic.entity.MonitorInfoBean;
-import com.mlnx.springmvc.service.IMonitorService;
-import com.mlnx.springmvc.util.Bytes;
+import com.mlnx.chronic.service.IMonitorService;
+import com.mlnx.chronic.util.Bytes;
 import com.sun.management.OperatingSystemMXBean;
 
 /** */

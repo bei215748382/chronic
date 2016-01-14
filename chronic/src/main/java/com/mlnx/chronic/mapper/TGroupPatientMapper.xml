@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlnx.chronic.mapper.TGroupPatientMapper">
+	<resultMap id="BaseResultMap" type="com.mlnx.chronic.entity.TGroupPatient">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="group_id" property="groupId" jdbcType="INTEGER" />
+		<result column="patient_id" property="patientId" jdbcType="INTEGER" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_group_patient
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="com.mlnx.chronic.entity.TGroupPatient">
+		insert into t_group_patient
+		(id, group_id, patient_id
+		)
+		values (#{id}, #{groupId}, #{patientId}
+		)
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TGroupPatient">
+		update t_group_patient
+		<set>
+			<if test="groupId != null and groupId != ''">
+				group_id = #{groupId},
+			</if>
+			<if test="patientId != null and patientId != ''">
+				patient_id = #{patientId},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select id, group_id, patient_id
+		from t_group_patient
+		where id = #{id}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id, group_id, patient_id
+		from t_group_patient
+	</select>
+	<select id="findGroupPatients" resultType="tGroupPatient"
+		parameterType="Integer">
+		select * from t_group_patient where group_id =
+		#{id};
+	</select>
+	<select id="isExist" resultType="Integer" parameterType="tGroupPatient">
+		select id
+		from t_group_patient where group_id = #{groupId} and
+		patient_id=#{patientId};
+	</select>
+</mapper>

@@ -15,11 +15,10 @@ import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.exceptions.DriverException;
-import com.mlnx.chronic.entity.BloodPressure;
 import com.mlnx.chronic.entity.BloodSugar;
-import com.mlnx.springmvc.service.CassandraService;
-import com.mlnx.springmvc.util.ResultIterator;
-import com.mlnx.springmvc.util.ResultTransformer;
+import com.mlnx.chronic.service.CassandraService;
+import com.mlnx.chronic.util.ResultIterator;
+import com.mlnx.chronic.util.ResultTransformer;
 @Service
 public class BloodSugarRepository implements ResultTransformer<BloodSugar> {
 	private static final String TABLE_NAME = "blood_sugar";

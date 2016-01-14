@@ -21,8 +21,8 @@ import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
 import com.mlnx.chronic.entity.Patient;
 import com.mlnx.chronic.entity.Patient.Gender;
-import com.mlnx.springmvc.service.CassandraService;
-import com.mlnx.springmvc.util.ResultTransformer;
+import com.mlnx.chronic.service.CassandraService;
+import com.mlnx.chronic.util.ResultTransformer;
 
 @Service
 public class PatientRepository implements ResultTransformer<Patient> {
@@ -156,10 +156,10 @@ public class PatientRepository implements ResultTransformer<Patient> {
 	private static final String DELETE_CQL = String.format("DELETE FROM %s",
 			TABLE_NAME) + String.format(" WHERE %s = ?", Column.ID.name);
 
-	private static final String FIND_BY_TIME_CQL = String.format(
-			"SELECT * FROM %s", TABLE_NAME)
-			+ String.format(" WHERE %s > ?", Column.LASTUPDATETIME.name)
-			+ " allow filtering";
+//	private static final String FIND_BY_TIME_CQL = String.format(
+//			"SELECT * FROM %s", TABLE_NAME)
+//			+ String.format(" WHERE %s > ?", Column.LASTUPDATETIME.name)
+//			+ " allow filtering";
 
 	private static final Logger log = LoggerFactory
 			.getLogger(PatientRepository.class);

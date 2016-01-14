@@ -34,9 +34,9 @@ import com.mlnx.chronic.mapper.TReportContentMapper;
 import com.mlnx.chronic.mapper.TReportMapper;
 import com.mlnx.chronic.mapper.TUserExtMapper;
 import com.mlnx.chronic.mapper.TUserMapper;
-import com.mlnx.springmvc.service.UserService;
-import com.mlnx.springmvc.util.FileUtil;
-import com.mlnx.springmvc.util.StringUtil;
+import com.mlnx.chronic.service.UserService;
+import com.mlnx.chronic.util.FileUtil;
+import com.mlnx.chronic.util.StringUtil;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -60,13 +60,13 @@ public class AdminCol {
 
 	@Autowired
 	private TFeedbackMapper tFeedbackMapper;
-	
+
 	@Autowired
 	private TMedcineMapper tMedcineMapper;
 
 	@Autowired
 	private TRemindMapper tRemindMapper;
-	
+
 	// 登陆提交
 	// userid：用户账号，pwd：密码
 	@RequestMapping("/login")
@@ -191,7 +191,7 @@ public class AdminCol {
 	public void user_ext_add_json(MultipartFile file, TUserExt userExt,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		if (file != null && file.getOriginalFilename()!="") {
+		if (file != null && file.getOriginalFilename() != "") {
 			String pic = FileUtil.savePic(request, file);
 			userExt.setPic(pic);
 		}
@@ -203,7 +203,7 @@ public class AdminCol {
 	public void user_ext_edit_json(MultipartFile file, TUserExt userExt,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		if (file != null && file.getOriginalFilename()!="") {
+		if (file != null && file.getOriginalFilename() != "") {
 			String pic = FileUtil.savePic(request, file);
 			userExt.setPic(pic);
 		}
@@ -217,7 +217,7 @@ public class AdminCol {
 		return "admin/index";
 	}
 
-	//------用户提醒设置------
+	// ------用户提醒设置------
 	@RequestMapping(value = "remind_info")
 	public ModelAndView remind_info() {
 		List<TRemind> reminds = tRemindMapper.selectAll();
@@ -225,44 +225,49 @@ public class AdminCol {
 		mav.addObject("reminds", reminds);
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "remind_add")
 	public String remind_add() {
 		return "admin/ajax/medcine_add";
 	}
-	
+
 	@RequestMapping(value = "remind_edit")
 	public ModelAndView remind_edit(int id) {
 		ModelAndView mav = new ModelAndView("admin/ajax/medcine_edit");
 		return mav;
 	}
-	 
+
 	@RequestMapping(value = "remind_add_json")
-	public void remind_add_json(MultipartFile file,TMedcine tMedcine,HttpServletRequest request, HttpServletResponse response) throws IOException {
-		if (file != null && file.getOriginalFilename()!="") {
+	public void remind_add_json(MultipartFile file, TMedcine tMedcine,
+			HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		if (file != null && file.getOriginalFilename() != "") {
 			String pic = FileUtil.savePic(request, file);
 			tMedcine.setPic(pic);
 		}
 		tMedcineMapper.insert(tMedcine);
 		response.sendRedirect("index.do#medcine_info.do");
 	}
-	
+
 	@RequestMapping(value = "remind_edit_json")
-	public void remind_edit_json(MultipartFile file,TMedcine tMedcine,HttpServletRequest request, HttpServletResponse response) throws IOException {
-		if (file != null && file.getOriginalFilename()!="") {
+	public void remind_edit_json(MultipartFile file, TMedcine tMedcine,
+			HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		if (file != null && file.getOriginalFilename() != "") {
 			String pic = FileUtil.savePic(request, file);
 			tMedcine.setPic(pic);
 		}
 		tMedcineMapper.updateByPrimaryKey(tMedcine);
 		response.sendRedirect("index.do#medcine_info.do");
 	}
-	
+
 	@RequestMapping(value = "remind_delete_json")
-	public void remind_delete_json(int id , HttpServletResponse response) throws IOException {
+	public void remind_delete_json(int id, HttpServletResponse response)
+			throws IOException {
 		tMedcineMapper.deleteByPrimaryKey(id);
 		response.sendRedirect("index.do#medcine_info.do");
 	}
-	
+
 	// --------------------------------------- 报告管理
 	// ---------------------------------------------------------------------
 	@RequestMapping(value = "reports_info")
@@ -371,6 +376,7 @@ public class AdminCol {
 		tFeedbackMapper.deleteByPrimaryKey(id);
 		return "redirect:index#feedbacks_info";
 	}
+
 	// -------------------------------------- voip账号信息
 	// ---------------------------------------
 	@RequestMapping(value = "voip_info")
@@ -403,22 +409,22 @@ public class AdminCol {
 		}
 		return modelAndView;
 	}
-	
+
 	// -------------------------------------- 药物管理
-		// ---------------------------------------
+	// ---------------------------------------
 	@RequestMapping(value = "medcine_info")
 	public ModelAndView medcine_info() {
 		List<TMedcine> medcines = tMedcineMapper.selectAll();
 		ModelAndView modelAndView = new ModelAndView("admin/ajax/medcine_info");
-		modelAndView.addObject("medcines",medcines);
+		modelAndView.addObject("medcines", medcines);
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value = "medcine_add")
 	public String medcine_add() {
 		return "admin/ajax/medcine_add";
 	}
-	
+
 	@RequestMapping(value = "medcine_edit")
 	public ModelAndView medcine_edit(int id) {
 		TMedcine medcine = tMedcineMapper.selectByPrimaryKey(id);
@@ -426,30 +432,36 @@ public class AdminCol {
 		mav.addObject("medcine", medcine);
 		return mav;
 	}
-	 
+
 	@RequestMapping(value = "medcine_add_json")
-	public void medcine_add_json(MultipartFile file,TMedcine tMedcine,HttpServletRequest request, HttpServletResponse response) throws IOException {
-		if (file != null && file.getOriginalFilename()!="") {
+	public void medcine_add_json(MultipartFile file, TMedcine tMedcine,
+			HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		if (file != null && file.getOriginalFilename() != "") {
 			String pic = FileUtil.savePic(request, file);
 			tMedcine.setPic(pic);
 		}
 		tMedcineMapper.insert(tMedcine);
 		response.sendRedirect("index.do#medcine_info.do");
 	}
-	
+
 	@RequestMapping(value = "medcine_edit_json")
-	public void medcine_edit_json(MultipartFile file,TMedcine tMedcine,HttpServletRequest request, HttpServletResponse response) throws IOException {
-		if (file != null && file.getOriginalFilename()!="") {
+	public void medcine_edit_json(MultipartFile file, TMedcine tMedcine,
+			HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		if (file != null && file.getOriginalFilename() != "") {
 			String pic = FileUtil.savePic(request, file);
 			tMedcine.setPic(pic);
 		}
 		tMedcineMapper.updateByPrimaryKey(tMedcine);
 		response.sendRedirect("index.do#medcine_info.do");
 	}
-	
+
 	@RequestMapping(value = "medcine_delete_json")
-	public void medcine_delete_json(int id , HttpServletResponse response) throws IOException {
+	public void medcine_delete_json(int id, HttpServletResponse response)
+			throws IOException {
 		tMedcineMapper.deleteByPrimaryKey(id);
 		response.sendRedirect("index.do#medcine_info.do");
 	}
+
 }

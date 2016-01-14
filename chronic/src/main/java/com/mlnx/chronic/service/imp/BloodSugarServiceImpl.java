@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.mlnx.chronic.entity.BloodSugar;
 import com.mlnx.chronic.repo.BloodSugarRepository;
-import com.mlnx.springmvc.service.BloodSugarService;
-import com.mlnx.springmvc.util.StringUtil;
-import com.mlnx.springmvc.util.EnumCollection.ResponseCode;
+import com.mlnx.chronic.service.BloodSugarService;
+import com.mlnx.chronic.util.StringUtil;
+import com.mlnx.chronic.util.EnumCollection.ResponseCode;
 
 @Service
 public class BloodSugarServiceImpl implements BloodSugarService {

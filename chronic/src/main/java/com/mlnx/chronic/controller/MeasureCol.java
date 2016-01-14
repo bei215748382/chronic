@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mlnx.chronic.entity.BloodSugar;
 import com.mlnx.chronic.repo.BloodSugarRepository;
-import com.mlnx.springmvc.service.BloodPressureService;
-import com.mlnx.springmvc.service.BloodSugarService;
-import com.mlnx.springmvc.util.StringUtil;
-import com.mlnx.springmvc.util.EnumCollection.ResponseCode;
+import com.mlnx.chronic.service.BloodPressureService;
+import com.mlnx.chronic.service.BloodSugarService;
+import com.mlnx.chronic.util.StringUtil;
+import com.mlnx.chronic.util.EnumCollection.ResponseCode;
 
 @Controller
 @RequestMapping(value = "/measure")

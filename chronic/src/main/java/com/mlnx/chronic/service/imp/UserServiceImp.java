@@ -29,17 +29,17 @@ import com.mlnx.chronic.mapper.TUserFriendsMapper;
 import com.mlnx.chronic.mapper.TUserMapper;
 import com.mlnx.chronic.mapper.TVoipAccountMapper;
 import com.mlnx.chronic.repo.PatientRepository;
+import com.mlnx.chronic.service.UserService;
+import com.mlnx.chronic.util.ChronicResponse;
+import com.mlnx.chronic.util.EnumCollection;
+import com.mlnx.chronic.util.PropertiyUtil;
+import com.mlnx.chronic.util.RegistVoip;
+import com.mlnx.chronic.util.StringUtil;
+import com.mlnx.chronic.util.EnumCollection.ResponseCode;
 import com.mlnx.chronic.vo.FriendsInfo;
 import com.mlnx.chronic.vo.RegistUser;
 import com.mlnx.chronic.vo.UsrInfo;
 import com.mlnx.chronic.vo.UsrVoipInfo;
-import com.mlnx.springmvc.service.UserService;
-import com.mlnx.springmvc.util.ChronicResponse;
-import com.mlnx.springmvc.util.EnumCollection;
-import com.mlnx.springmvc.util.EnumCollection.ResponseCode;
-import com.mlnx.springmvc.util.PropertiyUtil;
-import com.mlnx.springmvc.util.RegistVoip;
-import com.mlnx.springmvc.util.StringUtil;
 
 @Transactional(rollbackFor=TransactionalException.class)
 @Service

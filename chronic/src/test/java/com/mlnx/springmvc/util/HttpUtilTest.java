@@ -6,6 +6,8 @@ import java.util.Date;
 
 import org.junit.Test;
 
+import com.mlnx.chronic.util.HttpUtil;
+
 
 public class HttpUtilTest {
 

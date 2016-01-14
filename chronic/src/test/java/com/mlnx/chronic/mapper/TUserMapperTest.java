@@ -4,8 +4,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mlnx.chronic.entity.TUserFriends;
+import com.mlnx.chronic.service.UserService;
 import com.mlnx.chronic.vo.UserVo;
-import com.mlnx.springmvc.service.UserService;
 
 public class TUserMapperTest extends TestBase {
 	@Autowired
