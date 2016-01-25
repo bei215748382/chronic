@@ -30,7 +30,7 @@
 		voip_password,user_id,date_created,friend_name,sub_account_sid,sub_token
 		)
 		values (#{id}, #{voipAccount},
-		#{voipPassword},#{userId},#{date_created},#{friend_name},#{sub_account_sid},#{sub_token}
+		#{voipPassword},#{userId},#{dateCreated},#{friendName},#{subAccountSid},#{subToken}
 		)
 	</insert>
 	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TVoipAccount">

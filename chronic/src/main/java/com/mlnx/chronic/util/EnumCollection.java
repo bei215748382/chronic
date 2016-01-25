@@ -64,7 +64,9 @@ public class EnumCollection {
 				"编辑群组病人失败"), DELETE_GROUP_PATIENT_SUCCESS("000088", "删除群组病人成功"), DELETE_GROUP_PATIENT_ERROR(
 				"000089", "删除群组病人失败"), SEARCH_GROUP_PATIENT_SUCCESS("000090",
 				"查找群组病人成功"), SEARCH_GROUP_PATIENT_ERROR("000091", "查找群组病人失败"), ADD_GROUP_PATIENT_FAIL(
-				"000092", "病人已在该群组");
+				"000092", "病人已在该群组"), REGISTER_DOC_SUCCESS("000093", "注册医生成功"), PROVINCE_DELETE_ERROR(
+				"000094", "删除省份失败"), CITY_REGISTER_SUCCESS("000095", "注册城市成功"), HOSPITAL_REGISTER_SUCCESS(
+				"000096", "注册城市成功"), UPDATE_DOC_SUCCESS("000097","更新医生信息成功");
 
 		// 成员变量
 		private String code;

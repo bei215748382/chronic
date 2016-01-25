@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlnx.chronic.mapper.TUserDocMapper">
+	<resultMap id="BaseResultMap" type="com.mlnx.chronic.entity.TUserDoc">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="DATE" />
+		<result column="office" property="office" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="skill" property="skill" jdbcType="VARCHAR" />
+		<result column="address_id" property="addressId" jdbcType="INTEGER" />
+		<result column="pic" property="pic" jdbcType="VARCHAR" />
+		<result column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
+		<result column="background" property="background" jdbcType="LONGVARCHAR" />
+		<result column="achievement" property="achievement" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<resultMap id="DocVoResultMap" type="com.mlnx.chronic.vo.DocVo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="DATE" />
+		<result column="office" property="office" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="skill" property="skill" jdbcType="VARCHAR" />
+		<result column="pic" property="pic" jdbcType="VARCHAR" />
+		<result column="background" property="background" jdbcType="LONGVARCHAR" />
+		<result column="achievement" property="achievement" jdbcType="LONGVARCHAR" />
+		<association property="user" javaType="com.mlnx.chronic.entity.TUser">
+			<result column="phone" property="phone" />
+			<result column="password" property="password" />
+			<result column="date" property="date" />
+		</association>
+		<association property="hospital" javaType="com.mlnx.chronic.entity.THospital">
+			<result column="hospital_name" property="name" />
+		</association>
+		<association property="address" javaType="com.mlnx.chronic.entity.TAddress">
+			<result column="address_name" property="name" />
+		</association>
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_user_doc
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="com.mlnx.chronic.entity.TUserDoc">
+		insert into t_user_doc (id,
+		user_id, name,
+		sex, birthday, office,
+		title, skill, address_id,
+		pic,
+		hospital_id, background,
+		achievement)
+		values (#{id}, #{userId}, #{name},
+		#{sex}, #{birthday}, #{office},
+		#{title}, #{skill}, #{addressId},
+		#{pic}, #{hospitalId}, #{background},
+		#{achievement})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TUserDoc">
+		update t_user_doc
+		<set>
+			<if test="userId != null and userId != ''">
+				user_id = #{userId},
+			</if>
+
+			<if test="name != null and name != ''">
+				name = #{name},
+			</if>
+			<if test="sex != null and sex != ''">
+				sex = #{sex},
+			</if>
+			<if test="birthday != null and birthday != ''">
+				birthday = #{birthday},
+			</if>
+			<if test="office != null and office != ''">
+				office = #{office},
+			</if>
+
+			<if test="title != null and title != ''">
+				title = #{title},
+			</if>
+			<if test="skill != null and skill != ''">
+				skill = #{skill},
+			</if>
+			<if test="addressId != null and addressId != ''">
+				address_id = #{addressId},
+			</if>
+			<if test="pic != null and pic != ''">
+				pic = #{pic},
+			</if>
+
+			<if test="hospitalId != null and hospitalId != ''">
+				hospital_id = #{hospitalId},
+			</if>
+			<if test="background != null and background != ''">
+				background = #{background},
+			</if>
+			<if test="achievement != null and achievement != ''">
+				achievement = #{achievement},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select id, user_id, name, sex, birthday, office, title,
+		skill, address_id,
+		pic, hospital_id,
+		background, achievement
+		from
+		t_user_doc
+		where id = #{id}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id, user_id, name, sex,
+		birthday, office, title, skill, address_id,
+		pic, hospital_id,
+		background, achievement
+		from t_user_doc
+	</select>
+	<select id="findByRegistPhone" resultMap="BaseResultMap"
+		parameterType="string">
+		select id, user_id, name, sex,
+		birthday, office, title,
+		skill, address_id,
+		pic, hospital_id,
+		background, achievement
+		from
+		t_user_doc where user_id
+		= (select id from t_user where phone =
+		#{phone})
+	</select>
+	<select id="findAllDoc" resultMap="DocVoResultMap">
+		select
+		doc.id,
+		doc.name,
+		doc.sex,
+		doc.birthday,
+		doc.office,
+		doc.title,
+		doc.skill,
+		doc.pic,
+		doc.background,
+		doc.achievement,
+		user.phone,
+		user.password,
+		user.date,
+		hospital.name hospital_name,
+		address.name address_name
+		from
+		t_user_doc
+		doc
+		left outer join t_user user on user.id
+		= doc.user_id
+		left outer join
+		t_hospital hospital on hospital.id =
+		doc.hospital_id
+		left outer join
+		t_address address on address.id =
+		doc.address_id
+	</select>
+	<select id="findDocById" resultMap="DocVoResultMap"
+		parameterType="int">
+		select
+		doc.id,
+		doc.name,
+		doc.sex,
+		doc.birthday,
+		doc.office,
+		doc.title,
+		doc.skill,
+		doc.pic,
+		doc.background,
+		doc.achievement,
+		user.phone,
+		user.password,
+		user.date,
+		hospital.name hospital_name,
+		address.name address_name
+		from
+		t_user_doc
+		doc
+		left outer join t_user user on user.id
+		= doc.user_id
+		left
+		outer join
+		t_hospital hospital on hospital.id =
+		doc.hospital_id
+		left
+		outer join
+		t_address address on address.id =
+		doc.address_id
+		where doc.id
+		= #{id}
+	</select>
+</mapper>

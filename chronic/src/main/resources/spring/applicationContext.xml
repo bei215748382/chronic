@@ -49,12 +49,14 @@
 
 	<!-- MapperScanner配置.自动去搜索mapper里的对象,并注入. -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		 <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 		<property name="basePackage" value="com.mlnx.chronic.mapper" />
 	</bean>
 
 	<!-- 启动Spring注解事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 
+	<import resource="spring-datasource-base.xml"/>
 
 	<!-- 支持上传文件 -->
 	<bean id="multipartResolver"

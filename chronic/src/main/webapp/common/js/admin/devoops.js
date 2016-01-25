@@ -2494,3 +2494,103 @@ function setImagePreview(docObj, localImagId, imgObjPreview) {
 	}
 	return true;
 }
+function TestTable4(){
+	var asInitVals = [];
+	var oTable = $('#datatable-4').dataTable( {
+		"aaSorting": [[ 0, "asc" ]],
+		"sDom": "<'box-content'<'col-sm-6'f><'col-sm-6 text-right'l><'clearfix'>>rt<'box-content'<'col-sm-6'i><'col-sm-6 text-right'p><'clearfix'>>",
+		"sPaginationType": "bootstrap",
+		"oLanguage": {
+			"sSearch": "",
+			"sLengthMenu": '_MENU_'
+		},
+		bAutoWidth: false
+	});
+	var header_inputs = $("#datatable-4 thead input");
+	header_inputs.on('keyup', function(){
+		/* Filter on the column (the index) of this element */
+		oTable.fnFilter( this.value, header_inputs.index(this) );
+	})
+	.on('focus', function(){
+		if ( this.className == "search_init" ){
+			this.className = "";
+			this.value = "";
+		}
+	})
+	.on('blur', function (i) {
+		if ( this.value == "" ){
+			this.className = "search_init";
+			this.value = asInitVals[header_inputs.index(this)];
+		}
+	});
+	header_inputs.each( function (i) {
+		asInitVals[i] = this.value;
+	});
+}
+function TestTable5(){
+	var asInitVals = [];
+	var oTable = $('#datatable-5').dataTable( {
+		"aaSorting": [[ 0, "asc" ]],
+		"sDom": "<'box-content'<'col-sm-6'f><'col-sm-6 text-right'l><'clearfix'>>rt<'box-content'<'col-sm-6'i><'col-sm-6 text-right'p><'clearfix'>>",
+		"sPaginationType": "bootstrap",
+		"oLanguage": {
+			"sSearch": "",
+			"sLengthMenu": '_MENU_'
+		},
+		bAutoWidth: false
+	});
+	var header_inputs = $("#datatable-5 thead input");
+	header_inputs.on('keyup', function(){
+		/* Filter on the column (the index) of this element */
+		oTable.fnFilter( this.value, header_inputs.index(this) );
+	})
+	.on('focus', function(){
+		if ( this.className == "search_init" ){
+			this.className = "";
+			this.value = "";
+		}
+	})
+	.on('blur', function (i) {
+		if ( this.value == "" ){
+			this.className = "search_init";
+			this.value = asInitVals[header_inputs.index(this)];
+		}
+	});
+	header_inputs.each( function (i) {
+		asInitVals[i] = this.value;
+	});
+}
+
+function TestTable6(){
+	var asInitVals = [];
+	var oTable = $('#datatable-6').dataTable( {
+		"aaSorting": [[ 0, "asc" ]],
+		"sDom": "<'box-content'<'col-sm-6'f><'col-sm-6 text-right'l><'clearfix'>>rt<'box-content'<'col-sm-6'i><'col-sm-6 text-right'p><'clearfix'>>",
+		"sPaginationType": "bootstrap",
+		"oLanguage": {
+			"sSearch": "",
+			"sLengthMenu": '_MENU_'
+		},
+		bAutoWidth: false
+	});
+	var header_inputs = $("#datatable-6 thead input");
+	header_inputs.on('keyup', function(){
+		/* Filter on the column (the index) of this element */
+		oTable.fnFilter( this.value, header_inputs.index(this) );
+	})
+	.on('focus', function(){
+		if ( this.className == "search_init" ){
+			this.className = "";
+			this.value = "";
+		}
+	})
+	.on('blur', function (i) {
+		if ( this.value == "" ){
+			this.className = "search_init";
+			this.value = asInitVals[header_inputs.index(this)];
+		}
+	});
+	header_inputs.each( function (i) {
+		asInitVals[i] = this.value;
+	});
+}

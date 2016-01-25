@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlnx.chronic.mapper.TServiceMapper">
+	<resultMap id="BaseResultMap" type="com.mlnx.chronic.entity.TService">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="start" property="start" jdbcType="TIMESTAMP" />
+		<result column="end" property="end" jdbcType="TIMESTAMP" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="patient_id" property="patientId" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="device_id" property="deviceId" jdbcType="INTEGER" />
+		<result column="address_id" property="addressId" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="ServiceVoResultMap" type="com.mlnx.chronic.vo.ServiceVo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="start" property="start" jdbcType="TIMESTAMP" />
+		<result column="end" property="end" jdbcType="TIMESTAMP" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<association property="doc" javaType="com.mlnx.chronic.entity.TUserDoc">
+			<result column="doc_name" property="name" />
+			<result column="doc_pic" property="pic" />
+		</association>
+		<association property="patient" javaType="com.mlnx.chronic.entity.TUserExt">
+			<result column="patient_name" property="name" />
+			<result column="patient_pic" property="pic" />
+		</association>
+		<collection property="device" ofType="com.mlnx.chronic.entity.TDevice">
+			<result column="device_name" property="name" />
+		</collection>
+	</resultMap>
+	<resultMap type="com.mlnx.chronic.vo.ServiceData" id="ServiceDataResultMap">
+		<id column="user_id" property="user_id" />
+		<result column="name" property="name" />
+		<result column="pic" property="pic" />
+		<result column="service_count" property="sum" />
+		<result column="clinic_count" property="clinic_count" />
+		<result column="clinic_device_count" property="clinic_device_count" />
+		<result column="callback_count" property="callback_count" />
+		<result column="callback_device_count" property="callback_device_count" />
+		<result column="use_device_count" property="use_device_count" />
+	</resultMap>
+	<resultMap type="com.mlnx.chronic.vo.ServiceAddressData" id="ServiceAddressDataResultMap">
+		<id column="address_id" property="address_id" />
+		<result column="name" property="name" />
+		<result column="service_count" property="sum" />
+		<result column="clinic_count" property="clinic_count" />
+		<result column="clinic_device_count" property="clinic_device_count" />
+		<result column="callback_count" property="callback_count" />
+		<result column="callback_device_count" property="callback_device_count" />
+		<result column="use_device_count" property="use_device_count" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_service
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="com.mlnx.chronic.entity.TService">
+		insert into t_service (id,
+		start, end,
+		user_id, patient_id, type,
+		device_id,address_id)
+		values
+		(#{id},
+		#{start},
+		#{end},
+		#{userId}, #{patientId}, #{type},
+		#{deviceId},#{address_id})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TService">
+		update t_service
+		<set>
+			<if test="start != null and start != ''">
+				start = #{start},
+			</if>
+			<if test="end != null and end != ''">
+				end = #{end},
+			</if>
+			<if test="userId != null and userId != ''">
+				user_id = #{userId},
+			</if>
+
+			<if test="patientId != null and patientId != ''">
+				patient_id = #{patientId},
+			</if>
+			<if test="type != null and type != ''">
+				type = #{type},
+			</if>
+			<if test="deviceId != null and deviceId != ''">
+				device_id = #{deviceId}
+			</if>
+			<if test="addressId != null and addressId != ''">
+				address_id = #{addressId}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select id, start, end, user_id, patient_id, type,
+		device_id,address_id
+		from t_service
+		where id = #{id}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id, start, end, user_id,
+		patient_id, type, device_id,address_id
+		from t_service
+	</select>
+	<select id="selectAllService" resultMap="ServiceVoResultMap">
+		select
+		s.id,
+		s.start,
+		s.end,
+		s.type,
+		doc.user_id,
+		doc.name doc_name,
+		doc.pic doc_pic,
+		patient.name patient_name,
+		patient.pic patient_pic,
+		device.name
+		device_name
+		from t_service s
+		left outer join t_user_doc doc on s.user_id
+		=
+		doc.user_id
+		left outer
+		join t_user_ext patient on s.patient_id =
+		patient.user_id
+		left outer
+		join t_service_device sd on s.id =
+		sd.service_id
+		left outer join t_device device on sd.device_id =
+		device.id
+	</select>
+	<select id="findAllServiceGroupByDoctorId" resultMap="ServiceDataResultMap">
+		select
+		s.user_id,doc.name,doc.pic,count(1) service_count,sum(if(type=1,1,0))
+		clinic_count,sum(if(type=1 and device_id>0,1,0))
+		clinic_device_count,sum(if(type=2,1,0)) callback_count,sum(if(type=2
+		and device_id>0,1,0)) callback_device_count,sum(if(device_id>0,1,0))
+		use_device_count from t_service s left outer join t_user_doc doc on
+		doc.user_id = s.user_id group by user_id;
+	</select>
+	<select id="findAllServiceGroupByAddressId" resultMap="ServiceAddressDataResultMap">
+		select
+		s.address_id,address.name,count(1) service_count,sum(if(type=1,1,0))
+		clinic_count,sum(if(type=1 and device_id>0,1,0))
+		clinic_device_count,sum(if(type=2,1,0)) callback_count,sum(if(type=2
+		and device_id>0,1,0)) callback_device_count,sum(if(device_id>0,1,0))
+		use_device_count from t_service s left outer join t_address address on
+		address.id = s.address_id group by address_id;
+	</select>
+</mapper>

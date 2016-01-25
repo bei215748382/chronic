@@ -36,5 +36,9 @@
 			<mvc:mapping path="/admin/**" />
 			<bean class="com.mlnx.chronic.filter.LoginInterceptor"></bean>
 		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/doc/**" />
+			<bean class="com.mlnx.chronic.filter.DocAdminLoginInterceptor"></bean>
+		</mvc:interceptor>
 	</mvc:interceptors>
 </beans>

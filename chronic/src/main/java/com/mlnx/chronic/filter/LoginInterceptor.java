@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mlnx.chronic.util.StringUtil;
+
 public class LoginInterceptor implements HandlerInterceptor {
 
 	@Override
@@ -37,7 +39,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		}
 		HttpSession session = request.getSession();
 		// 如果用户已登录也放行
-		if (session.getAttribute("activeUser") != null) {
+		if (session.getAttribute(StringUtil.adminLogin) != null) {
 			return true;
 		}
 		// 用户没有登录挑战到登录页面

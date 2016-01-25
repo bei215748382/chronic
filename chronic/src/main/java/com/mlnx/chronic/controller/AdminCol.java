@@ -27,6 +27,7 @@ import com.mlnx.chronic.entity.TReport;
 import com.mlnx.chronic.entity.TReportContent;
 import com.mlnx.chronic.entity.TUser;
 import com.mlnx.chronic.entity.TUserExt;
+import com.mlnx.chronic.entity2.TAdminUser;
 import com.mlnx.chronic.mapper.TFeedbackMapper;
 import com.mlnx.chronic.mapper.TMedcineMapper;
 import com.mlnx.chronic.mapper.TRemindMapper;
@@ -34,6 +35,7 @@ import com.mlnx.chronic.mapper.TReportContentMapper;
 import com.mlnx.chronic.mapper.TReportMapper;
 import com.mlnx.chronic.mapper.TUserExtMapper;
 import com.mlnx.chronic.mapper.TUserMapper;
+import com.mlnx.chronic.mapper2.TAdminUserMapper;
 import com.mlnx.chronic.service.UserService;
 import com.mlnx.chronic.util.FileUtil;
 import com.mlnx.chronic.util.StringUtil;
@@ -67,6 +69,9 @@ public class AdminCol {
 	@Autowired
 	private TRemindMapper tRemindMapper;
 
+	@Autowired
+	private TAdminUserMapper tAdminUserMapper;
+
 	// 登陆提交
 	// userid：用户账号，pwd：密码
 	@RequestMapping("/login")
@@ -75,7 +80,12 @@ public class AdminCol {
 
 		// 向session记录用户身份信息
 		// TODO 进行用户登入验证、权限验证等等
-		session.setAttribute("activeUser", username);
+		if (username != null && username != "") {
+			TAdminUser user = tAdminUserMapper.selectByUsername(username);
+			if (user.getPassword().equals(password)) {
+				session.setAttribute(StringUtil.adminLogin, username);
+			}
+		}
 		return "redirect:index.do";
 	}
 

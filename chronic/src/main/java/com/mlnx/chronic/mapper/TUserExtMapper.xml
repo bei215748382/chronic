@@ -27,6 +27,24 @@
 		<result column="weight" property="weight" jdbcType="VARCHAR" />
 		<result column="pregnant" property="pregnant" jdbcType="VARCHAR" />
 	</resultMap>
+	<resultMap id="PatientVoResultMap" type="com.mlnx.chronic.vo.PatientVo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+		<result column="pic" property="pic" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="VARCHAR" />
+		<result column="patient_id" property="patientId" jdbcType="INTEGER" />
+		<result column="height" property="height" jdbcType="INTEGER" />
+		<result column="weight" property="weight" jdbcType="INTEGER" />
+		<result column="pregnant" property="pregnant" jdbcType="INTEGER" />
+		<result column="nickname" property="nickname" jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="DATE"/>
+		<association property="user" javaType="com.mlnx.chronic.entity.TUser">
+			<result column="phone" property="phone" />
+			<result column="password" property="password" />
+			<result column="date" property="date" />
+		</association>
+	</resultMap>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from
 		t_user_ext
@@ -133,4 +151,10 @@
 		</set>
 		where user_id = #{userId}
 	</update>
+	<select id="getPatients" resultMap="PatientVoResultMap">
+		select patient.*,user.phone,user.password,user.date from t_user_ext patient left outer join t_user user on user.id = patient.user_id
+		where user_id in (select patient_id from
+		t_doc_patient where doc_id =
+		#{id});
+	</select>
 </mapper>

@@ -2,6 +2,7 @@ package com.mlnx.chronic.util;
 
 import java.util.HashMap;
 import java.util.Set;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,7 @@ public class RegistVoip {
 		restAPI.init("sandboxapp.cloopen.com", "8883");// 初始化服务器地址和端口，格式如下，服务器地址不需要写https://
 		restAPI.setAccount(StringUtil.accountSid, StringUtil.accountToken);// 初始化主帐号和主帐号TOKEN
 		restAPI.setAppId(StringUtil.appId);// 初始化应用ID
-		result = restAPI.createSubAccount(friendName);
+		result = restAPI.createSubAccount(UUID.randomUUID().toString());
 		log.info("SDKTestCreateSubAccount result=" + result);
 		if ("000000".equals(result.get("statusCode"))) {
 			// 正常返回输出data包体信息（map）

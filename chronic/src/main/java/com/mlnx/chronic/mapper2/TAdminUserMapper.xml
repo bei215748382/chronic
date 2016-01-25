@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlnx.chronic.mapper2.TAdminUserMapper">
+	<resultMap id="BaseResultMap" type="com.mlnx.chronic.entity2.TAdminUser">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_admin_user
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="com.mlnx.chronic.entity2.TAdminUser">
+		insert into t_admin_user (id, username, password
+		)
+		values (#{id}, #{username}, #{password}
+		)
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity2.TAdminUser">
+		update t_admin_user
+		set username = #{username},
+		password = #{password}
+		where id = #{id}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select id, username, password
+		from t_admin_user
+		where id = #{id}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id, username, password
+		from t_admin_user
+	</select>
+	<select id="selectByUsername" resultMap="BaseResultMap"
+		parameterType="string">
+		select id, username, password
+		from t_admin_user
+		where username = #{username}
+	</select>
+</mapper>

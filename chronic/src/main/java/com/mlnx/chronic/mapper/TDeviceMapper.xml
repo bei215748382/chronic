@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlnx.chronic.mapper.TDeviceMapper">
+	<resultMap id="BaseResultMap" type="com.mlnx.chronic.entity.TDevice">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
+		<result column="device_id" property="deviceId" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="DeviceVoResultMap" type="com.mlnx.chronic.vo.DeviceVo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="device_id" property="deviceId" jdbcType="VARCHAR" />
+		<association property="hospital" javaType="com.mlnx.chronic.entity.THospital">
+			<id column="hospital_id" property="id" jdbcType="INTEGER" />
+			<result column="city_id" property="cityId" jdbcType="INTEGER" />
+			<result column="hospital_name" property="name" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_device
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="com.mlnx.chronic.entity.TDevice">
+		insert into t_device (id,
+		name, hospital_id,device_id
+		)
+		values (#{id}, #{name},
+		#{hospitalId},#{deviceId}
+		)
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TDevice">
+		update t_device
+		<set>
+			<if test="name != null and name != ''">
+				name = #{name},
+			</if>
+			<if test="hospitalId != null and hospitalId != ''">
+				hospital_id = #{hospitalId},
+			</if>
+			<if test="deviceId != null and deviceId != ''">
+				device_id = #{deviceId},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select id, name, hospital_id,device_id
+		from t_device
+		where id = #{id}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id, name,
+		hospital_id,device_id
+		from t_device
+	</select>
+	<select id="findDeviceById" resultMap="DeviceVoResultMap"
+		parameterType="int">
+		select
+		device.id,
+		device.name,
+		device.device_id,
+		device.hospital_id,
+		hospital.name hospital_name,
+		hospital.city_id
+		from t_device device
+		left outer join t_hospital hospital on hospital.id =
+		device.hospital_id
+		where device.id = #{id}
+	</select>
+</mapper>

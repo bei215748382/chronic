@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlnx.chronic.mapper.TDocPatientMapper" >
+  <resultMap id="BaseResultMap" type="com.mlnx.chronic.entity.TDocPatient" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="doc_id" property="docId" jdbcType="INTEGER" />
+    <result column="patient_id" property="patientId" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_doc_patient
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mlnx.chronic.entity.TDocPatient" >
+    insert into t_doc_patient (id, doc_id, patient_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{docId,jdbcType=INTEGER}, #{patientId,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TDocPatient" >
+    update t_doc_patient
+    set doc_id = #{docId,jdbcType=INTEGER},
+      patient_id = #{patientId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, doc_id, patient_id
+    from t_doc_patient
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, doc_id, patient_id
+    from t_doc_patient
+  </select>
+</mapper>

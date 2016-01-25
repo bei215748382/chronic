@@ -13,4 +13,8 @@ public class StringUtil {
 	public static String responseObjList="objList";
 	
 	public static final String patientName = "姓名";
+	
+	public static final String docAdminLogin = "docAdminLogin";
+	
+	public static final String adminLogin = "adminLogin";
 }
