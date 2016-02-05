@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +46,9 @@ public class DocAdminCol {
 
 	@Autowired
 	private TAdminUserMapper tAdminUserMapper;
+	
+	private static final Logger log = LoggerFactory
+			.getLogger(DocAdminCol.class);
 
 	// 登陆提交
 	// userid：用户账号，pwd：密码
@@ -52,11 +57,17 @@ public class DocAdminCol {
 			String password) throws Exception {
 
 		// 向session记录用户身份信息
-		// TODO 进行用户登入验证、权限验证等等
 		if (username != null && username != "") {
 			TAdminUser user = tAdminUserMapper.selectByUsername(username);
-			if (user.getPassword().equals(password)) {
-				session.setAttribute(StringUtil.docAdminLogin, user);
+			if (user != null && user.getPassword().equals(password)) {
+				if (user.getPermission() == StringUtil.LOGIN_PERMISSION
+						|| user.getPermission() == StringUtil.LOGIN_DOC_PERMISSION) {
+					session.setAttribute(StringUtil.docAdminLogin, user);
+				} else {
+					log.info(StringUtil.LOGIN_NO_PERMISSION);
+				}
+			} else {
+				log.info(StringUtil.LOGIN_PASSWORD_ERROR);
 			}
 		}
 		return "redirect:index.do";

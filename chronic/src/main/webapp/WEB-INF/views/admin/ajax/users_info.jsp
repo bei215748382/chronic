@@ -71,7 +71,7 @@
 			<div class="box">
 			<div class="box-header">
 				<div class="box-name">
-					<i class="fa fa-usd"></i> <span>用户详细信息</span>|<a href="#" onclick="javacript:LoadAjaxContent('user_ext_add.do')">添加</a>
+					<i class="fa fa-usd"></i> <span>大众用户详细信息</span>
 				</div>
 				<div class="box-icons">
 					<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
@@ -109,7 +109,7 @@
 							<tr>
 								<td>${user.id}</td>
 								<td>${user.name}</td>
-								<td>${user.age }</td>
+								<td><fmt:formatDate value="${user.birthday}" pattern="yyyy-MM-dd"/></td>
 								<td><img class="img-rounded" src="${user.pic }" alt="${user.pic }" onerror="this.src='../common/img/admin/avatar.jpg'"/>${user.pic }</td>
 								<td>${user.userId }</td>
 								<td>${user.patientId }</td>
@@ -124,7 +124,7 @@
 						<tr>
 							<th>id</th>
 							<th>姓名</th>
-							<th>年龄</th>
+							<th>出生</th>
 							<th>头像路径</th>
 							<th>关联用户</th>
 							<th>关联病人</th>

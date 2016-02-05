@@ -80,10 +80,57 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">年龄</label>
+						<label class="col-sm-2 control-label">是否怀孕</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" name="age"
-								value="${userExt.age}" />
+							<c:if test="${userExt.pregnant== 1}">
+								<div class="radio-inline">
+									<label> <input type="radio" name="pregnant" checked
+										value="1"> 没有<i class="fa fa-circle-o"></i>
+									</label>
+								</div>
+								<div class="radio-inline">
+									<label> <input type="radio" name="pregnant" value="2">
+										怀孕 <i class="fa fa-circle-o"></i>
+									</label>
+								</div>
+							</c:if>
+							<c:if test="${userExt.pregnant==2}">
+								<div class="radio-inline">
+									<label> <input type="radio" name="pregnant" 
+										value="1"> 没有<i class="fa fa-circle-o"></i>
+									</label>
+								</div>
+								<div class="radio-inline">
+									<label> <input type="radio" name="pregnant" checked value="2">
+										怀孕 <i class="fa fa-circle-o"></i>
+									</label>
+								</div>
+							</c:if>
+							<c:if test="${userExt.pregnant==null || userExt.pregnant==''}">
+								<div class="radio-inline">
+									<label> <input type="radio" name="pregnant" checked
+										value="1"> 没有<i class="fa fa-circle-o"></i>
+									</label>
+								</div>
+								<div class="radio-inline">
+									<label> <input type="radio" name="pregnant" value="2">
+										怀孕 <i class="fa fa-circle-o"></i>
+									</label>
+								</div>
+							</c:if>
+
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">身高</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" name="height" value="${userExt.height}"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">体重</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" name="weight" value="${userExt.weight}"/>
 						</div>
 					</div>
 					<div class="form-group">
@@ -99,11 +146,12 @@
 							<img id="preview" class="img-rounded" src="${userExt.pic }"
 								alt="${userExt.pic }" />
 							<div class="margin-top-15">
-								<input id="doc" type="file" name="file" value="${userExt.pic}" onchange="javascript:setImagePreview(this,localImag,preview);">
+								<input id="doc" type="file" name="file" value="${userExt.pic}"
+									onchange="javascript:setImagePreview(this,localImag,preview);">
 							</div>
 						</div>
 						<div class="col-sm-4">
-						<p>说明：预览图的图片大小为400*300，图片尺寸以真实图片为准</p>
+							<p>说明：预览图的图片大小为400*300，图片尺寸以真实图片为准</p>
 						</div>
 					</div>
 					<div class="form-group">
@@ -148,5 +196,4 @@
 		// Add drag-n-drop feature to boxes
 		WinMove();
 	});
-
 </script>

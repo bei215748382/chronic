@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,7 @@ import com.mlnx.chronic.entity.TReport;
 import com.mlnx.chronic.entity.TReportContent;
 import com.mlnx.chronic.entity.TUser;
 import com.mlnx.chronic.entity.TUserExt;
+import com.mlnx.chronic.entity.TVoipAccount;
 import com.mlnx.chronic.entity2.TAdminUser;
 import com.mlnx.chronic.mapper.TFeedbackMapper;
 import com.mlnx.chronic.mapper.TMedcineMapper;
@@ -35,6 +38,7 @@ import com.mlnx.chronic.mapper.TReportContentMapper;
 import com.mlnx.chronic.mapper.TReportMapper;
 import com.mlnx.chronic.mapper.TUserExtMapper;
 import com.mlnx.chronic.mapper.TUserMapper;
+import com.mlnx.chronic.mapper.TVoipAccountMapper;
 import com.mlnx.chronic.mapper2.TAdminUserMapper;
 import com.mlnx.chronic.service.UserService;
 import com.mlnx.chronic.util.FileUtil;
@@ -71,6 +75,11 @@ public class AdminCol {
 
 	@Autowired
 	private TAdminUserMapper tAdminUserMapper;
+	
+	@Autowired
+	private TVoipAccountMapper tVoipAccountMapper;
+
+	private static final Logger log = LoggerFactory.getLogger(AdminCol.class);
 
 	// 登陆提交
 	// userid：用户账号，pwd：密码
@@ -79,11 +88,17 @@ public class AdminCol {
 			String password) throws Exception {
 
 		// 向session记录用户身份信息
-		// TODO 进行用户登入验证、权限验证等等
 		if (username != null && username != "") {
 			TAdminUser user = tAdminUserMapper.selectByUsername(username);
-			if (user.getPassword().equals(password)) {
-				session.setAttribute(StringUtil.adminLogin, username);
+			if (user != null && user.getPassword().equals(password)) {
+				if (user.getPermission() == StringUtil.LOGIN_PERMISSION
+						|| user.getPermission() == StringUtil.LOGIN_ADMIN_PERMISSION) {
+					session.setAttribute(StringUtil.adminLogin, user);
+				} else {
+					log.info(StringUtil.LOGIN_NO_PERMISSION);
+				}
+			} else {
+				log.info(StringUtil.LOGIN_PASSWORD_ERROR);
 			}
 		}
 		return "redirect:index.do";
@@ -392,31 +407,8 @@ public class AdminCol {
 	@RequestMapping(value = "voip_info")
 	public ModelAndView voip_all() {
 		ModelAndView modelAndView = new ModelAndView("admin/ajax/voip_info");
-		HashMap<String, Object> result = null;
-
-		CCPRestSDK restAPI = new CCPRestSDK();
-		restAPI.init("sandboxapp.cloopen.com", "8883");// 初始化服务器地址和端口，格式如下，服务器地址不需要写https://
-		restAPI.setAccount(StringUtil.accountSid, StringUtil.accountToken);// 初始化主帐号和主帐号TOKEN
-		restAPI.setAppId(StringUtil.appId);// 初始化应用ID
-		result = restAPI.getSubAccounts("0", "100");
-
-		System.out.println("SDKTestGetSubAccounts result=" + result);
-
-		if ("000000".equals(result.get("statusCode"))) {
-			// 正常返回输出data包体信息（map）
-			HashMap<String, Object> data = (HashMap<String, Object>) result
-					.get("data");
-			Set<String> keySet = data.keySet();
-			for (String key : keySet) {
-				Object object = data.get(key);
-				System.out.println(key + " = " + object);
-			}
-			modelAndView.addObject("data", data);
-		} else {
-			// 异常返回输出错误码和错误信息
-			System.out.println("错误码=" + result.get("statusCode") + " 错误信息= "
-					+ result.get("statusMsg"));
-		}
+		List<TVoipAccount> data = tVoipAccountMapper.selectAll();
+		modelAndView.addObject("data", data);
 		return modelAndView;
 	}
 

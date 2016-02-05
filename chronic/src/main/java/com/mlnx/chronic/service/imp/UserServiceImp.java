@@ -1,6 +1,5 @@
 package com.mlnx.chronic.service.imp;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +16,7 @@ import com.mlnx.chronic.entity.TBloodPressureSetting;
 import com.mlnx.chronic.entity.TBloodSugarSetting;
 import com.mlnx.chronic.entity.TPhoneValid;
 import com.mlnx.chronic.entity.TUser;
+import com.mlnx.chronic.entity.TUserDoc;
 import com.mlnx.chronic.entity.TUserExt;
 import com.mlnx.chronic.entity.TUserFriends;
 import com.mlnx.chronic.exception.RegisterException;
@@ -24,6 +24,7 @@ import com.mlnx.chronic.exception.TransactionalException;
 import com.mlnx.chronic.mapper.TBloodPressureSettingMapper;
 import com.mlnx.chronic.mapper.TBloodSugarSettingMapper;
 import com.mlnx.chronic.mapper.TPhoneValidMapper;
+import com.mlnx.chronic.mapper.TUserDocMapper;
 import com.mlnx.chronic.mapper.TUserExtMapper;
 import com.mlnx.chronic.mapper.TUserFriendsMapper;
 import com.mlnx.chronic.mapper.TUserMapper;
@@ -41,7 +42,9 @@ import com.mlnx.chronic.vo.RegistUser;
 import com.mlnx.chronic.vo.UsrInfo;
 import com.mlnx.chronic.vo.UsrVoipInfo;
 
-@Transactional(rollbackFor=TransactionalException.class)
+import java.util.ArrayList;
+
+@Transactional(rollbackFor = TransactionalException.class)
 @Service
 public class UserServiceImp implements UserService {
 
@@ -50,6 +53,9 @@ public class UserServiceImp implements UserService {
 
 	@Autowired
 	private TUserExtMapper tUserExtMapper;
+
+	@Autowired
+	private TUserDocMapper tUserDocMapper;
 
 	@Autowired
 	private TBloodPressureSettingMapper tBloodPressureSettingMapper;
@@ -274,11 +280,11 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public ChronicResponse modifyFriendMark(TUserFriends tUserFriends) {
-		try{
-		tUserFriendsMapper.updateFriendRemark(tUserFriends);
-		return new ChronicResponse(
-				EnumCollection.ResponseCode.UPDATE_FRIEND_REMARK_SUCCESS);
-		} catch(Exception e){
+		try {
+			tUserFriendsMapper.updateFriendRemark(tUserFriends);
+			return new ChronicResponse(
+					EnumCollection.ResponseCode.UPDATE_FRIEND_REMARK_SUCCESS);
+		} catch (Exception e) {
 			return new ChronicResponse(ResponseCode.UPDATE_FRIEND_REMARK_ERROR);
 		}
 	}
@@ -446,6 +452,77 @@ public class UserServiceImp implements UserService {
 		} else {
 			return uis.get(0);
 		}
+	}
+
+	@Override
+	public ChronicResponse updateUserPassword(RegistUser u) {
+		// 验证手机号是否存在
+		TUser tuser = tUserMapper.selectByPhone(u.getPhone());
+		if (tuser != null) {
+			// 验证手机验证码
+			TPhoneValid ph = tPhoneValidMapper.selectByPhone(u.getPhone());
+			if (ph != null && u.getCode().equals(ph.getValidcode())) {
+				TUser user = tUserMapper.selectByPhone(u.getPhone());
+				user.setPassword(u.getPassword());
+				tUserMapper.updateByPrimaryKey(user);
+				return new ChronicResponse(
+						ResponseCode.UPDATE_PHONE_PASSWORD_SUCCESS);
+			} else {
+				return new ChronicResponse(
+						ResponseCode.UPDATE_PHONE_VALID_NOT_RIGHT);
+			}
+		} else {
+			return new ChronicResponse(ResponseCode.UPDATE_PHONE_NOT_EXIST);
+		}
+	}
+
+	@Override
+	public Map<String, Object> findDoctorInfo(Integer doctorId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			TUserDoc doc = tUserDocMapper.findDoctorInfo(doctorId);
+			map.put(StringUtil.responseCode,
+					ResponseCode.FIND_DOCTOR_INFO_SUCCESS.getCode());
+			map.put(StringUtil.responseMsg,
+					ResponseCode.FIND_DOCTOR_INFO_SUCCESS.getMsg());
+			map.put(StringUtil.responseObj, doc);
+			return map;
+		} catch (Exception e) {
+			map.put(StringUtil.responseCode,
+					ResponseCode.FIND_DOCTOR_INFO_ERROR.getCode());
+			map.put(StringUtil.responseMsg,
+					ResponseCode.FIND_DOCTOR_INFO_ERROR.getMsg());
+			return map;
+		}
+	}
+
+	@Override
+	public ChronicResponse addDoctorFriend(int id, int friend_id,
+			String remark, int groupId) {
+		try {
+			TUserFriends tUserFriends = new TUserFriends();
+			tUserFriends.setUserId(id);
+			tUserFriends.setFriendId(friend_id);
+			tUserFriends.setGroupId(groupId);
+			tUserFriends.setConfirm(1);// 1表示直接通过好友认证
+			tUserFriends.setRemark(remark);
+			tUserFriendsMapper.insert(tUserFriends);
+			return new ChronicResponse(ResponseCode.ADD_DOCTOR_SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ChronicResponse(ResponseCode.ADD_DOCTOR_ERROR);
+		}
+	}
+
+	@Override
+	public TUserDoc findDoctorByPhone(String phone) {
+		TUserDoc doc = tUserDocMapper.selectByPhone(phone);
+		return doc;
+	}
+
+	@Override
+	public List<UsrInfo> findDoctorListByIds(List<Integer> list) {
+		return tUserDocMapper.findUserListByIds(list);
 	}
 
 }

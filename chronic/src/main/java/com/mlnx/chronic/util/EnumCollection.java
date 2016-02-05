@@ -66,8 +66,15 @@ public class EnumCollection {
 				"查找群组病人成功"), SEARCH_GROUP_PATIENT_ERROR("000091", "查找群组病人失败"), ADD_GROUP_PATIENT_FAIL(
 				"000092", "病人已在该群组"), REGISTER_DOC_SUCCESS("000093", "注册医生成功"), PROVINCE_DELETE_ERROR(
 				"000094", "删除省份失败"), CITY_REGISTER_SUCCESS("000095", "注册城市成功"), HOSPITAL_REGISTER_SUCCESS(
-				"000096", "注册城市成功"), UPDATE_DOC_SUCCESS("000097","更新医生信息成功");
-
+				"000096", "注册城市成功"), UPDATE_DOC_SUCCESS("000097", "更新医生信息成功"), UPDATE_PHONE_PASSWORD_SUCCESS(
+				"000098", "修改手机密码成功"), UPDATE_PHONE_VALID_NOT_RIGHT("000099",
+				"手机验证码不正确"), UPDATE_PHONE_NOT_EXIST("000100", "需要修改的手机号不存在"), FIND_DOCTOR_INFO_SUCCESS(
+				"000101", "获取医生信息成功"), FIND_DOCTOR_INFO_ERROR("000102",
+				"获取医生信息失败"), ADD_DOCTOR_SUCCESS("000103", "添加医生好友成功"), ADD_DOCTOR_ERROR(
+				"000104", "添加医生好友失败"), FIND_DOC_INFO_BY_PHONE_ERROR("000105",
+				"该手机注册的医生不存在"), FIND_DOC_INFO_BY_PHONE_SUCCESS("000106",
+				"获取手机医生信息成功"), FIND_DOC_INFO_SUCCESS("000107","获取医生详细信息成功"), FIND_DOC_INFO_ERROR("000108","获取医生详细信息失败"),;
+  
 		// 成员变量
 		private String code;
 		private String msg;

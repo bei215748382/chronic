@@ -45,14 +45,14 @@
 					</thead>
 					<tbody>
 					<!-- Start: list_row -->
-						<c:forEach items="${data.SubAccount}" var="voip">
+						<c:forEach items="${data}" var="voip">
 							<tr>
 							<td>${voip.subAccountSid}</td>
 							<td>${voip.subToken }</td>
 							<td>${voip.voipAccount}</td>
-							<td>${voip.voipPwd}</td>
+							<td>${voip.voipPassword}</td>
 							<td>${voip.dateCreated}</td>
-							<td>${voip.friendlyName}</td>
+							<td>${voip.friendName}</td>
 						</tr>
 						</c:forEach>
 					<!-- End: list_row -->

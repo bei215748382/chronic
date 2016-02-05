@@ -91,7 +91,7 @@
 			<if test="pregnant != null and pregnant != ''">
 				pregnant = #{pregnant},
 			</if>
-			<if test="pregnant != null and pregnant != ''">
+			<if test="birthday != null and birthday != ''">
 				birthday = #{birthday}
 			</if>
 		</set>
@@ -145,7 +145,7 @@
 			<if test="pregnant != null and pregnant != ''">
 				pregnant = #{pregnant},
 			</if>
-			<if test="pregnant != null and pregnant != ''">
+			<if test="birthday != null and birthday != ''">
 				birthday = #{birthday}
 			</if>
 		</set>

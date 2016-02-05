@@ -1,17 +1,16 @@
 package com.mlnx.chronic.service.imp;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.mlnx.chronic.entity.BloodPressure;
 import com.mlnx.chronic.repo.BloodPressureRepository;
 import com.mlnx.chronic.service.BloodPressureService;
-import com.mlnx.chronic.util.StringUtil;
 import com.mlnx.chronic.util.EnumCollection.ResponseCode;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.mlnx.chronic.util.StringUtil;
 
 @Service
 public class BloodPressureServiceImpl implements BloodPressureService {
@@ -50,7 +49,8 @@ public class BloodPressureServiceImpl implements BloodPressureService {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			Long count = bloodPressureRepository.findCountByPatientId(patientId);
+			Long count = bloodPressureRepository
+					.findCountByPatientId(patientId);
 
 			map.put(StringUtil.responseCode,
 					ResponseCode.FIND_PATIENT_BLOOD_PRESSURE_COUNT_SUCCESS

@@ -188,4 +188,19 @@ public class UserServiceTest extends TestBase {
 		ids.add(23);
 		System.out.println(userService.findUserListByIds(ids));
 	}
+	@Test
+	public void findDoctorByPhone(){
+		System.out.println(userService.findDoctorByPhone("12312340001"));
+	}
+	@Test
+	public void addDoctorFriend(){
+		System.out.println(userService.addDoctorFriend(21, 39,"病人加医生测试", 4));
+	}
+	@Test
+	public void findDoctorListByIds(){
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(39);
+		list.add(40);
+		System.out.println(userService.findDoctorListByIds(list));
+	}
 }

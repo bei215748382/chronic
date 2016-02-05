@@ -6,6 +6,10 @@ public class TAdminUser {
     private String username;
 
     private String password;
+    
+    private String role;
+    
+    private Integer permission;
 
     public Integer getId() {
         return id;
@@ -30,4 +34,28 @@ public class TAdminUser {
     public void setPassword(String password) {
         this.password = password;
     }
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public Integer getPermission() {
+		return permission;
+	}
+
+	public void setPermission(Integer permission) {
+		this.permission = permission;
+	}
+
+	@Override
+	public String toString() {
+		return "TAdminUser [id=" + id + ", username=" + username
+				+ ", password=" + password + ", role=" + role + ", permission="
+				+ permission + "]";
+	}
+    
 }

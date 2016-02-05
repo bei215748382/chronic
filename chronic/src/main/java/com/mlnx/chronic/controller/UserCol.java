@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.mlnx.chronic.entity.TBloodPressureSetting;
 import com.mlnx.chronic.entity.TBloodSugarSetting;
 import com.mlnx.chronic.entity.TUser;
+import com.mlnx.chronic.entity.TUserDoc;
 import com.mlnx.chronic.entity.TUserExt;
 import com.mlnx.chronic.entity.TUserFriends;
 import com.mlnx.chronic.mapper.TPhoneValidMapper;
@@ -152,6 +153,26 @@ public class UserCol {
 		} catch (Exception e) {
 			return new ChronicResponse(ResponseCode.UPLOAD_PIC_ERROR);
 		}
+	}
+
+	/**
+	 * 手机验证码修改密码
+	 * 
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "modifyPasswordByValidcode", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	@ResponseBody
+	public ChronicResponse modifyPasswordByValidcode(
+			@RequestHeader("phone") String phone,
+			@RequestHeader("password") String password,
+			@RequestHeader("code") String code) throws Exception {
+		RegistUser u = new RegistUser();
+		u.setPhone(phone);
+		u.setPassword(password);
+		u.setCode(Integer.parseInt(code));
+		return userService.updateUserPassword(u);
 	}
 
 	/**
@@ -322,10 +343,10 @@ public class UserCol {
 	 */
 	@RequestMapping(value = "confirmFriend/list", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
 	@ResponseBody
-	public Map<String,Object> confirmFriendList(@RequestHeader("id") int id) {
+	public Map<String, Object> confirmFriendList(@RequestHeader("id") int id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<TUserFriends> tus = userService.confirmFriendList(id);
-		if (tus == null || tus.size()==0) {
+		if (tus == null || tus.size() == 0) {
 			map.put(StringUtil.responseCode,
 					ResponseCode.FIND_UNCONFIRMED_FRIEND_ERROR.getCode());
 			map.put(StringUtil.responseMsg,
@@ -388,5 +409,89 @@ public class UserCol {
 		tu.setUserId(fid);
 		tu.setFriendId(uid);
 		return userService.havePermission(tu);
+	}
+
+	/**
+	 * 获取医生用户详细信息
+	 * 
+	 * @param doctorId
+	 * @return
+	 */
+	@RequestMapping(value = "find/doctor/info", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
+	@ResponseBody
+	public Map<String,Object> findDoctorInfo(
+			@RequestHeader("doctorId") Integer doctorId) {
+		return userService.findDoctorInfo(doctorId);
+	}
+	
+	/**
+	 * 根据手机号获取用户详细信息
+	 * 
+	 * @param phone
+	 * @return
+	 */
+	@RequestMapping(value = "find/doctor/by/phone", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	@ResponseBody
+	public Map<String, Object> findDoctorByPhone(
+			@RequestHeader("phone") String phone) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		TUserDoc u = userService.findDoctorByPhone(phone);
+		if (u == null) {
+			map.put(StringUtil.responseCode,
+					ResponseCode.FIND_DOC_INFO_BY_PHONE_ERROR.getCode());
+			map.put(StringUtil.responseMsg,
+					ResponseCode.FIND_DOC_INFO_BY_PHONE_ERROR.getMsg());
+			return map;
+		} else {
+			map.put(StringUtil.responseCode,
+					ResponseCode.FIND_DOC_INFO_BY_PHONE_SUCCESS.getCode());
+			map.put(StringUtil.responseMsg,
+					ResponseCode.FIND_DOC_INFO_BY_PHONE_SUCCESS.getMsg());
+			map.put(StringUtil.responseObj, u);
+			return map;
+		}
+	}
+	
+	/**
+	 * 主动添加医生好友
+	 * 
+	 * @param tUserFriends
+	 * @return
+	 */
+	@RequestMapping(value = "add/doctor/friend", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	@ResponseBody
+	public ChronicResponse addDoctorFriend(@RequestHeader("id") int id,
+			@RequestHeader("friend_id") int friend_id,
+			@RequestHeader("remark") String remark,
+			@RequestHeader("groupId") int groupId) {
+		return userService.addDoctorFriend(id,friend_id,
+				remark, groupId);
+
+	}
+	
+	/**
+	 * 获取用户详细信息
+	 * 
+	 * @param request
+	 * @param id
+	 * @param in
+	 * @return
+	 */
+	@RequestMapping(value = "find/doctor/list", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	@ResponseBody
+	public Map<String, Object> findDoctorList(@RequestBody List<Integer> list) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<UsrInfo> userInfo = userService.findDoctorListByIds(list);
+			map.put("responseCode",
+					ResponseCode.FIND_DOC_INFO_SUCCESS.getCode());
+			map.put("msg", ResponseCode.FIND_DOC_INFO_SUCCESS.getMsg());
+			map.put("objList", userInfo);
+			return map;
+		} catch (Exception e) {
+			map.put("responseCode", ResponseCode.FIND_DOC_INFO_ERROR.getCode());
+			map.put("msg", ResponseCode.FIND_DOC_INFO_ERROR.getMsg());
+			return map;
+		}
 	}
 }

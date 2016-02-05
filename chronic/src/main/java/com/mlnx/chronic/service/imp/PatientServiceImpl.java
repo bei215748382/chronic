@@ -5,16 +5,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.transaction.Transactional;
+
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mlnx.chronic.entity.Patient;
 import com.mlnx.chronic.entity.Patient.Gender;
+import com.mlnx.chronic.entity.TDocPatient;
+import com.mlnx.chronic.entity.TGroup;
 import com.mlnx.chronic.entity.TGroupPatient;
 import com.mlnx.chronic.entity.TIdentity;
 import com.mlnx.chronic.exception.RegisterException;
+import com.mlnx.chronic.exception.TransactionalException;
+import com.mlnx.chronic.mapper.TDocPatientMapper;
+import com.mlnx.chronic.mapper.TGroupMapper;
 import com.mlnx.chronic.mapper.TGroupPatientMapper;
 import com.mlnx.chronic.mapper.TIdentityMapper;
 import com.mlnx.chronic.repo.PatientRepository;
@@ -34,6 +41,12 @@ public class PatientServiceImpl implements PatientService {
 
 	@Autowired
 	private PatientRepository patientRepository;
+	
+	@Autowired
+	private TGroupMapper tGroupMapper;
+	
+	@Autowired
+	private TDocPatientMapper tDocPatientMapper;
 
 	@Transactional
 	@Override
@@ -61,13 +74,19 @@ public class PatientServiceImpl implements PatientService {
 		}
 	}
 
+	@Transactional(rollbackFor=TransactionalException.class)
 	@Override
 	public ChronicResponse addToGroup(TGroupPatient groupPatient) {
 		try {
 			Integer id = tGroupPatientMapper.isExist(groupPatient);
-			if (id!=null&&id>0) {
+			if (id != null && id > 0) {// 病人已存在
 				return new ChronicResponse(ResponseCode.ADD_GROUP_PATIENT_FAIL);
 			} else {
+				TGroup group = tGroupMapper.selectByPrimaryKey(groupPatient.getGroupId());
+				TDocPatient dp = new TDocPatient();
+				dp.setDocId(group.getUserId());
+				dp.setPatientId(groupPatient.getPatientId());
+				tDocPatientMapper.insert(dp);
 				tGroupPatientMapper.insert(groupPatient);
 				return new ChronicResponse(
 						ResponseCode.ADD_GROUP_PATIENT_SUCCESS);
@@ -106,7 +125,8 @@ public class PatientServiceImpl implements PatientService {
 	public Map<String, Object> findGroupPatients(int gid) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			List<TGroupPatient> names = tGroupPatientMapper.findGroupPatients(gid);
+			List<TGroupPatient> names = tGroupPatientMapper
+					.findGroupPatients(gid);
 			map.put(StringUtil.responseCode,
 					ResponseCode.SEARCH_GROUP_PATIENT_SUCCESS.getCode());
 			map.put(StringUtil.responseMsg,

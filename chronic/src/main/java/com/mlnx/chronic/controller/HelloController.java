@@ -34,6 +34,7 @@ import com.mlnx.chronic.vo.UserVo;
 
 @Controller
 public class HelloController {
+	
 	@Autowired
 	private TUserMapper userMapper;
 	

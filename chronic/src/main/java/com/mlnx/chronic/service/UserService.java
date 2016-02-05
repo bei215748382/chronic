@@ -6,6 +6,7 @@ import java.util.Map;
 import com.mlnx.chronic.entity.TBloodPressureSetting;
 import com.mlnx.chronic.entity.TBloodSugarSetting;
 import com.mlnx.chronic.entity.TUser;
+import com.mlnx.chronic.entity.TUserDoc;
 import com.mlnx.chronic.entity.TUserExt;
 import com.mlnx.chronic.entity.TUserFriends;
 import com.mlnx.chronic.util.ChronicResponse;
@@ -26,42 +27,44 @@ public interface UserService {
 	public ChronicResponse updateBloodPressureSetting(
 			TBloodPressureSetting bloodPressureSetting);
 
-	//修改血糖阀值
+	// 修改血糖阀值
 	public ChronicResponse updateBloodSugarSetting(
 			TBloodSugarSetting bloodSugarSetting);
 
-	//手机验证码注册用户
+	// 手机验证码注册用户
 	public ChronicResponse registUser(RegistUser u) throws Exception;
-	
-	//添加好友
+
+	// 添加好友
 	public ChronicResponse addFriend(TUserFriends tUserFriends);
 
-	//获取家庭组下好友列表
-	public List<TUserFriends> getFriendsByIdAndGroupId(int id,int groupId);
+	// 获取家庭组下好友列表
+	public List<TUserFriends> getFriendsByIdAndGroupId(int id, int groupId);
 
-	//获取添加请求的好友列表
+	// 获取添加请求的好友列表
 	public List<TUserFriends> confirmFriendList(int id);
 
-	//确认好友还是取消
-	public ChronicResponse confirmAndCancel(TUserFriends tUserFriends,int confirm) throws Exception ;
+	// 确认好友还是取消
+	public ChronicResponse confirmAndCancel(TUserFriends tUserFriends,
+			int confirm) throws Exception;
 
-	//修改好友备注
+	// 修改好友备注
 	public ChronicResponse modifyFriendMark(TUserFriends tUserFriends);
 
-	//获取短信验证码
+	// 获取短信验证码
 	public ChronicResponse getCode(String phone);
 
-	//修改密码
+	// 修改密码
 	public ChronicResponse modifyPassword(TUser user);
 
-	//是否有权限看
+	// 是否有权限看
 	public ChronicResponse havePermission(TUserFriends tUserFriends);
 
-	//注册修改详细信息
+	// 注册修改详细信息
 	public ChronicResponse updateUserExt(TUserExt user);
 
 	/**
 	 * 根据id获取用户详情
+	 * 
 	 * @param list
 	 * @return
 	 */
@@ -69,6 +72,7 @@ public interface UserService {
 
 	/**
 	 * 获取voip账号
+	 * 
 	 * @param list
 	 * @return
 	 */
@@ -76,6 +80,7 @@ public interface UserService {
 
 	/**
 	 * 根据用户id、组id获取好友id
+	 * 
 	 * @param id
 	 * @param groupId
 	 * @return
@@ -84,20 +89,65 @@ public interface UserService {
 
 	/**
 	 * 根据手机号添加好友
+	 * 
 	 * @param id
 	 * @param phone
 	 * @param remark
 	 * @return
 	 */
-	public ChronicResponse addFriendByPhone(int id, int friend_id, String remark,int groupId);
+	public ChronicResponse addFriendByPhone(int id, int friend_id,
+			String remark, int groupId);
 
 	/**
 	 * 根据手机号查找用户
+	 * 
 	 * @param phone
 	 * @return
 	 */
 	public UsrInfo findFriendByPhone(String phone);
 
+	/**
+	 * 根据验证码修改用户密码
+	 * 
+	 * @param u
+	 * @return
+	 */
+	public ChronicResponse updateUserPassword(RegistUser u);
 
+	/**
+	 * 获取医生用户详细信息
+	 * 
+	 * @param doctorId
+	 * @return
+	 */
+	public Map<String, Object> findDoctorInfo(Integer doctorId);
+
+	/**
+	 * 添加医生好友
+	 * 
+	 * @param id
+	 * @param friend_id
+	 * @param remark
+	 * @param groupId
+	 * @return
+	 */
+	public ChronicResponse addDoctorFriend(int id, int friend_id,
+			String remark, int groupId);
+
+	/**
+	 * 根据手机号查找医生信息
+	 * 
+	 * @param phone
+	 * @return
+	 */
+	public TUserDoc findDoctorByPhone(String phone);
+
+	/**
+	 * 获取医生好友们的详细信息
+	 * 
+	 * @param list
+	 * @return
+	 */
+	public List<UsrInfo> findDoctorListByIds(List<Integer> list);
 
 }
