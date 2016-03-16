@@ -232,7 +232,7 @@ public class AdminCol {
 			String pic = FileUtil.savePic(request, file);
 			userExt.setPic(pic);
 		}
-		tUserExtMapper.updateByPrimaryKey(userExt);
+		userService.updateUserExt(userExt);
 		response.sendRedirect("index.do#users_info.do");
 	}
 

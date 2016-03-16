@@ -239,9 +239,7 @@
 	}
 	$(document).ready(function() {
 		// Create Wysiwig editor for textare
-		TinyMCEStart('#skill', null);
-		TinyMCEStart('#background', null);
-		TinyMCEStart('#achievement', null);
+	
 		// Initialize datepicker
 		$('#input_date').datepicker({
 			setDate : new Date()

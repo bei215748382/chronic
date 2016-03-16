@@ -14,4 +14,6 @@ public interface TGroupMapper {
     List<TGroup> selectAll();
 
     int updateByPrimaryKey(TGroup record);
+
+	List<TGroup> searchGroup(Integer id);
 }

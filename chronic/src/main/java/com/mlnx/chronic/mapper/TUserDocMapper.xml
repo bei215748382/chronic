@@ -195,6 +195,9 @@
 		where doc.id
 		= #{id}
 	</select>
+	<select id="findDoctorInfo"  resultMap="BaseResultMap" parameterType="Integer">
+		select * from t_user_doc where user_id = #{doctorId}
+	</select>
 	<select id="selectByPhone"  resultMap="BaseResultMap" parameterType="String">
 		select * from t_user_doc doc where doc.user_id = (select id from t_user user where user.phone = #{phone})
 	</select>

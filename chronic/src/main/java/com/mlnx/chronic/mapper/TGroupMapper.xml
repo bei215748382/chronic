@@ -7,7 +7,8 @@
 		<result column="user_id" property="userId" jdbcType="INTEGER" />
 	</resultMap>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from t_group
+		delete from
+		t_group
 		where id = #{id}
 	</delete>
 	<insert id="insert" parameterType="com.mlnx.chronic.entity.TGroup">
@@ -17,7 +18,8 @@
 		</selectKey>
 		insert into t_group (id, name, user_id
 		)
-		values (#{id}, #{name}, #{userId}
+		values (#{id}, #{name},
+		#{userId}
 		)
 	</insert>
 	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TGroup">
@@ -40,6 +42,12 @@
 	</select>
 	<select id="selectAll" resultMap="BaseResultMap">
 		select id, name, user_id
-		from t_group
+		from
+		t_group
+	</select>
+	<select id="searchGroup" resultMap="BaseResultMap"
+		parameterType="Integer">
+		select id, name, user_id
+		from t_group where user_id = #{id}
 	</select>
 </mapper>

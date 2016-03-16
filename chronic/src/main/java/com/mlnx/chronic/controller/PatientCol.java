@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mlnx.chronic.entity.TGroup;
@@ -31,7 +32,7 @@ public class PatientCol {
 	@ResponseBody
 	public Map<String, Object> addGroup(
 			@RequestHeader("userId") Integer userId,
-			@RequestHeader("name") String name) {
+			@RequestParam("name") String name) {
 		TGroup group = new TGroup();
 		group.setName(name);
 		group.setUserId(userId);
@@ -41,7 +42,7 @@ public class PatientCol {
 	@RequestMapping(value = "edit/group", method = RequestMethod.POST)
 	@ResponseBody
 	public ChronicResponse editGroup(@RequestHeader("groupId") Integer groupId,
-			@RequestHeader("name") String name) {
+			@RequestParam("name") String name) {
 		TGroup group = new TGroup();
 		group.setId(groupId);
 		group.setName(name);
@@ -97,5 +98,12 @@ public class PatientCol {
 	public Map<String, Object> searchGroupPatient(
 			@RequestHeader("groupId") Integer groupId) {
 		return patientService.findGroupPatients(groupId);
+	}
+	
+	//获取所有组
+	@RequestMapping(value = "search/group", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> searchGroup(@RequestHeader("uid") Integer id) {
+		return groupService.searchGroup(id);
 	}
 }

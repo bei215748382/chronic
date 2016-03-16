@@ -17,8 +17,10 @@ import com.mlnx.chronic.mapper.TServiceMapper;
 import com.mlnx.chronic.mapper.TUserDocMapper;
 import com.mlnx.chronic.mapper.TUserExtMapper;
 import com.mlnx.chronic.mapper.TUserMapper;
+import com.mlnx.chronic.mapper.TVoipAccountMapper;
 import com.mlnx.chronic.service.DocAdminService;
 import com.mlnx.chronic.util.ChronicResponse;
+import com.mlnx.chronic.util.RegistVoip;
 import com.mlnx.chronic.util.EnumCollection.ResponseCode;
 import com.mlnx.chronic.vo.DeviceVo;
 import com.mlnx.chronic.vo.DocVo;
@@ -48,14 +50,26 @@ public class DocAdminServiceImpl implements DocAdminService {
 
 	@Autowired
 	private TDeviceMapper tDeviceMapper;
+	
+	@Autowired
+	private TVoipAccountMapper tVoipAccountMapper;
 
 	@Transactional(rollbackFor = TransactionalException.class)
 	@Override
 	public ChronicResponse regist(TUserDoc doc, TUser user) throws Exception {
 		try {
-			tUserMapper.insert(user);
-			doc.setUserId(user.getId());
+			TUser tUser = tUserMapper.selectByPhone(user.getPhone());
+			int userId = 0;
+			if(tUser == null){
+				tUserMapper.insert(user);
+				doc.setUserId(user.getId());
+				userId= user.getId();
+			} else {
+				doc.setUserId(tUser.getId());
+				userId = tUser.getId();
+			}
 			tUserDocMapper.insert(doc);
+			RegistVoip.regist(userId, null, tVoipAccountMapper);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new TransactionalException();

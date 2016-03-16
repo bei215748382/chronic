@@ -150,4 +150,12 @@ public interface UserService {
 	 */
 	public List<UsrInfo> findDoctorListByIds(List<Integer> list);
 
+	/**
+	 * 修改医生个人资料
+	 * 
+	 * @param doctor
+	 * @return
+	 */
+	public ChronicResponse updateDoc(TUserDoc doctor);
+
 }

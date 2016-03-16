@@ -40,7 +40,7 @@
 		select id, group_id, patient_id
 		from t_group_patient
 	</select>
-	<select id="findGroupPatients" resultType="tGroupPatient"
+	<select id="findGroupPatients" resultMap="BaseResultMap"
 		parameterType="Integer">
 		select * from t_group_patient where group_id =
 		#{id};

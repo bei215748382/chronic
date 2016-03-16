@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlnx.chronic.mapper2.TAppMapper">
+	<resultMap id="BaseResultMap" type="com.mlnx.chronic.entity2.TApp">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="version" property="version" jdbcType="VARCHAR" />
+		<result column="stable" property="stable" jdbcType="VARCHAR" />
+		<result column="timestamp" property="timestamp" jdbcType="TIMESTAMP" />
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />
+		<result column="path" property="path" jdbcType="VARCHAR" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_app
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="com.mlnx.chronic.entity2.TApp">
+		insert into t_app (id, name, version,
+		stable, timestamp, content,path
+		)
+		values (#{id}, #{name}, #{version},
+		#{stable}, #{timestamp}, #{content},#{path}
+		)
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity2.TApp">
+		update t_app
+		<set>
+			<if test="name != null and name != ''">
+				name = #{name},
+			</if>
+			<if test="version != null and version != ''">
+				version = #{version},
+			</if>
+			<if test="stable != null and stable != ''">
+				stable = #{stable},
+			</if>
+			<if test="timestamp != null and timestamp != ''">
+				timestamp = #{timestamp},
+			</if>
+			<if test="content != null and content != ''">
+				content = #{content},
+			</if>
+			<if test="path != null and path != ''">
+				path = #{path}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select *
+		from t_app
+		where id = #{id}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select *
+		from t_app
+	</select> 
+	<select id="searchLastVersionByName" parameterType="String" resultMap="BaseResultMap">
+		select * from t_app where name = #{name} and version = (select max(version) from t_app where name=#{name})
+	</select>
+	<select id="selectByName" parameterType="com.mlnx.chronic.entity2.TApp" resultMap="BaseResultMap">
+		select * from t_app where name = #{name} and version = #{version}
+	</select>
+</mapper>

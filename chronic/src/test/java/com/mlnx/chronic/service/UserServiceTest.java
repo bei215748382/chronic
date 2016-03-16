@@ -29,7 +29,7 @@ public class UserServiceTest extends TestBase {
 
 	@Test
 	public void testGetCode() {
-		String phone = "15867404048";
+		String phone = "18267411047";
 		ChronicResponse str = userService.getCode(phone);
 		System.out.println(str.toString());
 	}

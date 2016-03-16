@@ -25,7 +25,7 @@ public class RegistVoip {
 	public static ChronicResponse regist(int userId, String friendName,TVoipAccountMapper tVoipAccountMapper) throws RegisterException {
 		HashMap<String, Object> result = null;
 		CCPRestSDK restAPI = new CCPRestSDK();
-		restAPI.init("sandboxapp.cloopen.com", "8883");// 初始化服务器地址和端口，格式如下，服务器地址不需要写https://
+		restAPI.init("app.cloopen.com", "8883");// 初始化服务器地址和端口，格式如下，服务器地址不需要写https://,生产环境：https://app.cloopen.com:8883，沙盒环境：sandboxapp.cloopen.com
 		restAPI.setAccount(StringUtil.accountSid, StringUtil.accountToken);// 初始化主帐号和主帐号TOKEN
 		restAPI.setAppId(StringUtil.appId);// 初始化应用ID
 		result = restAPI.createSubAccount(UUID.randomUUID().toString());

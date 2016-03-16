@@ -73,8 +73,15 @@ public class EnumCollection {
 				"获取医生信息失败"), ADD_DOCTOR_SUCCESS("000103", "添加医生好友成功"), ADD_DOCTOR_ERROR(
 				"000104", "添加医生好友失败"), FIND_DOC_INFO_BY_PHONE_ERROR("000105",
 				"该手机注册的医生不存在"), FIND_DOC_INFO_BY_PHONE_SUCCESS("000106",
-				"获取手机医生信息成功"), FIND_DOC_INFO_SUCCESS("000107","获取医生详细信息成功"), FIND_DOC_INFO_ERROR("000108","获取医生详细信息失败"),;
-  
+				"获取手机医生信息成功"), FIND_DOC_INFO_SUCCESS("000107", "获取医生详细信息成功"), FIND_DOC_INFO_ERROR(
+				"000108", "获取医生详细信息失败"), SEARCH_GROUP_SUCCESS("000109",
+				"获取医生所有组成功"), SEARCH_GROUP_ERROR("000110", "获取医生所有组失败"), UPLOAD_APP_SUCCESS(
+				"000111", "上传app软件成功"), UPLOAD_APP_ERROR("000112", "上传app软件失败"), UPLOAD_APP_FILE_NONE(
+				"000113", "上传app软件包为空"), SEARCH_APP_INFO_SUCCESS("000114",
+				"查找app版本成功"), SEARCH_APP_INFO_ERROR("000115", "查找app版本失败"), UPDATE_DOCTOR_SUCCESS(
+				"000116", "更新医生个人信息成功"), UPDATE_DOCTOR_ERROR("000117",
+				"更新医生个人信息失败");
+
 		// 成员变量
 		private String code;
 		private String msg;

@@ -57,7 +57,7 @@
 								<td><img class="img-rounded" src="${doctor.pic}"
 									alt="${doctor.pic }"
 									onerror="this.src='../common/img/admin/avatar.jpg'" />${doctor.name}</td>
-								<td>${doctor.name}</td>
+								<td>${doctor.user.phone}</td>
 								<td>${doctor.sex }</td>
 								<td><fmt:formatDate value="${doctor.birthday}"
 										pattern="yyyy-MM-dd" /></td>

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cloopen.rest.sdk.CCPRestSmsSDK;
 import com.mlnx.chronic.entity.Patient;
+import com.mlnx.chronic.entity.Patient.Gender;
 import com.mlnx.chronic.entity.TBloodPressureSetting;
 import com.mlnx.chronic.entity.TBloodSugarSetting;
 import com.mlnx.chronic.entity.TPhoneValid;
@@ -97,6 +98,9 @@ public class UserServiceImp implements UserService {
 				tBloodPressureSettingMapper.insert(tBloodPressureSetting);
 				tBloodSugarSettingMapper.insert(tBloodSugarSetting);
 				Patient patient = new Patient(user.getPhone());
+				patient.setBirthday(new Date());//设置默认的出生日期为当前日期
+				patient.setGender(Gender.MALE);//设置默认性别为男
+				patient.setName("张三");//设置默认的姓名为张三
 				int patientId = patientRepository.save(patient);
 				TUserExt userExt = new TUserExt(patientId, userId);
 				tUserExtMapper.insert(userExt);
@@ -180,6 +184,9 @@ public class UserServiceImp implements UserService {
 					tBloodPressureSettingMapper.insert(tBloodPressureSetting);
 					tBloodSugarSettingMapper.insert(tBloodSugarSetting);
 					Patient patient = new Patient(u.getPhone());
+					patient.setBirthday(new Date());//设置默认的出生日期为当前日期
+					patient.setGender(Gender.MALE);//设置默认性别为男
+					patient.setName("张三");//设置默认的姓名为张三
 					int patientId = patientRepository.save(patient);
 					TUserExt userExt = new TUserExt(patientId, userId);
 					tUserExtMapper.insert(userExt);
@@ -300,7 +307,7 @@ public class UserServiceImp implements UserService {
 		// *沙盒环境（用于应用开发调试）：restAPI.init("sandboxapp.cloopen.com", "8883");*
 		// *生产环境（用户应用上线使用）：restAPI.init("app.cloopen.com", "8883"); *
 		// *******************************************************************************
-		restAPI.init("sandboxapp.cloopen.com", "8883");
+		restAPI.init("app.cloopen.com", "8883");
 
 		// ******************************注释*********************************************
 		// *初始化主帐号和主帐号令牌,对应官网开发者主账号下的ACCOUNT SID和AUTH TOKEN *
@@ -333,8 +340,8 @@ public class UserServiceImp implements UserService {
 		// *则13800000000手机号收到的短信内容是：【云通讯】您使用的是云通讯短信模板，您的验证码是6532，请于5分钟内正确输入 *
 		// *********************************************************************************************************************
 		int code = (int) (Math.random() * 1000000);
-		result = restAPI.sendTemplateSMS(phone, "1",
-				new String[] { String.valueOf(code), "1" });
+		result = restAPI.sendTemplateSMS(phone, "68124",
+				new String[] { String.valueOf(code), "5" });
 
 		if ("000000".equals(result.get("statusCode"))) {
 			// 正常返回输出data包体信息（map）
@@ -343,7 +350,7 @@ public class UserServiceImp implements UserService {
 			Set<String> keySet = data.keySet();
 			for (String key : keySet) {
 				Object object = data.get(key);
-				System.out.println(key + " = " + object);
+				System.out.println(key + " = " + object);  
 			}
 		} else {
 			// 异常返回输出错误码和错误信息
@@ -405,10 +412,23 @@ public class UserServiceImp implements UserService {
 	public ChronicResponse updateUserExt(TUserExt user) {
 		try {
 			tUserExtMapper.updateByUserId(user);
+			Patient p = changeToECGPatient(user);
+			patientRepository.updatePatient(p);
 			return new ChronicResponse(ResponseCode.UPDATE_USER_EXT_SUCCESS);
 		} catch (Exception e) {
 			return new ChronicResponse(ResponseCode.UPDATE_USER_EXT_ERROR);
 		}
+	}
+
+	private Patient changeToECGPatient(TUserExt u) {
+		Patient p = new Patient();
+		p.setId(u.getPatientId());
+		p.setName(u.getName());
+		p.setBirthday(u.getBirthday());
+		if("女".endsWith(u.getSex())){
+			p.setGender(Gender.FEMALE);
+		}
+		return p;
 	}
 
 	@Override
@@ -524,5 +544,17 @@ public class UserServiceImp implements UserService {
 	public List<UsrInfo> findDoctorListByIds(List<Integer> list) {
 		return tUserDocMapper.findUserListByIds(list);
 	}
+
+	@Override
+	public ChronicResponse updateDoc(TUserDoc doctor) {
+		try {
+			tUserDocMapper.updateByPrimaryKey(doctor);
+			return new ChronicResponse(ResponseCode.UPDATE_DOCTOR_SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ChronicResponse(ResponseCode.UPDATE_DOCTOR_ERROR);
+		}
+	}
+	
 
 }

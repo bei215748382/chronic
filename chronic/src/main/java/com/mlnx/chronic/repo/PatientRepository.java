@@ -156,10 +156,14 @@ public class PatientRepository implements ResultTransformer<Patient> {
 	private static final String DELETE_CQL = String.format("DELETE FROM %s",
 			TABLE_NAME) + String.format(" WHERE %s = ?", Column.ID.name);
 
-//	private static final String FIND_BY_TIME_CQL = String.format(
-//			"SELECT * FROM %s", TABLE_NAME)
-//			+ String.format(" WHERE %s > ?", Column.LASTUPDATETIME.name)
-//			+ " allow filtering";
+	private static final String UPDATE_INFO = String.format(
+			"UPDATE %s SET %s = ?, %s = ?,%s = ? WHERE %s = ?", TABLE_NAME,
+			Column.BIRTHDAY.name, Column.GENDER.name, Column.NAME.name,Column.ID.name);
+
+	// private static final String FIND_BY_TIME_CQL = String.format(
+	// "SELECT * FROM %s", TABLE_NAME)
+	// + String.format(" WHERE %s > ?", Column.LASTUPDATETIME.name)
+	// + " allow filtering";
 
 	private static final Logger log = LoggerFactory
 			.getLogger(PatientRepository.class);
@@ -190,6 +194,8 @@ public class PatientRepository implements ResultTransformer<Patient> {
 	private PreparedStatement findByNameAndContactQuery;
 
 	private PreparedStatement findByIdAndNameAndContactQuery;
+	
+	private PreparedStatement updateInfo;
 
 	@PostConstruct
 	private void init() throws Exception {
@@ -214,6 +220,7 @@ public class PatientRepository implements ResultTransformer<Patient> {
 				FIND_BY_NAME_AND_CONTACT_CQL);
 		findByIdAndNameAndContactQuery = cassandra.getSession().prepare(
 				FIND_BY_ID_AND_NAME_AND_CONTACT_CQL);
+		updateInfo = cassandra.getSession().prepare(UPDATE_INFO);
 		// findByTimeQuery = cassandra.getSession().prepare(FIND_BY_TIME_CQL);
 		ResultSet resultSet = cassandra.getSession().execute(FIND_ALL_QUERY);
 		for (Row result : resultSet) {
@@ -673,5 +680,20 @@ public class PatientRepository implements ResultTransformer<Patient> {
 				sb.toString()));
 	}
 
+	public void updatePatient(Patient p) {
+		BoundStatement bs = new BoundStatement(updateInfo);
+		bs.bind(p.getBirthday(),p.getGender()==null?Gender.MALE:p.getGender(),p.getName(),p.getId());
+		try {
+			cassandra.getSession().execute(bs);
+		} catch (DriverException e) {
+			log.error(String.format(
+					"Failed to update database entry for patient id = %s",
+					p.getId()));
+			throw e;
+		}
+		log.info(String.format(
+				"Update database entry for patient id = %s successfully!",
+				p.getId()));
+	}
 
 }

@@ -15,4 +15,7 @@ public interface GroupService {
 
 	// 删除群组
 	public ChronicResponse delete(int id);
+
+	//获取所有组
+	public Map<String,Object> searchGroup(Integer id);
 }

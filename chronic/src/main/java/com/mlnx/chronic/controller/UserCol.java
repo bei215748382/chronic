@@ -1,11 +1,13 @@
 package com.mlnx.chronic.controller;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mlnx.chronic.entity.TBloodPressureSetting;
 import com.mlnx.chronic.entity.TBloodSugarSetting;
@@ -56,7 +59,7 @@ public class UserCol {
 	}
 
 	/**
-	 * 手机验证码注册用户
+	 * 手机验证码注册用户--病人
 	 * 
 	 * @param user
 	 * @return
@@ -419,13 +422,13 @@ public class UserCol {
 	 */
 	@RequestMapping(value = "find/doctor/info", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
 	@ResponseBody
-	public Map<String,Object> findDoctorInfo(
+	public Map<String, Object> findDoctorInfo(
 			@RequestHeader("doctorId") Integer doctorId) {
 		return userService.findDoctorInfo(doctorId);
 	}
-	
+
 	/**
-	 * 根据手机号获取用户详细信息
+	 * 根据手机号获取医生用户详细信息
 	 * 
 	 * @param phone
 	 * @return
@@ -451,7 +454,7 @@ public class UserCol {
 			return map;
 		}
 	}
-	
+
 	/**
 	 * 主动添加医生好友
 	 * 
@@ -464,17 +467,14 @@ public class UserCol {
 			@RequestHeader("friend_id") int friend_id,
 			@RequestHeader("remark") String remark,
 			@RequestHeader("groupId") int groupId) {
-		return userService.addDoctorFriend(id,friend_id,
-				remark, groupId);
+		return userService.addDoctorFriend(id, friend_id, remark, groupId);
 
 	}
-	
+
 	/**
-	 * 获取用户详细信息
+	 * 根据医生id列表获取医生信息
 	 * 
-	 * @param request
-	 * @param id
-	 * @param in
+	 * @param list
 	 * @return
 	 */
 	@RequestMapping(value = "find/doctor/list", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
@@ -494,4 +494,26 @@ public class UserCol {
 			return map;
 		}
 	}
+
+	/**
+	 * 更新医生信息成功
+	 * 
+	 * @param file
+	 * @param request
+	 * @param response
+	 * @param doctor
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "update/doctor/info")
+	public ChronicResponse updateDoctorInfo(MultipartFile file,
+			HttpServletRequest request, HttpServletResponse response,
+			TUserDoc doctor) throws IOException {
+		if (file != null && file.getOriginalFilename() != "") {
+			String pic = FileUtil.savePic(request, file);
+			doctor.setPic(pic);
+		}
+		return userService.updateDoc(doctor);
+	}
+
 }

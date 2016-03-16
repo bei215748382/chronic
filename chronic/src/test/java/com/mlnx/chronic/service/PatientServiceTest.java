@@ -46,7 +46,7 @@ public class PatientServiceTest extends TestBase {
 
 	@Test
 	public void testFindGroupPatients() {
-		System.out.println(patientService.findGroupPatients(3));
+		System.out.println(patientService.findGroupPatients(19));
 	}
 
 }

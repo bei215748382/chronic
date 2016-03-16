@@ -1,6 +1,7 @@
 package com.mlnx.chronic.service.imp;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,23 @@ public class GroupServiceImpl implements GroupService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ChronicResponse(ResponseCode.DELETE_GROUP_ERROR);
+		}
+	}
+
+	@Override
+	public Map<String,Object> searchGroup(Integer id) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		try {
+			List<TGroup> list = tGroupMapper.searchGroup(id);
+			map.put(StringUtil.responseCode, ResponseCode.SEARCH_GROUP_SUCCESS.getCode());
+			map.put(StringUtil.responseMsg, ResponseCode.SEARCH_GROUP_SUCCESS.getMsg());
+			map.put(StringUtil.responseObjList, list);
+			return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put(StringUtil.responseCode, ResponseCode.SEARCH_GROUP_ERROR.getCode());
+			map.put(StringUtil.responseMsg, ResponseCode.SEARCH_GROUP_ERROR.getMsg());
+			return map;
 		}
 	}
 
