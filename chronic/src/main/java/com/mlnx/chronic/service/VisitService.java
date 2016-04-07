@@ -3,6 +3,10 @@ package com.mlnx.chronic.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 import com.mlnx.chronic.entity.TVisit;
 import com.mlnx.chronic.exception.TransactionalException;
 import com.mlnx.chronic.util.ChronicResponse;
@@ -18,7 +22,7 @@ public interface VisitService {
 	public ChronicResponse edit(VisitExt visitExt)
 			throws TransactionalException;
 
-	//查看历史回访
+	//查看预约列表
 	public Map<String, Object> search(Integer doctorId);
 	
 	// 编辑回访
@@ -29,5 +33,11 @@ public interface VisitService {
 
 	// 回访记录，根据医生id查找
 	public Map<String, Object> findAllByDoctorId(int id);
+
+	//查看预约历史
+	public Map<String, Object> searchHistory(Integer doctorId);
+
+	//添加报告
+	public ChronicResponse addReport(int visitId,String condition, String medicine, CommonsMultipartFile[] files, HttpServletRequest request);
 
 }

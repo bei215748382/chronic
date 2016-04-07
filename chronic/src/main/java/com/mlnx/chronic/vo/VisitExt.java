@@ -13,6 +13,8 @@ public class VisitExt {
 	private Date date;
 
 	private Integer doctorId;
+	
+	private Integer state;
 
 	private List<Integer> tests;
 	
@@ -56,10 +58,19 @@ public class VisitExt {
 		this.tests = tests;
 	}
 
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
+	}
+
 	@Override
 	public String toString() {
 		return "VisitExt [id=" + id + ", patientId=" + patientId + ", date="
-				+ date + ", doctorId=" + doctorId + ", tests=" + tests + "]";
+				+ date + ", doctorId=" + doctorId + ", state=" + state
+				+ ", tests=" + tests + "]";
 	}
 
 }

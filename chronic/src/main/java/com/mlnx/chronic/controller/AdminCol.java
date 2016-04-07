@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cloopen.rest.sdk.CCPRestSDK;
 import com.mlnx.chronic.entity.TFeedback;
 import com.mlnx.chronic.entity.TMedcine;
 import com.mlnx.chronic.entity.TRemind;

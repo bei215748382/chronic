@@ -10,19 +10,19 @@
 			<property name="suppressAllComments" value="true" />
 		</commentGenerator>
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://localhost:3306/chronic?useUnicode=true&amp;characterEncoding=utf8"
+			connectionURL="jdbc:mysql://localhost:3306/base?useUnicode=true&amp;characterEncoding=utf8"
 			userId="root" password="123456" />
-		<javaModelGenerator targetPackage="com.mlnx.chronic.entity"
+		<javaModelGenerator targetPackage="com.mlnx.chronic.entity2"
 			targetProject="C:\Users\bwh\git\chronic\chronic\src\main\java" />
-		<sqlMapGenerator targetPackage="com.mlnx.chronic.mapper"
+		<sqlMapGenerator targetPackage="com.mlnx.chronic.mapper2"
 			targetProject="C:\Users\bwh\git\chronic\chronic\src\main\java" />
-		<javaClientGenerator targetPackage="com.mlnx.chronic.mapper"
+		<javaClientGenerator targetPackage="com.mlnx.chronic.mapper2"
 			targetProject="C:\Users\bwh\git\chronic\chronic\src\main\java"
 			type="XMLMAPPER" />
 		<!-- 匹配所有表 -->
 		<!-- <table tableName="%"> -->
 		<!-- <generatedKey column="id" sqlStatement="Mysql"/> -->
 		<!-- </table> -->
-		<table tableName="t_visit_report"></table>
+		<table tableName="t_app"></table>
 	</context>
 </generatorConfiguration>

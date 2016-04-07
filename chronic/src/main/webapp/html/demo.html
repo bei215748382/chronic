@@ -1,0 +1,94 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas ECG</title>
+</head>
+<body>
+<h1>Canvas ECG</h1>
+<canvas id="ecgPanel" width="950" height="590">
+	你的浏览器不支持！your browser dosen't support canvas!
+</canvas>
+<script>
+var ecgPanel = document.getElementById("ecgPanel");
+var context = ecgPanel.getContext("2d");
+
+// select buff channel
+var heightPerChannel = 20;
+var validSelectChanelNumb = 0;
+var selectChannelFlag; // 记住选择的channel
+var selectChanelNameList;
+var selectDisplayBufferList; // 记住选择的buffList
+var xIndex;
+var yChannel=[10,20,30,40];
+
+// (size of complete display buffer)
+var canvasWidth; // width of the canvas (drawing area) **
+var canvasHeight; // Height of the canvas (drawing area) **
+var maxTimeWindow; // max value of time window (45s)
+var ptPerSecond; // #PT per second for displaying **
+var borderSize; // border width of this component
+var gain; // signal gain factor
+var delay; // seconds that reading pointer(display buffer) lap
+					// writing pointer(data buffer)
+var timeWindow; // length of time for data displayed in the whole
+							// screen,can be 1.3s
+var bufferRate; // interval between two data PT in data buffer,
+							// change to float on 04/23/2014
+var pixelRateF; // interval(pixel) between two data PT in display
+							// buffer
+								
+
+
+function drawGrid(context,color,lineWidth,stepx,stepy){
+	context.strokeStyle=color;
+	context.lineWidth = lineWidth;
+	
+	for(var i = stepx+lineWidth;i<context.canvas.width;i+=stepx){
+		context.beginPath();
+		context.moveTo(i,0);
+		context.lineTo(i,context.canvas.height);
+		context.stroke();
+	}
+	for(var i = stepy+lineWidth;i<context.canvas.height;i+=stepy){
+		context.beginPath();
+		context.moveTo(0,i);
+		context.lineTo(context.canvas.width,i);
+		context.stroke();
+	}
+}  
+
+
+var  j = 0;
+function drawSin(){
+
+var cavans = document.getElementById("ecgPanel");
+var cxt = cavans.getContext("2d");
+cxt.save();
+cxt.clearRect(0,0,950,590);
+drawGrid(context,'lightgray',0.5,20,20);
+	cxt.strokeStyle='red';
+	cxt.lineWidth = 0.5;
+	cxt.beginPath();
+	cxt.moveTo(0,200);
+	j+=2;
+	if(j<cxt.canvas.width){
+		for(var i = 0.5;i<j;i+=0.5){
+			cxt.lineTo(i,200+20*Math.sin(i/2/Math.PI));
+		}
+		cxt.stroke();
+	} else {
+		j = 0;
+	}
+	
+	animate();
+}
+function animate(){
+
+    requestAnimationFrame(drawSin);
+}
+animate();
+//drawSin(context,'red',1,10,10)
+</script>
+</body>

@@ -56,11 +56,11 @@
 						<div class="col-sm-4">
 							<div class="radio-inline">
 								<label> <input type="radio" name="pregnant" checked
-									value="0"> 没有<i class="fa fa-circle-o"></i>
+									value="1"> 没有<i class="fa fa-circle-o"></i>
 								</label>
 							</div>
 							<div class="radio-inline">
-								<label> <input type="radio" name="pregnant" value="1">
+								<label> <input type="radio" name="pregnant" value="2">
 									怀孕 <i class="fa fa-circle-o"></i>
 								</label>
 							</div>

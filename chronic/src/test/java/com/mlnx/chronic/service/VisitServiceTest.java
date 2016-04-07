@@ -51,4 +51,12 @@ public class VisitServiceTest extends TestBase {
 	public void search() {
 		System.out.println(visitService.search(5));
 	}
+	
+	@Test
+	public void insertReport(){
+		int visitId = 3;
+		String condition = "12";
+		String medicine = "21";
+		System.out.println(visitService.addReport(visitId, condition, medicine, null, null));;
+	}
 }

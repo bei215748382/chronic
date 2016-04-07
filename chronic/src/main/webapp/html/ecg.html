@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Canvas ECG</title>
+</head>
+<body>
+  <h1>Canvas ECG</h1>
+  <div class="page-header" id="tou"></div>
+  <div class="well" id="msg"></div>
+  <div>
+    
+    <button class="btn btn-default" type="button" id="connect"
+      onclick="connect()">连接</button>
+    <button class="btn btn-default" type="button" 
+      onclick="closeC()">关闭</button>
+  
+  </div>
+  <div>
+    <input type="text" name="message" id="message" />
+    <button class="btn btn-default" type="button" onclick="send()">发送</button>
+  </div>
+
+  <canvas id="ecgPanel" width="950" height="590">
+  你的浏览器不支持！your browser dosen't support canvas!
+</canvas>
+  <script>
+			var websocket;
+			var data = new Array();
+			var j = 0;
+			var count = 0;
+			var drawECG;
+			var formdata = {"patientId":2,"date":new Date()};
+			var x = 0;
+			function connect() {
+				var url = "ws://localhost:8080/chronic/ecg";
+				if ('WebSocket' in window) {
+					websocket = new WebSocket(url);
+				} else if ('MozWebSocket' in window) {
+					websocket = new MozWebSocket(url);
+				} else {
+					alert('对不起，你的浏览器不支持，请用谷歌浏览器！Your browser Unsupported WebSocket!');
+					return;
+				}
+				websocket.onopen = function(evnt) {
+					document.getElementById("tou").innerHTML = "链接服务器成功!";
+					console.log("链接服务器成功!");
+			
+				};
+				websocket.onmessage = function(evnt) {
+					if(typeof evnt.data === "string"){
+						console.log("String message received!",evnt,evnt.data);
+					} else{
+						console.log("Other message received!",evnt,evnt.data);
+					}
+					data = JSON.parse(evnt.data);
+					animate();
+				};
+				websocket.onerror = function(evnt) {
+					console.log("与服务器链接异常!");
+					cancelAnimationFrame(drawECG);
+				};
+				websocket.onclose = function(evnt) {
+					document.getElementById("tou").innerHTML = "与服务器断开了链接!";
+					console.log("与服务器断开了链接!");
+					cancelAnimationFrame(drawECG);
+				}
+				
+			}
+			function closeC() {
+				websocket.close();
+				cancelAnimationFrame(drawECG);
+			}
+			function send() {
+				if (websocket != null) {
+					var message = document.getElementById('message').value;
+					websocket.send(message);
+				} else {
+					alert("未与服务器链接.");
+				}
+			}
+
+			function drawGrid(context, color, lineWidth, stepx, stepy) {
+				context.strokeStyle = color;
+				context.lineWidth = lineWidth;
+
+				for (var i = stepx + lineWidth; i < context.canvas.width; i += stepx) {
+					context.beginPath();
+					context.moveTo(i, 0);
+					context.lineTo(i, context.canvas.height);
+					context.stroke();
+				}
+				for (var i = stepy + lineWidth; i < context.canvas.height; i += stepy) {
+					context.beginPath();
+					context.moveTo(0, i);
+					context.lineTo(context.canvas.width, i);
+					context.stroke();
+				}
+			}
+
+		
+			function drawSin() {
+				var cavans = document.getElementById("ecgPanel");
+				var cxt = cavans.getContext("2d");
+				cxt.save();
+				cxt.clearRect(0, 0, 950, 590);
+				drawGrid(cxt, 'lightgray', 0.5, 20, 20);
+				cxt.strokeStyle = 'red';
+				cxt.lineWidth = 0.5;
+				cxt.beginPath();
+				cxt.moveTo(0, 200);
+				if (count < data.dataPoints.length) {
+					for (var j = 0; j < count; j++) {
+						cxt.lineTo(data.x[j], 200 - 40*data.dataPoints[j][0]);
+					}
+					x+=0.5;
+					console.log("["+data.x[j]+"",+200 - 40*data.dataPoints[j][0]+"]");
+					cxt.stroke();
+					count++;
+				} else {
+					count = 0;
+					x=0;
+					websocket.send(formdata);
+				}
+				animate();
+			}
+			function animate() {
+				drawECG = requestAnimationFrame(drawSin);
+			}
+		
+		</script>
+</body>

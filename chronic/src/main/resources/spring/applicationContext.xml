@@ -13,7 +13,7 @@
 	<context:annotation-config />
 
 	<!-- Activates scanning of @Repository and @Service -->
-	<context:component-scan base-package="com.mlnx.chronic.service,com.mlnx.chronic.repo" />
+	<context:component-scan base-package="com.mlnx.chronic.service,com.mlnx.chronic.repo,com.mlnx.chronic.websocket" />
 
 	<!-- 引入jdbc配置文件 -->
 	<context:property-placeholder location="classpath:properties/db.properties" />

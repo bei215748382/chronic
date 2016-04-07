@@ -80,7 +80,9 @@ public class EnumCollection {
 				"000113", "上传app软件包为空"), SEARCH_APP_INFO_SUCCESS("000114",
 				"查找app版本成功"), SEARCH_APP_INFO_ERROR("000115", "查找app版本失败"), UPDATE_DOCTOR_SUCCESS(
 				"000116", "更新医生个人信息成功"), UPDATE_DOCTOR_ERROR("000117",
-				"更新医生个人信息失败");
+				"更新医生个人信息失败"), SEARCH_VISIT_HISTORY_SUCCESS("000118",
+				"查找回访历史成功"), SEARCH_VISIT_HISTORY_ERROR("000119", "查找回访历史失败"), ADD_VISIT_REPORT_SUCCESS(
+				"000120", "添加报告成功"), ADD_VISIT_REPORT_ERROR("000121", "添加报告失败");
 
 		// 成员变量
 		private String code;

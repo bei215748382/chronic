@@ -132,7 +132,7 @@ public class PatientRepository implements ResultTransformer<Patient> {
 
 	private static final String FIND_BY_NAME_AND_CONTACT_CQL = String.format(
 			"SELECT * FROM %s", TABLE_NAME)
-			+ String.format(" WHERE %s = ?", Column.NAME.name)
+			+ String.format(" WHERE %s = ?", Column.NAME.name)  
 			+ String.format(" AND %s = ?", Column.CONTACT.name)
 			+ " allow filtering";
 

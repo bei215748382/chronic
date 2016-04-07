@@ -1,4 +1,4 @@
-package com.mlnx.chronic.ecg;
+package com.mlnx.chronic.util;
 
 public enum EcgLead {
 

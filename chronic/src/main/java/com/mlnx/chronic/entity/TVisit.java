@@ -12,6 +12,8 @@ public class TVisit {
 
 	private Integer doctorId;
 	
+	private Integer state;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -44,10 +46,18 @@ public class TVisit {
 		this.doctorId = doctorId;
 	}
 
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
+	}
+
 	@Override
 	public String toString() {
 		return "TVisit [id=" + id + ", patientId=" + patientId + ", date="
-				+ date + ", doctorId=" + doctorId + "]";
+				+ date + ", doctorId=" + doctorId + ", state=" + state + "]";
 	}
 
 }

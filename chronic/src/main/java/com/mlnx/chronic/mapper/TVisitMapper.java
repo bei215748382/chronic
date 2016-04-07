@@ -20,4 +20,6 @@ public interface TVisitMapper {
     List<TVisit> selectAllByDoctorId(Integer id);
 
 	List<VisitVo> search(Integer doctorId);
+
+	List<VisitVo> searchHistory(Integer doctorId);
 }
