@@ -33,4 +33,7 @@ public interface TUserExtMapper {
 	 * @return
 	 */
 	List<PatientVo> getPatients(int id);
+	
+	//根据用户id获取用户详细信息
+	TUserExt selectByUserId(Integer userId);
 }

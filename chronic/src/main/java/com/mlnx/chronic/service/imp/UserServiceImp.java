@@ -408,14 +408,18 @@ public class UserServiceImp implements UserService {
 		return null;//
 	}
 
+	@Transactional(rollbackFor=RegisterException.class)
 	@Override
 	public ChronicResponse updateUserExt(TUserExt user) {
 		try {
 			tUserExtMapper.updateByUserId(user);
-			Patient p = changeToECGPatient(user);
-			patientRepository.updatePatient(p);
+			//更新心电服务器的病人数据
+//			TUserExt u = tUserExtMapper.selectByUserId(user.getUserId());
+//			Patient p = changeToECGPatient(u);
+//			patientRepository.updatePatient(p);
 			return new ChronicResponse(ResponseCode.UPDATE_USER_EXT_SUCCESS);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ChronicResponse(ResponseCode.UPDATE_USER_EXT_ERROR);
 		}
 	}

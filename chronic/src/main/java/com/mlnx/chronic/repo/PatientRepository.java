@@ -682,7 +682,7 @@ public class PatientRepository implements ResultTransformer<Patient> {
 
 	public void updatePatient(Patient p) {
 		BoundStatement bs = new BoundStatement(updateInfo);
-		bs.bind(p.getBirthday(),p.getGender()==null?Gender.MALE:p.getGender(),p.getName(),p.getId());
+		bs.bind(p.getBirthday(),p.getGender()==null?Gender.MALE.toString():p.getGender().toString(),p.getName(),p.getId());
 		try {
 			cassandra.getSession().execute(bs);
 		} catch (DriverException e) {

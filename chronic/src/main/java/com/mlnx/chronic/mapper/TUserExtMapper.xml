@@ -157,4 +157,9 @@
 		t_doc_patient where doc_id =
 		#{id});
 	</select>
+	<select id="selectByUserId" parameterType="int" resultMap="BaseResultMap">
+		select *
+		from t_user_ext
+		where user_id = #{id}
+	</select>
 </mapper>
