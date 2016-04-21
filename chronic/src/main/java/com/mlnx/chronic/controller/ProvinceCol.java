@@ -22,13 +22,13 @@ public class ProvinceCol {
 	@Autowired
 	private ProvinceService provinceService;
 
-	@RequestMapping(value = "all.do")
+	@RequestMapping(value = "all")
 	@ResponseBody
 	public List<TProvince> findAll() {
 		return provinceService.findAll();
 	}
 	
-	@RequestMapping(value = "register.do",method=RequestMethod.POST, consumes="application/json",produces="application/json")
+	@RequestMapping(value = "register",method=RequestMethod.POST, consumes="application/json",produces="application/json")
 	@ResponseBody
 	public ChronicResponse register(@RequestBody TProvince province){
 		provinceService.save(province);
@@ -38,13 +38,13 @@ public class ProvinceCol {
 		return response;
 	}
 	
-	@RequestMapping(value = "find/name.do", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "find/name", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
 	@ResponseBody
 	public List<TProvince> findByProvinceId(@RequestBody String name) {
 		return provinceService.findByName(name);
 	}
 	
-	@RequestMapping(value = "delete/{id}/province.do", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "delete/{id}/province", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
 	@ResponseBody
 	public ChronicResponse delete(@PathVariable int id) {
 		try{

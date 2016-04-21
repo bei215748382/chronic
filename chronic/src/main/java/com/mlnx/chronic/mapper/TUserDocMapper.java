@@ -1,6 +1,7 @@
 package com.mlnx.chronic.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mlnx.chronic.entity.TUserDoc;
 import com.mlnx.chronic.vo.DocVo;
@@ -28,4 +29,14 @@ public interface TUserDocMapper {
 	TUserDoc selectByPhone(String phone);
 
 	List<UsrInfo> findUserListByIds(List<Integer> list);
+
+	List<TUserDoc> findAllDocWithKey(Map<String, Object> paramMap);
+
+	List<TUserDoc> findAllDocWithHospitalNameAndGroupId(
+			Map<String, Object> paramMap);
+
+	List<TUserDoc> findAllDocWithHospitalIdAndGroupId(
+			Map<String, Object> paramMap);
+
+	List<TUserDoc> findAllDocByCity(Map<String, Object> paramMap);
 }

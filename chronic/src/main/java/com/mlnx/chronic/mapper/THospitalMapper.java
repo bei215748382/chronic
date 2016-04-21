@@ -1,8 +1,9 @@
 package com.mlnx.chronic.mapper;
 
-import com.mlnx.chronic.entity.THospital;
-
 import java.util.List;
+import java.util.Map;
+
+import com.mlnx.chronic.entity.THospital;
 
 public interface THospitalMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +17,10 @@ public interface THospitalMapper {
     int updateByPrimaryKey(THospital record);
 
 	List<THospital> findByCityId(Integer id);
+
+	List<THospital> findByCityName(String id);
+
+	List<THospital> findByCityNameWithLevel(Map<String, Object> paramMap);
+
+	List<THospital> findByCityIdWithLevel(Map<String, Object> paramMap);
 }

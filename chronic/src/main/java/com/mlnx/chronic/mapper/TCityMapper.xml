@@ -25,7 +25,8 @@
 		province_id = #{provinceId}
 		where id = #{id}
 	</update>
-	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
 		select id, name, province_id
 		from t_city
 		where id = #{id}
@@ -38,5 +39,12 @@
 		select id, name, province_id
 		from t_city where province_id
 		= #{id}
+	</select>
+	<select id="findByProvinceName" parameterType="string"
+		resultMap="BaseResultMap">
+		select *
+		from t_city where province_id
+		= (select id from t_province where name
+		= #{name})
 	</select>
 </mapper>

@@ -23,6 +23,6 @@
 		<!-- <table tableName="%"> -->
 		<!-- <generatedKey column="id" sqlStatement="Mysql"/> -->
 		<!-- </table> -->
-		<table tableName="t_visit_report"></table>
+		<table tableName="t_group_doc"></table>
 	</context>
 </generatorConfiguration>

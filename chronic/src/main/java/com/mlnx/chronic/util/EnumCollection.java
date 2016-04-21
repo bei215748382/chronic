@@ -82,7 +82,14 @@ public class EnumCollection {
 				"000116", "更新医生个人信息成功"), UPDATE_DOCTOR_ERROR("000117",
 				"更新医生个人信息失败"), SEARCH_VISIT_HISTORY_SUCCESS("000118",
 				"查找回访历史成功"), SEARCH_VISIT_HISTORY_ERROR("000119", "查找回访历史失败"), ADD_VISIT_REPORT_SUCCESS(
-				"000120", "添加报告成功"), ADD_VISIT_REPORT_ERROR("000121", "添加报告失败");
+				"000120", "添加报告成功"), ADD_VISIT_REPORT_ERROR("000121", "添加报告失败"), FIND_ALL_PROVINCE_SUCCESS(
+				"000122", "查找所有省份成功"), FIND_ALL_PROVINCE_ERROR("000123",
+				"查找所有省份失败"), FIND_ALL_CITY_BY_PROVINCE_SUCCESS("000124",
+				"查找省下市成功"), FIND_ALL_CITY_BY_PROVINCE_ERROR("000125", "查找省下市失败"), FIND_ALL_HOSPITAL_BY_CITY_SUCCESS(
+				"000126", "查找市下医院成功"), FIND_ALL_HOSPITAL_BY_CITY_ERROR(
+				"000127", "查找市下医院失败"), FIND_ALL_DOC_BY_HOSPITAL_SUCCESS(
+				"000128", "查找医院下医生成功"), FIND_ALL_DOC_BY_HOSPITAL_ERROR(
+				"000129", "查找医院下医生失败");
 
 		// 成员变量
 		private String code;

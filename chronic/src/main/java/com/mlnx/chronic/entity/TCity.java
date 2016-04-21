@@ -30,4 +30,11 @@ public class TCity {
     public void setProvinceId(Integer provinceId) {
         this.provinceId = provinceId;
     }
+
+	@Override
+	public String toString() {
+		return "TCity [id=" + id + ", name=" + name + ", provinceId="
+				+ provinceId + "]";
+	}
+    
 }

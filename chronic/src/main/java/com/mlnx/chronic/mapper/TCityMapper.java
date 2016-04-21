@@ -16,4 +16,7 @@ public interface TCityMapper {
     int updateByPrimaryKey(TCity record);
 
 	List<TCity> findByProvinceId(Integer id);
+
+	List<TCity> findByProvinceName(String id);
+
 }

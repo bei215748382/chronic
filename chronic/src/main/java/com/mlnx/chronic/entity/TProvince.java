@@ -20,4 +20,10 @@ public class TProvince {
     public void setName(String name) {
         this.name = name;
     }
+
+	@Override
+	public String toString() {
+		return "TProvince [id=" + id + ", name=" + name + "]";
+	}
+    
 }

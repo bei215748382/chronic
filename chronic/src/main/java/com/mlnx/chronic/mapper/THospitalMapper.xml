@@ -5,6 +5,7 @@
 		<id column="id" jdbcType="INTEGER" property="id" />
 		<result column="city_id" jdbcType="INTEGER" property="cityId" />
 		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="level_id" jdbcType="INTEGER" property="levelId" />
 	</resultMap>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from
@@ -13,31 +14,63 @@
 	</delete>
 	<insert id="insert" parameterType="com.mlnx.chronic.entity.THospital">
 		insert into t_hospital (id,
-		city_id, name
+		city_id, name,level_id
 		)
 		values (#{id}, #{cityId},
-		#{name}
+		#{name},#{levelId}
 		)
 	</insert>
 	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.THospital">
 		update t_hospital
-		set city_id = #{cityId},
-		name = #{name}
+		<set>
+			<if test="cityId != null and cityId != ''">
+				city_id = #{cityId},
+			</if>
+			<if test="name != null and name != ''">
+				name = #{name},
+			</if>
+			<if test="levelId != null and levelId != ''">
+				level_id = #{levelId}
+			</if>
+		</set>
 		where id = #{id}
 	</update>
-	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-		select id, city_id, name
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select *
 		from t_hospital
 		where id = #{id}
 	</select>
 	<select id="selectAll" resultMap="BaseResultMap">
-		select id, city_id, name
+		select *
 		from
 		t_hospital
 	</select>
-	<select id="findByCityId" parameterType="int" resultMap="BaseResultMap">
-		select id, city_id, name
-		from t_hospital where city_id =
-		#{id}
+	<select id="findByCityIdWithLevel" parameterType="map"
+		resultMap="BaseResultMap">
+		select *
+		from t_hospital 
+		<where>
+			<if test="id != null and id != ''">
+				city_id = #{id}
+			</if>
+			<if test="level != null and level != ''">
+				and level_id = #{level}
+			</if>
+		</where>
+	</select>
+	<select id="findByCityNameWithLevel" parameterType="map"
+		resultMap="BaseResultMap">
+		select *
+		from t_hospital
+		<where>
+			<if test="id != null and id != ''">
+				city_id = (select id from t_city where
+				name = #{id})
+			</if>
+			<if test="level != null and level != ''">
+				and level_id = #{level}
+			</if>
+		</where>
 	</select>
 </mapper>

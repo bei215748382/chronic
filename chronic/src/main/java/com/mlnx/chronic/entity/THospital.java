@@ -6,6 +6,8 @@ public class THospital {
     private Integer cityId;
 
     private String name;
+    
+    private Integer levelId;
 
     public Integer getId() {
         return id;
@@ -30,4 +32,19 @@ public class THospital {
     public void setName(String name) {
         this.name = name;
     }
+
+	public Integer getLevelId() {
+		return levelId;
+	}
+
+	public void setLevelId(Integer levelId) {
+		this.levelId = levelId;
+	}
+
+	@Override
+	public String toString() {
+		return "THospital [id=" + id + ", cityId=" + cityId + ", name=" + name
+				+ ", levelId=" + levelId + "]";
+	}
+    
 }
