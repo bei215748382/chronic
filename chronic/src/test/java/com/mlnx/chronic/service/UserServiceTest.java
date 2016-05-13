@@ -98,9 +98,6 @@ public class UserServiceTest extends TestBase {
 
 	@Test
 	public void testConfirmAndCancel() throws Exception {
-		TUserFriends tu = new TUserFriends();
-		tu.setId(2);
-		System.out.println(userService.confirmAndCancel(tu, 0));
 	}
 
 	@Test
@@ -202,5 +199,12 @@ public class UserServiceTest extends TestBase {
 		list.add(39);
 		list.add(40);
 		System.out.println(userService.findDoctorListByIds(list));
+	}
+	@Test
+	public void findDoctorVoListByIds(){
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(39);
+		list.add(40);
+		System.out.println(userService.findDoctorVoListByIds(list));
 	}
 }

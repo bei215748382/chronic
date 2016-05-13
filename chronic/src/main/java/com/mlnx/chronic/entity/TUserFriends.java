@@ -8,17 +8,19 @@ public class TUserFriends {
 
 	private Integer friendId;
 
-	private Integer groupId;
+	private Integer groupId;//用户组
 
 	private Integer fouce;
 
 	private Integer open;
 
-	private String remark;
+	private String remark; //添加时候的附带信息
 
 	private Integer confirm;
 	
 	private String friendRemark;
+	
+	private Integer identity; //请求者身份，1表示是患者请求添加，2表示是医生请求添加
 
 	public TUserFriends() {
 
@@ -101,12 +103,21 @@ public class TUserFriends {
 		this.friendRemark = friendRemark;
 	}
 
+	public Integer getIdentity() {
+		return identity;
+	}
+
+	public void setIdentity(Integer identity) {
+		this.identity = identity;
+	}
+
 	@Override
 	public String toString() {
 		return "TUserFriends [id=" + id + ", userId=" + userId + ", friendId="
 				+ friendId + ", groupId=" + groupId + ", fouce=" + fouce
 				+ ", open=" + open + ", remark=" + remark + ", confirm="
-				+ confirm + ", friendRemark=" + friendRemark + "]";
+				+ confirm + ", friendRemark=" + friendRemark + ", identity="
+				+ identity + "]";
 	}
 
 }

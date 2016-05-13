@@ -12,6 +12,7 @@
 		<result column="confirm" property="confirm" jdbcType="INTEGER" />
 		<result column="friend_remark" property="friendRemark"
 			jdbcType="VARCHAR" />
+		<result column="identity" property="identity" jdbcType="INTEGER" />
 	</resultMap>
 	<resultMap id="FriendsInfoMap" type="friendsInfo">
 		<id column="id" property="id" jdbcType="INTEGER" />
@@ -29,7 +30,7 @@
 		(id, user_id, friend_id,
 		group_id, fouce,
 		open,
-		remark,confirm,friend_remark)
+		remark,confirm,friend_remark,identity)
 		values (#{id},
 		#{userId},
 		#{friendId},
@@ -37,7 +38,8 @@
 		#{open},
 		#{remark},
 		#{confirm},
-		#{friendRemark})
+		#{friendRemark},
+		#{identity})
 	</insert>
 	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TUserFriends">
 		update
@@ -65,23 +67,23 @@
 				confirm = #{confirm},
 			</if>
 			<if test="friendRemark != null and friendRemark !=''">
-				friend_remark = #{friendRemark}
+				friend_remark = #{friendRemark},
+			</if>
+			<if test="identity != null and identity != ''">
+				identity = #{identity}
 			</if>
 		</set>
 		where id = #{id}
 	</update>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
-		select id, user_id, friend_id, group_id, fouce, open,
-		remark,confirm,friend_remark
+		select *
 		from t_user_friends
 		where id =
 		#{id}
 	</select>
 	<select id="selectAll" resultMap="BaseResultMap">
-		select id, user_id, friend_id,
-		group_id, fouce, open,
-		remark,confirm,friend_remark
+		select *
 		from t_user_friends
 	</select>
 	<select id="selectByUserFriends" parameterType="tUserFriends"

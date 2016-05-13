@@ -28,6 +28,7 @@
 		<result column="background" property="background" jdbcType="LONGVARCHAR" />
 		<result column="achievement" property="achievement" jdbcType="LONGVARCHAR" />
 		<association property="user" javaType="com.mlnx.chronic.entity.TUser">
+			<id column="uid" property="id" />
 			<result column="phone" property="phone" />
 			<result column="password" property="password" />
 			<result column="date" property="date" />
@@ -250,7 +251,50 @@
 	</select>
 	<select id="findAllDocByCity" parameterType="map" resultMap="BaseResultMap">
 		select * from t_user_doc where hospital_id in (select id from
-		t_hospital where city_id = #{cityId} or city_id = (select id from t_city
+		t_hospital where city_id = #{cityId} or city_id = (select id from
+		t_city
 		where name = #{cityId})) and skill like '%${disease}%'
+	</select>
+	<select id="findDocVoListByIds" resultMap="DocVoResultMap">
+		select
+		doc.id,
+		doc.name,
+		doc.sex,
+		doc.birthday,
+		doc.office,
+		doc.title,
+		doc.skill,
+		doc.pic,
+		doc.background,
+		doc.achievement,
+		user.id uid,
+		user.phone,
+		user.password,
+		user.date,
+		hospital.name hospital_name,
+		address.name
+		address_name
+		from
+		t_user_doc
+		doc
+		left outer join t_user user
+		on user.id
+		=
+		doc.user_id
+		left
+		outer join
+		t_hospital hospital on
+		hospital.id =
+		doc.hospital_id
+		left
+		outer join
+		t_address address on
+		address.id =
+		doc.address_id
+		where doc.user_id in
+		<foreach collection="list" item="integer" open="(" separator=","
+			close=")">
+			#{integer}
+		</foreach>
 	</select>
 </mapper>

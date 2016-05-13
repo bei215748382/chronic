@@ -6,6 +6,7 @@
 		<result column="phone" property="phone" jdbcType="VARCHAR" />
 		<result column="password" property="password" jdbcType="VARCHAR" />
 		<result column="date" property="date" jdbcType="TIMESTAMP" />
+		<result column="role" property="role" jdbcType="INTEGER" />
 	</resultMap>
 	<resultMap id="userVoResultMapper" type="userVo" extends="BaseResultMap">
 		<collection property="tReports" column="id"
@@ -22,11 +23,11 @@
 			last_insert_id()
 		</selectKey>
 		insert into t_user (id, phone, password,
-		date)
+		date,role)
 		values
 		(#{id}, #{phone},
 		#{password},
-		#{date})
+		#{date},#{role})
 	</insert>
 	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TUser">
 		update t_user
@@ -39,7 +40,10 @@
 				#{password},
 			</if>
 			<if test="date != null  and date != ''">
-				date = #{date}
+				date = #{date},
+			</if>
+			<if test="role != null  and role != ''">
+				role = #{role}
 			</if>
 		</set>
 		where id
@@ -47,14 +51,13 @@
 	</update>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
-		select id, phone, password, date
+		select *
 		from t_user
 		where id =
 		#{id}
 	</select>
 	<select id="selectAll" resultMap="BaseResultMap">
-		select id, phone, password,
-		date
+		select *
 		from t_user
 	</select>
 	<select id="selectTReportsByPrimaryKey" parameterType="java.lang.Integer"

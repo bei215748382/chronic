@@ -10,6 +10,7 @@ import com.mlnx.chronic.entity.TUserDoc;
 import com.mlnx.chronic.entity.TUserExt;
 import com.mlnx.chronic.entity.TUserFriends;
 import com.mlnx.chronic.util.ChronicResponse;
+import com.mlnx.chronic.vo.DocVo;
 import com.mlnx.chronic.vo.FriendsInfo;
 import com.mlnx.chronic.vo.RegistUser;
 import com.mlnx.chronic.vo.UsrInfo;
@@ -44,8 +45,8 @@ public interface UserService {
 	public List<TUserFriends> confirmFriendList(int id);
 
 	// 确认好友还是取消
-	public ChronicResponse confirmAndCancel(TUserFriends tUserFriends,
-			int confirm) throws Exception;
+	public ChronicResponse confirmAndCancel(int id, int confirm, int groupId)
+			throws Exception;
 
 	// 修改好友备注
 	public ChronicResponse modifyFriendMark(TUserFriends tUserFriends);
@@ -157,5 +158,13 @@ public interface UserService {
 	 * @return
 	 */
 	public ChronicResponse updateDoc(TUserDoc doctor);
+
+	/**
+	 * 获取医生的信息
+	 * 
+	 * @param list
+	 * @return
+	 */
+	public List<DocVo> findDoctorVoListByIds(List<Integer> list);
 
 }

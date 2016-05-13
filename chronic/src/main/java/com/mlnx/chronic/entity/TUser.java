@@ -8,6 +8,8 @@ public class TUser {
     private String phone;
 
     private String password;
+    
+    private Integer role;
 
     private Date date;
 
@@ -43,10 +45,18 @@ public class TUser {
         this.date = date;
     }
 
+	public Integer getRole() {
+		return role;
+	}
+
+	public void setRole(Integer role) {
+		this.role = role;
+	}
+
 	@Override
 	public String toString() {
 		return "TUser [id=" + id + ", phone=" + phone + ", password="
-				+ password + ", date=" + date + "]";
+				+ password + ", role=" + role + ", date=" + date + "]";
 	}
-    
+
 }

@@ -1,12 +1,18 @@
 package com.mlnx.chronic.service;
 
 
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mlnx.chronic.entity.TMedcine;
+import com.mlnx.chronic.entity.TPatientMedcine;
 import com.mlnx.chronic.mapper.TestBase;
 import com.mlnx.chronic.service.MedcineService;
+import com.mlnx.chronic.util.StringUtil;
+import com.mlnx.chronic.vo.Prescription;
 
 public class MedcineServiceTest extends TestBase{
 	
@@ -41,4 +47,16 @@ public class MedcineServiceTest extends TestBase{
 		System.out.println(medcineService.findAll());
 	}
 
+	@Test
+	public void testGetMedcine(){
+		TPatientMedcine tpm = new TPatientMedcine();
+		tpm.setPatientId(15);
+		tpm.setDosingtime("饭后");
+		Map<String,Object> map  = medcineService.getMedcine(tpm);
+		List<Prescription> list = (List<Prescription>)map.get(StringUtil.responseObjList);
+		for(Prescription p : list){
+			System.out.println(p.getDosingtime());
+			System.out.println(p.getMedcine().getName());
+		}
+	}
 }

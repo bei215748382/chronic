@@ -15,6 +15,8 @@ import com.mlnx.chronic.entity.Patient;
 import com.mlnx.chronic.entity.Patient.Gender;
 import com.mlnx.chronic.entity.TBloodPressureSetting;
 import com.mlnx.chronic.entity.TBloodSugarSetting;
+import com.mlnx.chronic.entity.TGroup;
+import com.mlnx.chronic.entity.TGroupPatient;
 import com.mlnx.chronic.entity.TPhoneValid;
 import com.mlnx.chronic.entity.TUser;
 import com.mlnx.chronic.entity.TUserDoc;
@@ -24,6 +26,7 @@ import com.mlnx.chronic.exception.RegisterException;
 import com.mlnx.chronic.exception.TransactionalException;
 import com.mlnx.chronic.mapper.TBloodPressureSettingMapper;
 import com.mlnx.chronic.mapper.TBloodSugarSettingMapper;
+import com.mlnx.chronic.mapper.TGroupPatientMapper;
 import com.mlnx.chronic.mapper.TPhoneValidMapper;
 import com.mlnx.chronic.mapper.TUserDocMapper;
 import com.mlnx.chronic.mapper.TUserExtMapper;
@@ -38,6 +41,7 @@ import com.mlnx.chronic.util.PropertiyUtil;
 import com.mlnx.chronic.util.RegistVoip;
 import com.mlnx.chronic.util.StringUtil;
 import com.mlnx.chronic.util.EnumCollection.ResponseCode;
+import com.mlnx.chronic.vo.DocVo;
 import com.mlnx.chronic.vo.FriendsInfo;
 import com.mlnx.chronic.vo.RegistUser;
 import com.mlnx.chronic.vo.UsrInfo;
@@ -75,6 +79,9 @@ public class UserServiceImp implements UserService {
 
 	@Autowired
 	private TVoipAccountMapper tVoipAccountMapper;
+	
+	@Autowired
+	private TGroupPatientMapper tGroupPatientMapper;
 
 	/**
 	 * 这里是后台进行注册
@@ -243,24 +250,34 @@ public class UserServiceImp implements UserService {
 
 	@Transactional(rollbackFor = TransactionalException.class)
 	@Override
-	public ChronicResponse confirmAndCancel(TUserFriends tUserFriends,
-			int confirm) throws Exception {
+	public ChronicResponse confirmAndCancel(int id,
+			int confirm,int groupId) throws Exception {
 		try {
-			TUserFriends u = tUserFriendsMapper.selectByPrimaryKey(tUserFriends
-					.getId());
+			TUserFriends u = tUserFriendsMapper.selectByPrimaryKey(id);
 			if (u.getConfirm() == 1) {
 				return new ChronicResponse(
 						EnumCollection.ResponseCode.ADD_FRIENDS_SUCCESS_ALREADY);
 			}
 			if (confirm == 1) {// 用户同意的话,用户请求的好友关系生效
+				TUserFriends tUserFriends = new TUserFriends();
+				tUserFriends.setId(id);
 				tUserFriends.setConfirm(confirm);
 				tUserFriendsMapper.updateByPrimaryKey(tUserFriends);
+				
+				TGroupPatient groupPatient = new TGroupPatient();//用户请求的好友添加到指定分组
+				groupPatient.setGroupId(u.getGroupId());
+				groupPatient.setPatientId(u.getFriendId());
+				tGroupPatientMapper.insert(groupPatient);
 				// 同时添加对方为好友
-				toBeFriend(u);
+				toBeFriend(u,groupId);
+				TGroupPatient group = new TGroupPatient();//用户接受的好友添加到指定分组
+				group.setGroupId(groupId);
+				group.setPatientId(u.getUserId());
+				tGroupPatientMapper.insert(group);
 				return new ChronicResponse(
 						EnumCollection.ResponseCode.ADD_FRIENDS_SUCCESS);
 			} else if (confirm == 0) { // 用户不同意就删除这条请求记录
-				tUserFriendsMapper.deleteByPrimaryKey(tUserFriends.getId());
+				tUserFriendsMapper.deleteByPrimaryKey(id);
 				return new ChronicResponse(
 						EnumCollection.ResponseCode.ADD_FRIENDS_CANCEL);
 			}
@@ -272,17 +289,16 @@ public class UserServiceImp implements UserService {
 
 	}
 
-	private void toBeFriend(TUserFriends u) {
+	private void toBeFriend(TUserFriends u,int groupId) {
 		TUserFriends uu = new TUserFriends();
 		uu.setFriendId(u.getUserId());
 		uu.setUserId(u.getFriendId());
-		uu.setGroupId(u.getGroupId());
+		uu.setGroupId(groupId);//添加对方到自己组下
 		uu.setFriendRemark(u.getRemark());
 		uu.setFouce(1);
 		uu.setOpen(0);
 		uu.setConfirm(1);
 		tUserFriendsMapper.insert(uu);
-
 	}
 
 	@Override
@@ -528,7 +544,7 @@ public class UserServiceImp implements UserService {
 			tUserFriends.setUserId(id);
 			tUserFriends.setFriendId(friend_id);
 			tUserFriends.setGroupId(groupId);
-			tUserFriends.setConfirm(1);// 1表示直接通过好友认证
+			tUserFriends.setConfirm(0);// 1表示直接通过好友认证,未认证
 			tUserFriends.setRemark(remark);
 			tUserFriendsMapper.insert(tUserFriends);
 			return new ChronicResponse(ResponseCode.ADD_DOCTOR_SUCCESS);
@@ -558,6 +574,11 @@ public class UserServiceImp implements UserService {
 			e.printStackTrace();
 			return new ChronicResponse(ResponseCode.UPDATE_DOCTOR_ERROR);
 		}
+	}
+
+	@Override
+	public List<DocVo> findDoctorVoListByIds(List<Integer> list) {
+		return tUserDocMapper.findDocVoListByIds(list);
 	}
 	
 

@@ -89,7 +89,8 @@ public class EnumCollection {
 				"000126", "查找市下医院成功"), FIND_ALL_HOSPITAL_BY_CITY_ERROR(
 				"000127", "查找市下医院失败"), FIND_ALL_DOC_BY_HOSPITAL_SUCCESS(
 				"000128", "查找医院下医生成功"), FIND_ALL_DOC_BY_HOSPITAL_ERROR(
-				"000129", "查找医院下医生失败");
+				"000129", "查找医院下医生失败"), SETTING_DINNER_SUCCESS("000130",
+				"设置用餐时间成功"), SETTING_DINNER_ERROR("000131", "设置用餐时间失败");
 
 		// 成员变量
 		private String code;

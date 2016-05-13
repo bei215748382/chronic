@@ -1,8 +1,11 @@
 package com.mlnx.chronic.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mlnx.chronic.entity.TMedcine;
+import com.mlnx.chronic.entity.TPatientDinner;
+import com.mlnx.chronic.entity.TPatientMedcine;
 import com.mlnx.chronic.util.ChronicResponse;
 
 public interface MedcineService {
@@ -18,5 +21,11 @@ public interface MedcineService {
 
 	//查找所有药物
 	public List<TMedcine> findAll();
+	
+	//设置用餐时间
+	public ChronicResponse settingDinner(TPatientDinner dinner);
+
+	//获取饭前、饭后的药物
+	public Map<String, Object> getMedcine(TPatientMedcine tpm);
 
 }

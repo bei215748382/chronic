@@ -30,6 +30,7 @@ import com.mlnx.chronic.util.ChronicResponse;
 import com.mlnx.chronic.util.FileUtil;
 import com.mlnx.chronic.util.StringUtil;
 import com.mlnx.chronic.util.EnumCollection.ResponseCode;
+import com.mlnx.chronic.vo.DocVo;
 import com.mlnx.chronic.vo.FriendsInfo;
 import com.mlnx.chronic.vo.RegistUser;
 import com.mlnx.chronic.vo.UsrInfo;
@@ -375,11 +376,9 @@ public class UserCol {
 	@RequestMapping(value = "confirmAndCancel", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	@ResponseBody
 	public ChronicResponse confirmAndCancel(
-			@RequestHeader("confirm") int confirm, @RequestHeader("id") int id)
+			@RequestHeader("confirm") Integer confirm, @RequestHeader("id") Integer id,@RequestHeader("groupId") Integer groupId)
 			throws Exception {
-		TUserFriends tUserFriends = new TUserFriends();
-		tUserFriends.setId(id);
-		return userService.confirmAndCancel(tUserFriends, confirm);
+		return userService.confirmAndCancel(id, confirm,groupId);
 	}
 
 	/**
@@ -472,7 +471,7 @@ public class UserCol {
 	}
 
 	/**
-	 * 根据医生id列表获取医生信息
+	 * 根据病人id列表获取病人信息
 	 * 
 	 * @param list
 	 * @return
@@ -487,6 +486,30 @@ public class UserCol {
 					ResponseCode.FIND_DOC_INFO_SUCCESS.getCode());
 			map.put("msg", ResponseCode.FIND_DOC_INFO_SUCCESS.getMsg());
 			map.put("objList", userInfo);
+			return map;
+		} catch (Exception e) {
+			map.put("responseCode", ResponseCode.FIND_DOC_INFO_ERROR.getCode());
+			map.put("msg", ResponseCode.FIND_DOC_INFO_ERROR.getMsg());
+			return map;
+		}
+	}
+	
+	/**
+	 * 根据医生id列表获取医生信息
+	 * 
+	 * @param list
+	 * @return
+	 */
+	@RequestMapping(value = "find/docVo/list", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	@ResponseBody
+	public Map<String, Object> findDocVoList(@RequestBody List<Integer> list) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<DocVo> docs = userService.findDoctorVoListByIds(list);
+			map.put("responseCode",
+					ResponseCode.FIND_DOC_INFO_SUCCESS.getCode());
+			map.put("msg", ResponseCode.FIND_DOC_INFO_SUCCESS.getMsg());
+			map.put("objList", docs);
 			return map;
 		} catch (Exception e) {
 			map.put("responseCode", ResponseCode.FIND_DOC_INFO_ERROR.getCode());

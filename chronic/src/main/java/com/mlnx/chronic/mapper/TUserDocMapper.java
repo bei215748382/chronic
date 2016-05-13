@@ -39,4 +39,6 @@ public interface TUserDocMapper {
 			Map<String, Object> paramMap);
 
 	List<TUserDoc> findAllDocByCity(Map<String, Object> paramMap);
+
+	List<DocVo> findDocVoListByIds(List<Integer> list);
 }
