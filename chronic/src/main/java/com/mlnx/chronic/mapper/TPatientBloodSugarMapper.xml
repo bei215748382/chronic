@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlnx.chronic.mapper.TPatientBloodSugarMapper">
+	<resultMap id="BaseResultMap" type="com.mlnx.chronic.entity.TPatientBloodSugar">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="patient_id" property="patientId" jdbcType="INTEGER" />
+		<result column="date_time" property="dateTime" jdbcType="TIMESTAMP" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="medicine" property="medicine" jdbcType="VARCHAR" />
+		<result column="insulin" property="insulin" jdbcType="VARCHAR" />
+		<result column="other_medicine" property="otherMedicine"
+			jdbcType="VARCHAR" />
+		<result column="carbohydrate" property="carbohydrate" jdbcType="VARCHAR" />
+		<result column="exercise_time" property="exerciseTime"
+			jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="timestamp" property="timestamp" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_patient_blood_sugar
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="com.mlnx.chronic.entity.TPatientBloodSugar">
+		insert into t_patient_blood_sugar (id, patient_id, date_time,
+		value, state, medicine,
+		insulin, other_medicine, carbohydrate,
+		exercise_time, remark, timestamp
+		)
+		values (#{id}, #{patientId}, #{dateTime},
+		#{value}, #{state}, #{medicine},
+		#{insulin}, #{otherMedicine}, #{carbohydrate},
+		#{exerciseTime}, #{remark}, #{timestamp}
+		)
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TPatientBloodSugar">
+		update t_patient_blood_sugar
+		<set>
+			<if test="patientId != null and patientId != ''">
+				patient_id = #{patientId},
+			</if>
+			<if test="dateTime != null and dateTime != ''">
+				date_time = #{dateTime},
+			</if>
+			<if test="value != null and value != ''">
+				value = #{value},
+			</if>
+			<if test="state != null and state != ''">
+				state = #{state},
+			</if>
+			<if test="medicine != null and medicine != ''">
+				medicine = #{medicine},
+			</if>
+			<if test="insulin != null and insulin != ''">
+				insulin = #{insulin},
+			</if>
+			<if test="otherMedicine != null and otherMedicine != ''">
+				other_medicine = #{otherMedicine},
+			</if>
+			<if test="carbohydrate != null and carbohydrate != ''">
+				carbohydrate = #{carbohydrate},
+			</if>
+			<if test="exerciseTime != null and exerciseTime != ''">
+				exercise_time = #{exerciseTime},
+			</if>
+			<if test="remark != null and remark != ''">
+				remark = #{remark},
+			</if>
+			<if test="timestamp != null and timestamp != ''">
+				timestamp = #{timestamp}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select id, patient_id, date_time, value, state, medicine, insulin,
+		other_medicine,
+		carbohydrate, exercise_time, remark, timestamp
+		from t_patient_blood_sugar
+		where id = #{id}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id, patient_id, date_time, value, state, medicine, insulin,
+		other_medicine,
+		carbohydrate, exercise_time, remark, timestamp
+		from t_patient_blood_sugar
+	</select>
+	<select id="findByPatientIdLimitOne" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select *
+		from t_patient_blood_sugar where patient_id =
+		#{patientId} order
+		by date_time limit 1;
+	</select>
+	<select id="findCountByPatientId" parameterType="java.lang.Integer"
+		resultType="java.lang.Long">
+		select count(1) from t_patient_blood_sugar where
+		patient_id = #{patientId}
+	</select>
+	<select id="searchBloodSugarWithTimeRange"
+		parameterType="map" resultMap="BaseResultMap">
+		select *
+		from t_patient_blood_sugar where patient_id = #{patientId}
+		and date_time  <![CDATA[ >  ]]>
+		#{startTime} and date_time  <![CDATA[ <=  ]]>
+		#{endTime}
+	</select>
+	<select id="searchLastBloodSugar" parameterType="map"
+		resultMap="BaseResultMap">
+		select *
+		from t_patient_blood_sugar where patient_id = #{patientId}
+		and date_time  <![CDATA[ <=  ]]>
+		#{endTime} limit #{limit}
+	</select>
+	<select id="synBloodSugarWithTimeRange" parameterType="map"
+		resultMap="BaseResultMap">
+		select *
+		from t_patient_blood_sugar where patient_id = #{patientId}
+		and date_time  <![CDATA[ >  ]]>
+		#{startTime} and date_time  <![CDATA[ <=  ]]>
+		#{endTime} and timestamp <![CDATA[ >  ]]> #{timestamp}
+	</select>
+</mapper>
