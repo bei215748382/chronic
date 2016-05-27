@@ -9,7 +9,7 @@
 		<result column="user_id" property="userId" jdbcType="INTEGER" />
 	</resultMap>
 
-	<resultMap id="UserSetting" type="userSetting" extends="BaseResultMap">
+	<resultMap id="UserSetting" type="com.mlnx.chronic.vo.UserSetting" extends="BaseResultMap">
 	</resultMap>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from
@@ -58,7 +58,7 @@
 		from t_blood_pressure_setting
 	</select>
 	<select id="selectSettingByPrimaryKey" parameterType="int"
-		resultType="userSetting">
+		resultType="com.mlnx.chronic.vo.UserSetting">
 		select t.*,r.time from t_blood_pressure_setting t ,
 		t_report r where t.user_id = #{user_id} and r.user_id = #{user_id} and
 		r.time = (select max(time) from t_report where user_id = #{user_id});

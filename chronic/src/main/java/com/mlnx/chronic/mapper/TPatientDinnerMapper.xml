@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlnx.chronic.mapper.TPatientDinnerMapper">
+	<resultMap id="BaseResultMap" type="com.mlnx.chronic.entity.TPatientDinner">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="patient_id" property="patientId" jdbcType="INTEGER" />
+		<result column="breakfast" property="breakfast" jdbcType="TIMESTAMP" />
+		<result column="lunch" property="lunch" jdbcType="TIMESTAMP" />
+		<result column="supper" property="supper" jdbcType="TIMESTAMP" />
+		<result column="timestamp" property="timestamp" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_patient_dinner
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="com.mlnx.chronic.entity.TPatientDinner">
+		insert into t_patient_dinner
+		(id, patient_id, breakfast,
+		lunch, supper, timestamp
+		)
+		values (#{id},
+		#{patientId}, #{breakfast},
+		#{lunch}, #{supper}, #{timestamp}
+		)
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TPatientDinner">
+		update t_patient_dinner
+		<set>
+			<if test="patientId != null and patientId != ''">
+				patient_id = #{patientId},
+			</if>
+			<if test="breakfast != null and breakfast != ''">
+				breakfast = #{breakfast},
+			</if>
+			<if test="lunch != null and lunch != ''">
+				lunch = #{lunch},
+			</if>
+			<if test="supper != null and supper != ''">
+				supper = #{supper},
+			</if>
+			<if test="timestamp != null and timestamp != ''">
+				timestamp = #{timestamp}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select *
+		from t_patient_dinner
+		where id = #{id}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select *
+		from t_patient_dinner
+	</select>
+</mapper>

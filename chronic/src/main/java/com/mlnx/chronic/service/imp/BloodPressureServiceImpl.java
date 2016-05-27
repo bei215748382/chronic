@@ -14,6 +14,7 @@ import com.mlnx.chronic.service.BloodPressureService;
 import com.mlnx.chronic.util.ChronicResponse;
 import com.mlnx.chronic.util.EnumCollection.ResponseCode;
 import com.mlnx.chronic.util.StringUtil;
+import com.mlnx.chronic.vo.DateCountVo;
 
 @Service
 public class BloodPressureServiceImpl implements BloodPressureService {
@@ -145,6 +146,41 @@ public class BloodPressureServiceImpl implements BloodPressureService {
 			e.printStackTrace();
 			map.put(StringUtil.responseCode, ResponseCode.SYN_BLOOD_PRESSURE_BY_PATIENT_ID_WITH_TIME_RANGE_ERROR.getCode());
 			map.put(StringUtil.responseMsg, ResponseCode.SYN_BLOOD_PRESSURE_BY_PATIENT_ID_WITH_TIME_RANGE_ERROR.getMsg());
+		}
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> getBloodPressureMonth(Integer patientId) {
+		Map<String, Object> map = new HashMap<String,Object>();
+		try{
+			List<DateCountVo> list = tPatientBloodPressureMapper.getBloodPressureMonth(patientId);
+			map.put(StringUtil.responseCode, ResponseCode.GET_BLOOD_PRESSURE_MONTH_COUNT_BY_PATIENT_ID_SUCCESS.getCode());
+			map.put(StringUtil.responseMsg, ResponseCode.GET_BLOOD_PRESSURE_MONTH_COUNT_BY_PATIENT_ID_SUCCESS.getMsg());
+			map.put(StringUtil.responseObjList, list);
+		} catch(Exception e){
+			e.printStackTrace();
+			map.put(StringUtil.responseCode, ResponseCode.GET_BLOOD_PRESSURE_MONTH_COUNT_BY_PATIENT_ID_ERROR.getCode());
+			map.put(StringUtil.responseMsg, ResponseCode.GET_BLOOD_PRESSURE_MONTH_COUNT_BY_PATIENT_ID_ERROR.getMsg());
+		}
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> getBloodPressureDate(Integer patientId, Date start) {
+		Map<String, Object> map = new HashMap<String,Object>();
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("patientId", patientId);
+		paramMap.put("date", start);
+		try{
+			List<DateCountVo> list = tPatientBloodPressureMapper.getBloodPressureDate(paramMap);
+			map.put(StringUtil.responseCode, ResponseCode.GET_BLOOD_PRESSURE_DATE_COUNT_BY_PATIENT_ID_SUCCESS.getCode());
+			map.put(StringUtil.responseMsg, ResponseCode.GET_BLOOD_PRESSURE_DATE_COUNT_BY_PATIENT_ID_SUCCESS.getMsg());
+			map.put(StringUtil.responseObjList, list);
+		} catch(Exception e){
+			e.printStackTrace();
+			map.put(StringUtil.responseCode, ResponseCode.GET_BLOOD_PRESSURE_DATE_COUNT_BY_PATIENT_ID_ERROR.getCode());
+			map.put(StringUtil.responseMsg, ResponseCode.GET_BLOOD_PRESSURE_DATE_COUNT_BY_PATIENT_ID_ERROR.getMsg());
 		}
 		return map;
 	}

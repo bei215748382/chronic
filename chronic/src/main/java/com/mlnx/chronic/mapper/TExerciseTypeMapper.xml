@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlnx.chronic.mapper.TExerciseTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.mlnx.chronic.entity.TExerciseType" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="met" property="met" jdbcType="REAL" />
+    <result column="exercise_name" property="exerciseName" jdbcType="VARCHAR" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="record_distance" property="recordDistance" jdbcType="CHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_exercise_type
+    where id = #{id}
+  </delete>
+  <insert id="insert" parameterType="com.mlnx.chronic.entity.TExerciseType" >
+    insert into t_exercise_type (id, met, exercise_name, 
+      pic_url, record_distance)
+    values (#{id}, #{met}, #{exerciseName}, 
+      #{picUrl}, #{recordDistance})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TExerciseType" >
+    update t_exercise_type
+    set met = #{met},
+      exercise_name = #{exerciseName},
+      pic_url = #{picUrl},
+      record_distance = #{recordDistance}
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, met, exercise_name, pic_url, record_distance
+    from t_exercise_type
+    where id = #{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, met, exercise_name, pic_url, record_distance
+    from t_exercise_type
+  </select>
+</mapper>

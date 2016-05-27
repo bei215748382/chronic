@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mlnx.chronic.entity.TPatientBloodSugar;
+import com.mlnx.chronic.vo.DateCountVo;
 
 public interface TPatientBloodSugarMapper {
     int deleteByPrimaryKey(Integer id);
@@ -27,4 +28,8 @@ public interface TPatientBloodSugarMapper {
 
 	List<TPatientBloodSugar> synBloodSugarWithTimeRange(
 			Map<String, Object> parmMap);
+
+	List<DateCountVo> getBloodSugarMonth(Integer patientId);
+
+	List<DateCountVo> getBloodSugarDate(Map<String, Object> paramMap);
 }

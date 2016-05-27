@@ -8,15 +8,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mlnx.chronic.entity.BloodSugar;
-import com.mlnx.chronic.entity.TPatientBloodPressure;
 import com.mlnx.chronic.entity.TPatientBloodSugar;
 import com.mlnx.chronic.mapper.TPatientBloodSugarMapper;
-import com.mlnx.chronic.repo.BloodSugarRepository;
 import com.mlnx.chronic.service.BloodSugarService;
 import com.mlnx.chronic.util.ChronicResponse;
-import com.mlnx.chronic.util.StringUtil;
 import com.mlnx.chronic.util.EnumCollection.ResponseCode;
+import com.mlnx.chronic.util.StringUtil;
+import com.mlnx.chronic.vo.DateCountVo;
 
 @Service
 public class BloodSugarServiceImpl implements BloodSugarService {
@@ -111,13 +109,14 @@ public class BloodSugarServiceImpl implements BloodSugarService {
 
 	@Override
 	public Map<String, Object> searchLastBloodSugar(Integer patientId,
-			Long date, Integer limit) {
+			Long date, Integer limit,String state) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
 			Map<String,Object> parmMap = new HashMap<String,Object>();
 			parmMap.put("limit", limit);
 			parmMap.put("endTime", new Date(date));
 			parmMap.put("patientId", patientId);
+			parmMap.put("state", state);
 			List<TPatientBloodSugar> list = tPatientBloodSugarMapper.searchLastBloodSugar(parmMap);
 			map.put(StringUtil.responseCode, ResponseCode.GET_BLOOD_SUGAR_BY_PATIENT_ID_WITH_ENDTIME_AND_LIMIT_SUCCESS.getCode());
 			map.put(StringUtil.responseMsg, ResponseCode.GET_BLOOD_SUGAR_BY_PATIENT_ID_WITH_ENDTIME_AND_LIMIT_SUCCESS.getMsg());
@@ -148,6 +147,41 @@ public class BloodSugarServiceImpl implements BloodSugarService {
 			e.printStackTrace();
 			map.put(StringUtil.responseCode, ResponseCode.SYN_BLOOD_SUGAR_BY_PATIENT_ID_WITH_TIME_RANGE_ERROR.getCode());
 			map.put(StringUtil.responseMsg, ResponseCode.SYN_BLOOD_SUGAR_BY_PATIENT_ID_WITH_TIME_RANGE_ERROR.getMsg());
+		}
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> getBloodSugarMonth(Integer patientId) {
+		Map<String, Object> map = new HashMap<String,Object>();
+		try{
+			List<DateCountVo> list = tPatientBloodSugarMapper.getBloodSugarMonth(patientId);
+			map.put(StringUtil.responseCode, ResponseCode.GET_BLOOD_SUGAR_MONTH_COUNT_BY_PATIENT_ID_SUCCESS.getCode());
+			map.put(StringUtil.responseMsg, ResponseCode.GET_BLOOD_SUGAR_MONTH_COUNT_BY_PATIENT_ID_SUCCESS.getMsg());
+			map.put(StringUtil.responseObjList, list);
+		} catch(Exception e){
+			e.printStackTrace();
+			map.put(StringUtil.responseCode, ResponseCode.GET_BLOOD_SUGAR_MONTH_COUNT_BY_PATIENT_ID_ERROR.getCode());
+			map.put(StringUtil.responseMsg, ResponseCode.GET_BLOOD_SUGAR_MONTH_COUNT_BY_PATIENT_ID_ERROR.getMsg());
+		}
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> getBloodSugarDate(Integer patientId, Date start) {
+		Map<String, Object> map = new HashMap<String,Object>();
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("patientId", patientId);
+		paramMap.put("date", start);
+		try{
+			List<DateCountVo> list = tPatientBloodSugarMapper.getBloodSugarDate(paramMap);
+			map.put(StringUtil.responseCode, ResponseCode.GET_BLOOD_SUGAR_DATE_COUNT_BY_PATIENT_ID_SUCCESS.getCode());
+			map.put(StringUtil.responseMsg, ResponseCode.GET_BLOOD_SUGAR_DATE_COUNT_BY_PATIENT_ID_SUCCESS.getMsg());
+			map.put(StringUtil.responseObjList, list);
+		} catch(Exception e){
+			e.printStackTrace();
+			map.put(StringUtil.responseCode, ResponseCode.GET_BLOOD_SUGAR_DATE_COUNT_BY_PATIENT_ID_ERROR.getCode());
+			map.put(StringUtil.responseMsg, ResponseCode.GET_BLOOD_SUGAR_DATE_COUNT_BY_PATIENT_ID_ERROR.getMsg());
 		}
 		return map;
 	}

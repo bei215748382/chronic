@@ -34,7 +34,7 @@
 				title = #{title},
 			</if>
 			<if test="content != null and content != ''">
-				content = #{content},
+				content = #{content}
 			</if>
 		</set>
 		where id = #{id}

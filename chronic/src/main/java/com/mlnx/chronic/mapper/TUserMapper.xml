@@ -8,7 +8,7 @@
 		<result column="date" property="date" jdbcType="TIMESTAMP" />
 		<result column="role" property="role" jdbcType="INTEGER" />
 	</resultMap>
-	<resultMap id="userVoResultMapper" type="userVo" extends="BaseResultMap">
+	<resultMap id="userVoResultMapper" type="com.mlnx.chronic.vo.UserVo" extends="BaseResultMap">
 		<collection property="tReports" column="id"
 			select="com.mlnx.chronic.mapper.TReportMapper.selectByUserId"
 			fetchType="lazy"></collection>
@@ -64,7 +64,7 @@
 		resultMap="userVoResultMapper">
 		select * from t_user where id = #{id};
 	</select>
-	<select id="selectByPhone" parameterType="String" resultType="tUser">
+	<select id="selectByPhone" parameterType="String" resultType="com.mlnx.chronic.entity.TUser">
 		select * from t_user where phone = #{phone};
 	</select>
 </mapper>

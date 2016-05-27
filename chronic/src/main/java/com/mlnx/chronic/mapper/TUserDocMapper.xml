@@ -40,6 +40,38 @@
 			<result column="address_name" property="name" />
 		</association>
 	</resultMap>
+	<sql id="docVoColumns">
+		doc.id,
+		doc.name,
+		doc.sex,
+		doc.birthday,
+		doc.office,
+		doc.title,
+		doc.skill,
+		doc.pic,
+		doc.background,
+		doc.achievement,
+		user.id uid,
+		user.phone,
+		user.password,
+		user.date,
+		hospital.name hospital_name,
+		address.name
+		address_name
+	</sql>
+	<sql id="docVoTables">
+		t_user_doc
+		doc
+		left outer join t_user user on user.id
+		=
+		doc.user_id
+		left outer join
+		t_hospital hospital on hospital.id =
+		doc.hospital_id
+		left outer join
+		t_address address on address.id =
+		doc.address_id
+	</sql>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from
 		t_user_doc
@@ -91,7 +123,6 @@
 			<if test="pic != null and pic != ''">
 				pic = #{pic},
 			</if>
-
 			<if test="hospitalId != null and hospitalId != ''">
 				hospital_id = #{hospitalId},
 			</if>
@@ -99,7 +130,7 @@
 				background = #{background},
 			</if>
 			<if test="achievement != null and achievement != ''">
-				achievement = #{achievement},
+				achievement = #{achievement}
 			</if>
 		</set>
 		where id = #{id}
@@ -135,67 +166,16 @@
 	</select>
 	<select id="findAllDoc" resultMap="DocVoResultMap">
 		select
-		doc.id,
-		doc.name,
-		doc.sex,
-		doc.birthday,
-		doc.office,
-		doc.title,
-		doc.skill,
-		doc.pic,
-		doc.background,
-		doc.achievement,
-		user.phone,
-		user.password,
-		user.date,
-		hospital.name hospital_name,
-		address.name address_name
+		<include refid="docVoColumns" />
 		from
-		t_user_doc
-		doc
-		left outer join t_user user on user.id
-		= doc.user_id
-		left outer join
-		t_hospital hospital on hospital.id =
-		doc.hospital_id
-		left outer join
-		t_address address on address.id =
-		doc.address_id
+		<include refid="docVoTables" />
 	</select>
 	<select id="findDocById" resultMap="DocVoResultMap"
 		parameterType="int">
 		select
-		doc.id,
-		doc.name,
-		doc.sex,
-		doc.birthday,
-		doc.office,
-		doc.title,
-		doc.skill,
-		doc.pic,
-		doc.background,
-		doc.achievement,
-		user.phone,
-		user.password,
-		user.date,
-		hospital.name hospital_name,
-		address.name address_name
+		<include refid="docVoColumns" />
 		from
-		t_user_doc
-		doc
-		left outer join t_user user
-		on user.id
-		= doc.user_id
-		left
-		outer join
-		t_hospital hospital on
-		hospital.id =
-		doc.hospital_id
-		left
-		outer join
-		t_address address on
-		address.id =
-		doc.address_id
+		<include refid="docVoTables" />
 		where doc.id
 		= #{id}
 	</select>
@@ -218,8 +198,11 @@
 		</foreach>
 	</select>
 	<select id="findAllDocWithHospitalNameAndGroupId" parameterType="map"
-		resultMap="BaseResultMap">
-		select * from t_user_doc
+		resultMap="DocVoResultMap">
+		select
+		<include refid="docVoColumns" />
+		from
+		<include refid="docVoTables" />
 		<where>
 			<if test="id != null and id != ''">
 				hospital_id = (select id from t_hospital where name =
@@ -232,8 +215,11 @@
 		</where>
 	</select>
 	<select id="findAllDocWithHospitalIdAndGroupId" parameterType="map"
-		resultMap="BaseResultMap">
-		select * from t_user_doc
+		resultMap="DocVoResultMap">
+		select
+		<include refid="docVoColumns" />
+		from
+		<include refid="docVoTables" />
 		<where>
 			<if test="id != null and id != ''">
 				hospital_id = #{id}
@@ -244,53 +230,34 @@
 			</if>
 		</where>
 	</select>
-	<select id="findAllDocWithKey" parameterType="map" resultMap="BaseResultMap">
-		select * from t_user_doc where name like '%${keyStr}%' or skill like
-		'%${keyStr}%' or office like '%${keyStr}%' or hospital_id in (select
-		id from t_hospital where name like '%${keyStr}%')
+	<select id="findAllDocWithKey" parameterType="map" resultMap="DocVoResultMap">
+		select
+		<include refid="docVoColumns" />
+		from
+		<include refid="docVoTables" />
+		where name like '%${keyStr}%' or skill like
+		'%${keyStr}%' or office
+		like '%${keyStr}%' or hospital_id in (select
+		id from t_hospital where
+		name like '%${keyStr}%')
 	</select>
-	<select id="findAllDocByCity" parameterType="map" resultMap="BaseResultMap">
-		select * from t_user_doc where hospital_id in (select id from
-		t_hospital where city_id = #{cityId} or city_id = (select id from
+	<select id="findAllDocByCity" parameterType="map" resultMap="DocVoResultMap">
+		select
+		<include refid="docVoColumns" />
+		from
+		<include refid="docVoTables" />
+		where hospital_id in (select id from
+		t_hospital where city_id =
+		#{cityId} or city_id = (select id from
 		t_city
-		where name = #{cityId})) and skill like '%${disease}%'
+		where name = #{cityId}))
+		and skill like '%${disease}%'
 	</select>
 	<select id="findDocVoListByIds" resultMap="DocVoResultMap">
 		select
-		doc.id,
-		doc.name,
-		doc.sex,
-		doc.birthday,
-		doc.office,
-		doc.title,
-		doc.skill,
-		doc.pic,
-		doc.background,
-		doc.achievement,
-		user.id uid,
-		user.phone,
-		user.password,
-		user.date,
-		hospital.name hospital_name,
-		address.name
-		address_name
+		<include refid="docVoColumns" />
 		from
-		t_user_doc
-		doc
-		left outer join t_user user
-		on user.id
-		=
-		doc.user_id
-		left
-		outer join
-		t_hospital hospital on
-		hospital.id =
-		doc.hospital_id
-		left
-		outer join
-		t_address address on
-		address.id =
-		doc.address_id
+		<include refid="docVoTables" />
 		where doc.user_id in
 		<foreach collection="list" item="integer" open="(" separator=","
 			close=")">

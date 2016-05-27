@@ -30,15 +30,15 @@ public interface TUserDocMapper {
 
 	List<UsrInfo> findUserListByIds(List<Integer> list);
 
-	List<TUserDoc> findAllDocWithKey(Map<String, Object> paramMap);
+	List<DocVo> findAllDocWithKey(Map<String, Object> paramMap);
 
-	List<TUserDoc> findAllDocWithHospitalNameAndGroupId(
+	List<DocVo> findAllDocWithHospitalNameAndGroupId(
 			Map<String, Object> paramMap);
 
-	List<TUserDoc> findAllDocWithHospitalIdAndGroupId(
+	List<DocVo> findAllDocWithHospitalIdAndGroupId(
 			Map<String, Object> paramMap);
 
-	List<TUserDoc> findAllDocByCity(Map<String, Object> paramMap);
+	List<DocVo> findAllDocByCity(Map<String, Object> paramMap);
 
 	List<DocVo> findDocVoListByIds(List<Integer> list);
 }

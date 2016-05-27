@@ -8,24 +8,24 @@
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_doc_patient
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id}
   </delete>
   <insert id="insert" parameterType="com.mlnx.chronic.entity.TDocPatient" >
     insert into t_doc_patient (id, doc_id, patient_id
       )
-    values (#{id,jdbcType=INTEGER}, #{docId,jdbcType=INTEGER}, #{patientId,jdbcType=INTEGER}
+    values (#{id}, #{docId}, #{patientId}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TDocPatient" >
     update t_doc_patient
-    set doc_id = #{docId,jdbcType=INTEGER},
-      patient_id = #{patientId,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    set doc_id = #{docId},
+      patient_id = #{patientId}
+    where id = #{id}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, doc_id, patient_id
     from t_doc_patient
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, doc_id, patient_id

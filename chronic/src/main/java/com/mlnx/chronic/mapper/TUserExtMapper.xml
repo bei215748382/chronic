@@ -14,7 +14,7 @@
 		<result column="pregnant" property="pregnant" jdbcType="INTEGER" />
 		<result column="nickname" property="nickname" jdbcType="VARCHAR" />
 	</resultMap>
-	<resultMap type="usrInfo" id="userInfoMap">
+	<resultMap type="com.mlnx.chronic.vo.UsrInfo" id="userInfoMap">
 		<result column="user_id" property="id" jdbcType="INTEGER" />
 		<result column="patient_id" property="patientId" jdbcType="INTEGER" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
@@ -157,7 +157,7 @@
 		t_doc_patient where doc_id =
 		#{id});
 	</select>
-	<select id="selectByUserId" parameterType="int" resultMap="BaseResultMap">
+	<select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
 		select *
 		from t_user_ext
 		where user_id = #{id}

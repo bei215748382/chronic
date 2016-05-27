@@ -1,6 +1,7 @@
 package com.mlnx.chronic.mapper;
 
 import com.mlnx.chronic.entity.TPatientBloodPressure;
+import com.mlnx.chronic.vo.DateCountVo;
 
 import java.util.List;
 import java.util.Map;
@@ -28,4 +29,8 @@ public interface TPatientBloodPressureMapper {
 
 	List<TPatientBloodPressure> synBloodPressureWithTimeRange(
 			Map<String, Object> parmMap);
+
+	List<DateCountVo> getBloodPressureMonth(Integer patientId);
+
+	List<DateCountVo> getBloodPressureDate(Map<String, Object> paramMap);
 }

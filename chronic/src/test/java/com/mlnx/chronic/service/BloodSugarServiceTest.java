@@ -3,6 +3,8 @@ package com.mlnx.chronic.service;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.mlnx.chronic.entity.TPatientBloodSugar;
 import com.mlnx.chronic.mapper.TestBase;
 import com.mlnx.chronic.service.BloodSugarService;
+import com.mlnx.chronic.util.StringUtil;
 
 public class BloodSugarServiceTest extends TestBase {
 	
@@ -48,7 +51,8 @@ public class BloodSugarServiceTest extends TestBase {
 		Integer patientId = 15;
 		Long endTime = new Date().getTime();
 		Integer limit = 1;
-		System.out.println(bloodSugarService.searchLastBloodSugar(limit,endTime,patientId));
+		String state = "饭后";
+		System.out.println(bloodSugarService.searchLastBloodSugar(limit,endTime,patientId,state));
 	}
 
 	@Test
@@ -58,5 +62,14 @@ public class BloodSugarServiceTest extends TestBase {
 		Long endTime =  sdf.parse("2016-05-17 02:12:12").getTime();
 		Long timestamp = sdf.parse("2016-05-13 17:02:02").getTime();
 		System.out.println(bloodSugarService.synBloodSugarWithTimeRange(startTime,endTime,patientId,timestamp));
+	}
+	
+	@Test
+	public void getBloodSugarMonth(){
+		Map<String,Object> map = bloodSugarService.getBloodSugarMonth(15);
+		List<Date> list = (List<Date>) map.get(StringUtil.responseObjList);
+		for(Date l : list){
+			System.out.println(l.toLocaleString());
+		}
 	}
 }

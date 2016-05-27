@@ -46,10 +46,13 @@
 		from
 		t_hospital
 	</select>
+	<select id="findByCityId" parameterType="Integer" resultMap="BaseResultMap">
+		select * from t_hospital where city_id = #{id}
+	</select>
 	<select id="findByCityIdWithLevel" parameterType="map"
 		resultMap="BaseResultMap">
 		select *
-		from t_hospital 
+		from t_hospital
 		<where>
 			<if test="id != null and id != ''">
 				city_id = #{id}

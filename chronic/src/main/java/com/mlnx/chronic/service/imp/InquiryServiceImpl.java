@@ -18,6 +18,7 @@ import com.mlnx.chronic.mapper.TUserDocMapper;
 import com.mlnx.chronic.service.InquiryService;
 import com.mlnx.chronic.util.StringUtil;
 import com.mlnx.chronic.util.EnumCollection.ResponseCode;
+import com.mlnx.chronic.vo.DocVo;
 
 @Service
 public class InquiryServiceImpl implements InquiryService {
@@ -97,7 +98,7 @@ public class InquiryServiceImpl implements InquiryService {
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("keyStr", keyStr);
 		try{
-			List<TUserDoc> list = tUserDocMapper.findAllDocWithKey(paramMap);
+			List<DocVo> list = tUserDocMapper.findAllDocWithKey(paramMap);
 			map.put(StringUtil.responseCode, ResponseCode.FIND_ALL_DOC_BY_HOSPITAL_SUCCESS.getCode());
 			map.put(StringUtil.responseMsg, ResponseCode.FIND_ALL_DOC_BY_HOSPITAL_SUCCESS.getMsg());
 			map.put(StringUtil.responseObjList, list);
@@ -114,7 +115,7 @@ public class InquiryServiceImpl implements InquiryService {
 			Map<String, Object> paramMap) {
 		Map<String,Object> map = new HashMap<String, Object>();
 		try{
-			List<TUserDoc> list = tUserDocMapper.findAllDocWithHospitalNameAndGroupId(paramMap);
+			List<DocVo> list = tUserDocMapper.findAllDocWithHospitalNameAndGroupId(paramMap);
 			if(list == null || list.size()==0){
 				list = tUserDocMapper.findAllDocWithHospitalIdAndGroupId(paramMap);
 			}
@@ -133,7 +134,7 @@ public class InquiryServiceImpl implements InquiryService {
 	public Map<String, Object> findAllDocByCity(Map<String, Object> paramMap) {
 		Map<String,Object> map = new HashMap<String, Object>();
 		try{
-			List<TUserDoc> list = tUserDocMapper.findAllDocByCity(paramMap);
+			List<DocVo> list = tUserDocMapper.findAllDocByCity(paramMap);
 			map.put(StringUtil.responseCode, ResponseCode.FIND_ALL_DOC_BY_HOSPITAL_SUCCESS.getCode());
 			map.put(StringUtil.responseMsg, ResponseCode.FIND_ALL_DOC_BY_HOSPITAL_SUCCESS.getMsg());
 			map.put(StringUtil.responseObjList, list);

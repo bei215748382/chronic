@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlnx.chronic.mapper.TExercisePrescriptionMapper">
+	<resultMap id="BaseResultMap" type="com.mlnx.chronic.entity.TExercisePrescription">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="exercise_prescription_time" property="exercisePrescriptionTime"
+			jdbcType="TIMESTAMP" />
+		<result column="diagnosis" property="diagnosis" jdbcType="VARCHAR" />
+		<result column="exercise_type" property="exerciseType"
+			jdbcType="INTEGER" />
+		<result column="patient_id" property="patientId" jdbcType="INTEGER" />
+		<result column="exercise_period" property="exercisePeriod"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_exercise_prescription
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="com.mlnx.chronic.entity.TExercisePrescription">
+		insert into t_exercise_prescription (id, exercise_prescription_time,
+		diagnosis,
+		exercise_type, patient_id, exercise_period
+		)
+		values (#{id}, #{exercisePrescriptionTime},
+		#{diagnosis},
+		#{exerciseType}, #{patientId}, #{exercisePeriod}
+		)
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TExercisePrescription">
+		update t_exercise_prescription
+		<set>
+			<if
+				test="exercisePrescriptionTime ! = null and exercisePrescriptionTime != ''">
+				exercise_prescription_time = #{exercisePrescriptionTime},
+			</if>
+			<if test="diagnosis ! = null and diagnosis != ''">
+				diagnosis = #{diagnosis},
+			</if>
+			<if test="exerciseType ! = null and exerciseType != ''">
+				exercise_type = #{exerciseType},
+			</if>
+			<if test="patientId ! = null and patientId != ''">
+				patient_id = #{patientId},
+			</if>
+			<if test="exercisePeriod ! = null and exercisePeriod != ''">
+				exercise_period = #{exercisePeriod},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select id, exercise_prescription_time, diagnosis, exercise_type, patient_id,
+		exercise_period
+		from t_exercise_prescription
+		where id = #{id}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id, exercise_prescription_time, diagnosis, exercise_type, patient_id,
+		exercise_period
+		from t_exercise_prescription
+	</select>
+	<select id="selectByPatientId" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select *
+		from t_exercise_prescription where patient_id = #{patientId}
+	</select>
+</mapper>

@@ -49,7 +49,7 @@
 		date
 		from t_phone_valid
 	</select>
-	<select id="selectByPhone" parameterType="String" resultType="tPhoneValid">
+	<select id="selectByPhone" parameterType="String" resultType="com.mlnx.chronic.entity.TPhoneValid">
 		select * from t_phone_valid where phone = #{phone}
 	</select>
 </mapper>

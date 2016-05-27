@@ -8,24 +8,24 @@
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_group_doc
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id}
   </delete>
   <insert id="insert" parameterType="com.mlnx.chronic.entity.TGroupDoc" >
     insert into t_group_doc (id, group_id, doc_id
       )
-    values (#{id,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, #{docId,jdbcType=INTEGER}
+    values (#{id}, #{groupId}, #{docId}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TGroupDoc" >
     update t_group_doc
-    set group_id = #{groupId,jdbcType=INTEGER},
-      doc_id = #{docId,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    set group_id = #{groupId},
+      doc_id = #{docId}
+    where id = #{id}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, group_id, doc_id
     from t_group_doc
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, group_id, doc_id

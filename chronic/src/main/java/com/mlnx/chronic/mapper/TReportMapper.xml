@@ -64,7 +64,7 @@
 		resultMap="BaseResultMap">
 		select * from t_report where user_id = #{user_id}
 	</select>
-	<select id="selectLastByUserId" parameterType="int" resultType="tReport">
+	<select id="selectLastByUserId" parameterType="int" resultType="com.mlnx.chronic.entity.TReport">
 		select * from t_report where user_id = #{user_id} and time = (select
 		max(time) from t_report where user_id = #{user_id})
 	</select>

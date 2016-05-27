@@ -29,8 +29,8 @@ public class BloodPressureServiceTest extends TestBase{
 	public void addBloodPressure() throws ParseException {
 		TPatientBloodPressure bloodPressure = new TPatientBloodPressure();
 		bloodPressure.setPatientId(15);
-		bloodPressure.setDiastolic("75");
-		bloodPressure.setSystolic("128");
+		bloodPressure.setDiastolic(75);
+		bloodPressure.setSystolic(128);
 		bloodPressure.setHeartRate(73);
 		bloodPressure.setState("静坐");
 		bloodPressure.setDateTime(sdf.parse("2016-05-11 11:11:12"));

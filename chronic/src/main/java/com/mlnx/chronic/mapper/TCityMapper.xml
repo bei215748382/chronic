@@ -35,12 +35,12 @@
 		select id, name, province_id
 		from t_city
 	</select>
-	<select id="findByProvinceId" parameterType="int" resultMap="BaseResultMap">
+	<select id="findByProvinceId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
 		select id, name, province_id
 		from t_city where province_id
 		= #{id}
 	</select>
-	<select id="findByProvinceName" parameterType="string"
+	<select id="findByProvinceName" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		select *
 		from t_city where province_id

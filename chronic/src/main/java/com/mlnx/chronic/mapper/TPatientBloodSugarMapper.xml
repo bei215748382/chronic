@@ -17,18 +17,27 @@
 		<result column="remark" property="remark" jdbcType="VARCHAR" />
 		<result column="timestamp" property="timestamp" jdbcType="TIMESTAMP" />
 	</resultMap>
+	<resultMap type="com.mlnx.chronic.vo.DateCountVo" id="DateCountResultMap">
+		<result column="date" property="date" jdbcType="VARCHAR" />
+		<result column="total" property="sum" jdbcType="INTEGER" />
+	</resultMap>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from t_patient_blood_sugar
+		delete from
+		t_patient_blood_sugar
 		where id = #{id}
 	</delete>
 	<insert id="insert" parameterType="com.mlnx.chronic.entity.TPatientBloodSugar">
-		insert into t_patient_blood_sugar (id, patient_id, date_time,
-		value, state, medicine,
+		insert into
+		t_patient_blood_sugar (id, patient_id, date_time,
+		value, state,
+		medicine,
 		insulin, other_medicine, carbohydrate,
-		exercise_time, remark, timestamp
+		exercise_time, remark,
+		timestamp
 		)
 		values (#{id}, #{patientId}, #{dateTime},
-		#{value}, #{state}, #{medicine},
+		#{value}, #{state},
+		#{medicine},
 		#{insulin}, #{otherMedicine}, #{carbohydrate},
 		#{exerciseTime}, #{remark}, #{timestamp}
 		)
@@ -74,17 +83,21 @@
 	</update>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
-		select id, patient_id, date_time, value, state, medicine, insulin,
+		select id, patient_id, date_time, value, state,
+		medicine, insulin,
 		other_medicine,
-		carbohydrate, exercise_time, remark, timestamp
+		carbohydrate, exercise_time, remark,
+		timestamp
 		from t_patient_blood_sugar
 		where id = #{id}
 	</select>
 	<select id="selectAll" resultMap="BaseResultMap">
-		select id, patient_id, date_time, value, state, medicine, insulin,
+		select id, patient_id,
+		date_time, value, state, medicine, insulin,
 		other_medicine,
 		carbohydrate, exercise_time, remark, timestamp
-		from t_patient_blood_sugar
+		from
+		t_patient_blood_sugar
 	</select>
 	<select id="findByPatientIdLimitOne" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
@@ -96,29 +109,56 @@
 	<select id="findCountByPatientId" parameterType="java.lang.Integer"
 		resultType="java.lang.Long">
 		select count(1) from t_patient_blood_sugar where
-		patient_id = #{patientId}
+		patient_id
+		= #{patientId}
 	</select>
-	<select id="searchBloodSugarWithTimeRange"
-		parameterType="map" resultMap="BaseResultMap">
-		select *
-		from t_patient_blood_sugar where patient_id = #{patientId}
-		and date_time  <![CDATA[ >  ]]>
-		#{startTime} and date_time  <![CDATA[ <=  ]]>
-		#{endTime}
-	</select>
-	<select id="searchLastBloodSugar" parameterType="map"
+	<select id="searchBloodSugarWithTimeRange" parameterType="map"
 		resultMap="BaseResultMap">
 		select *
 		from t_patient_blood_sugar where patient_id = #{patientId}
-		and date_time  <![CDATA[ <=  ]]>
-		#{endTime} limit #{limit}
+		and
+		date_time  <![CDATA[ >  ]]>
+		#{startTime} and date_time  <![CDATA[ <=  ]]>
+		#{endTime}
+	</select>
+	<select id="searchLastBloodSugar" parameterType="map" resultMap="BaseResultMap">
+		select *
+		from t_patient_blood_sugar
+		<where>
+			<if test="patientId != null and patientId != ''">
+				patient_id = #{patientId}
+			</if>
+			<if test="state != null and state != ''">
+				and state = #{state}
+			</if>
+			<if test="endTime != null and endTime != ''">
+				and date_time  <![CDATA[ <=  ]]>
+				#{endTime}
+			</if>
+		</where>
+		limit #{limit}
 	</select>
 	<select id="synBloodSugarWithTimeRange" parameterType="map"
 		resultMap="BaseResultMap">
 		select *
 		from t_patient_blood_sugar where patient_id = #{patientId}
-		and date_time  <![CDATA[ >  ]]>
+		and
+		date_time  <![CDATA[ >  ]]>
 		#{startTime} and date_time  <![CDATA[ <=  ]]>
-		#{endTime} and timestamp <![CDATA[ >  ]]> #{timestamp}
+		#{endTime} and timestamp <![CDATA[ >  ]]>
+		#{timestamp}
+	</select>
+	<select id="getBloodSugarMonth" parameterType="Integer"
+		resultMap="DateCountResultMap">
+		select date_format(date_time,'%Y-%m') date,count(1) total
+		from t_patient_blood_sugar where patient_id = #{patientId} group by
+		date_format(date_time,'%Y-%m');
+	</select>
+	<select id="getBloodSugarDate" parameterType="map"
+		resultMap="DateCountResultMap">
+		select date_format(date_time,'%Y-%m-%d') date,count(1) total
+		from t_patient_blood_sugar where patient_id = #{patientId} and
+		year(date_time)=year(#{date}) and month(date_time)=month
+		(#{date}) group by date_format(date_time,'%Y-%m-%d');
 	</select>
 </mapper>

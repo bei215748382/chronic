@@ -86,7 +86,7 @@
 				type = #{type},
 			</if>
 			<if test="deviceId != null and deviceId != ''">
-				device_id = #{deviceId}
+				device_id = #{deviceId},
 			</if>
 			<if test="addressId != null and addressId != ''">
 				address_id = #{addressId}

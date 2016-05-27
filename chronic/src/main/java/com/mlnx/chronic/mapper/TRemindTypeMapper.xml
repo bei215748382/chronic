@@ -40,7 +40,7 @@
 				frequency = #{frequency},
 			</if>
 			<if test="dosage != null and dosage != ''">
-				dosage = #{dosage},
+				dosage = #{dosage}
 			</if>
 		</set>
 		where id = #{id}

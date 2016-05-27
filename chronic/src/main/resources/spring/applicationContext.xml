@@ -62,10 +62,10 @@
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 	
-	<!-- 注入cassandra数据库的服务类 ，支持连接cassandra，nosql数据库 -->	
+	<!-- 注入cassandra数据库的服务类 ，支持连接cassandra，nosql数据库 -->	  
 	<bean id="cassandraService" class="com.mlnx.chronic.service.CassandraService"></bean>	
 	
 	<!-- 注入cassandra数据库的服务类 ，支持连接cassandra，nosql数据库 -->	
 	<bean id="reportService" class="com.mlnx.chronic.service.ReportService"></bean>	
-
+	
 </beans>

@@ -57,7 +57,7 @@
 		from t_device
 	</select>
 	<select id="findDeviceById" resultMap="DeviceVoResultMap"
-		parameterType="int">
+		parameterType="java.lang.Integer">
 		select
 		device.id,
 		device.name,

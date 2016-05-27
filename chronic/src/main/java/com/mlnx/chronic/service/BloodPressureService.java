@@ -1,5 +1,6 @@
 package com.mlnx.chronic.service;
 
+import java.util.Date;
 import java.util.Map;
 
 import com.mlnx.chronic.entity.TPatientBloodPressure;
@@ -27,4 +28,11 @@ public interface BloodPressureService {
 	//同步某个时间段的数据
 	public Map<String, Object> synBloodPressureWithTimeRange(Long startTime,
 			Long endTime, Integer id, Long timestamp);
+
+	//获取有血压值的月份
+	public Map<String, Object> getBloodPressureMonth(Integer patientId);
+
+	//获取有血压值月份的日期
+	public Map<String, Object> getBloodPressureDate(Integer patientId, Date start);
+
 }

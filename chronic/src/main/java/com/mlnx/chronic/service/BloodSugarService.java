@@ -1,5 +1,6 @@
 package com.mlnx.chronic.service;
 
+import java.util.Date;
 import java.util.Map;
 
 import com.mlnx.chronic.entity.TPatientBloodSugar;
@@ -22,10 +23,16 @@ public interface BloodSugarService {
 
 	//根据时间点和限制条数获取血糖数据
 	public Map<String, Object> searchLastBloodSugar(Integer patientId,
-			Long date, Integer limit);
+			Long date, Integer limit, String state);
 
 	//同步某个时间段的数据
 	public Map<String, Object> synBloodSugarWithTimeRange(Long startTime,
 			Long endTime, Integer id,Long timestamp);
+
+	//获取有血糖数据的月份
+	public Map<String, Object> getBloodSugarMonth(Integer patientId);
+
+	//获取有血糖数据的日期
+	public Map<String, Object> getBloodSugarDate(Integer patientId, Date start);
 
 }

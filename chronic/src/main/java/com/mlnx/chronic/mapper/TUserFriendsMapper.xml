@@ -14,7 +14,7 @@
 			jdbcType="VARCHAR" />
 		<result column="identity" property="identity" jdbcType="INTEGER" />
 	</resultMap>
-	<resultMap id="FriendsInfoMap" type="friendsInfo">
+	<resultMap id="FriendsInfoMap" type="com.mlnx.chronic.vo.FriendsInfo">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="friend_id" property="uid" jdbcType="INTEGER" />
 		<result column="friend_remark" property="mark" jdbcType="VARCHAR" />
@@ -86,21 +86,21 @@
 		select *
 		from t_user_friends
 	</select>
-	<select id="selectByUserFriends" parameterType="tUserFriends"
+	<select id="selectByUserFriends" parameterType="com.mlnx.chronic.entity.TUserFriends"
 		resultMap="BaseResultMap">
 		select *
 		from t_user_friends where user_id = #{userId} and
 		friend_id =
 		#{friendId}
 	</select>
-	<select id="selectByIdAndGroupId" parameterType="tUserFriends"
+	<select id="selectByIdAndGroupId" parameterType="com.mlnx.chronic.entity.TUserFriends"
 		resultMap="BaseResultMap">
 		select *
 		from t_user_friends where user_id = #{userId} and
 		group_id =
 		#{groupId} and confirm = 1
 	</select>
-	<select id="selectByUserIdAndUNConfirmed" parameterType="tUserFriends"
+	<select id="selectByUserIdAndUNConfirmed" parameterType="com.mlnx.chronic.entity.TUserFriends"
 		resultMap="BaseResultMap">
 		select *
 		from t_user_friends where friend_id = #{friendId}
@@ -108,7 +108,7 @@
 		confirm =
 		#{confirm}
 	</select>
-	<select id="findByUserIdAndFriendId" parameterType="tUserFriends"
+	<select id="findByUserIdAndFriendId" parameterType="com.mlnx.chronic.entity.TUserFriends"
 		resultMap="BaseResultMap">
 		select *
 		from t_user_friends where friend_id = #{friendId}
@@ -116,13 +116,13 @@
 		user_id =
 		#{userId}
 	</select>
-	<update id="updateFriendRemark" parameterType="tUserFriends">
+	<update id="updateFriendRemark" parameterType="com.mlnx.chronic.entity.TUserFriends">
 		update
 		t_user_friends
 		set friend_remark = #{friendRemark}
 		where id = #{id}
 	</update>
-	<select id="selectIdsByIdAndGroupId" parameterType="tUserFriends"
+	<select id="selectIdsByIdAndGroupId" parameterType="com.mlnx.chronic.entity.TUserFriends"
 		resultMap="FriendsInfoMap">
 		select
 		friends.id,friends.friend_id,friends.friend_remark,ext.pic

@@ -11,9 +11,9 @@ public class TPatientBloodPressure {
 
     private String deviceId;
 
-    private String diastolic;
+    private Integer diastolic;
 
-    private String systolic;
+    private Integer systolic;
 
     private Integer heartRate;
 
@@ -55,23 +55,23 @@ public class TPatientBloodPressure {
         this.deviceId = deviceId;
     }
 
-    public String getDiastolic() {
-        return diastolic;
-    }
+    public Integer getDiastolic() {
+		return diastolic;
+	}
 
-    public void setDiastolic(String diastolic) {
-        this.diastolic = diastolic;
-    }
+	public void setDiastolic(Integer diastolic) {
+		this.diastolic = diastolic;
+	}
 
-    public String getSystolic() {
-        return systolic;
-    }
+	public Integer getSystolic() {
+		return systolic;
+	}
 
-    public void setSystolic(String systolic) {
-        this.systolic = systolic;
-    }
+	public void setSystolic(Integer systolic) {
+		this.systolic = systolic;
+	}
 
-    public Integer getHeartRate() {
+	public Integer getHeartRate() {
         return heartRate;
     }
 

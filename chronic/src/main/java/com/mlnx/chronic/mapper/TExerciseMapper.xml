@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlnx.chronic.mapper.TExerciseMapper">
+	<resultMap id="BaseResultMap" type="com.mlnx.chronic.entity.TExercise">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="patient_id" property="patientId" jdbcType="INTEGER" />
+		<result column="exercise_type_id" property="exerciseTypeId"
+			jdbcType="INTEGER" />
+		<result column="start_exercise_time" property="startExerciseTime"
+			jdbcType="TIMESTAMP" />
+		<result column="stop_exercise_time" property="stopExerciseTime"
+			jdbcType="TIMESTAMP" />
+		<result column="met" property="met" jdbcType="REAL" />
+		<result column="energy" property="energy" jdbcType="REAL" />
+		<result column="summary" property="summary" jdbcType="VARCHAR" />
+		<result column="motion_distance" property="motionDistance"
+			jdbcType="REAL" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_exercise
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="com.mlnx.chronic.entity.TExercise">
+		insert into t_exercise (id,
+		patient_id, exercise_type_id,
+		start_exercise_time, stop_exercise_time,
+		met, energy, summary, motion_distance
+		)
+		values (#{id}, #{patientId},
+		#{exerciseTypeId},
+		#{startExerciseTime}, #{stopExerciseTime},
+		#{met},
+		#{energy}, #{summary}, #{motionDistance}
+		)
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TExercise">
+		update t_exercise
+		<set>
+			<if test="patientId != null and patientId != ''">
+				patient_id = #{patientId},
+			</if>
+			<if test="exerciseTypeId != null and exerciseTypeId != ''">
+				exercise_type_id = #{exerciseTypeId},
+			</if>
+			<if test="startExerciseTime != null and startExerciseTime != ''">
+				start_exercise_time = #{startExerciseTime},
+			</if>
+			<if test="stopExerciseTime != null and stopExerciseTime != ''">
+				stop_exercise_time = #{stopExerciseTime},
+			</if>
+			<if test="met != null and met != ''">
+				met = #{met},
+			</if>
+			<if test="energy != null and energy != ''">
+				energy = #{energy},
+			</if>
+			<if test="summary != null and summary != ''">
+				summary = #{summary},
+			</if>
+			<if test="motionDistance != null and motionDistance != ''">
+				motionDistance = #{motionDistance}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select id, patient_id, exercise_type_id,
+		start_exercise_time,
+		stop_exercise_time,
+		met, energy, summary,
+		motion_distance
+		from t_exercise
+		where id = #{id}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id, patient_id,
+		exercise_type_id, start_exercise_time,
+		stop_exercise_time,
+		met, energy,
+		summary, motion_distance
+		from t_exercise
+	</select>
+	<select id="getExercises" parameterType="map" resultMap="BaseResultMap">
+		select *
+		from t_exercise where patient_id = #{patientId} and
+		start_exercise_time <![CDATA[ >= ]]>
+		#{start} and stop_exercise_time <![CDATA[ < ]]>
+		#{end}
+	</select>
+	<select id="getLimitExercises" parameterType="map" resultMap="BaseResultMap">
+		select *
+		from t_exercise where patient_id = #{patientId} and
+		start_exercise_time <![CDATA[ < ]]>
+		#{end} order by start_exercise_time desc limit #{limit}
+	</select>
+	<select id="getTotalExerciseCount" parameterType="Integer"
+		resultType="Integer">
+		select count(1) from (
+		select
+		date_format(start_exercise_time,'%Y-%m-%d') from t_exercise where
+		patient_id = #{patientId} group by
+		date_format(start_exercise_time,'%Y-%m-%d')) t
+	</select>
+	<select id="getTotalDistance" parameterType="Integer" resultType="Float">
+		select sum(motion_distance) from t_exercise where patient_id = #{patientId}
+	</select> 
+</mapper>

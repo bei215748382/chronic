@@ -7,21 +7,21 @@
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_level
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id}
   </delete>
   <insert id="insert" parameterType="com.mlnx.chronic.entity.TLevel" >
     insert into t_level (id, name)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
+    values (#{id}, #{name})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TLevel" >
     update t_level
-    set name = #{name,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    set name = #{name}
+    where id = #{id}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, name
     from t_level
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, name

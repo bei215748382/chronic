@@ -23,7 +23,8 @@
 		<!-- <table tableName="%"> -->
 		<!-- <generatedKey column="id" sqlStatement="Mysql"/> -->
 		<!-- </table> -->
-		<table tableName="t_patient_blood_sugar"></table>
-		<table tableName="t_patient_blood_pressure"></table>
+		<table tableName="t_exercise"></table>
+		<table tableName="t_exercise_prescription"></table>
+		<table tableName="t_exercise_type"></table>
 	</context>
 </generatorConfiguration>

@@ -45,7 +45,7 @@
 		select * from t_group_patient where group_id =
 		#{id};
 	</select>
-	<select id="isExist" resultType="Integer" parameterType="tGroupPatient">
+	<select id="isExist" resultType="Integer" parameterType="com.mlnx.chronic.entity.TGroupPatient">
 		select id
 		from t_group_patient where group_id = #{groupId} and
 		patient_id=#{patientId};

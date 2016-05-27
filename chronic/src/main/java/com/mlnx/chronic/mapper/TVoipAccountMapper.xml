@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mlnx.chronic.mapper.TVoipAccountMapper">
-	<resultMap id="BaseResultMap" type="tVoipAccount">
+	<resultMap id="BaseResultMap" type="com.mlnx.chronic.entity.TVoipAccount">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="voip_account" property="voipAccount" jdbcType="VARCHAR" />
 		<result column="voip_password" property="voipPassword"
@@ -13,7 +13,7 @@
 			jdbcType="VARCHAR" />
 		<result column="sub_token" property="subToken" jdbcType="VARCHAR" />
 	</resultMap>
-	<resultMap type="usrVoipInfo" id="VoipInfoMap">
+	<resultMap type="com.mlnx.chronic.vo.UsrVoipInfo" id="VoipInfoMap">
 		<result column="voip_account" property="voipAccount" jdbcType="VARCHAR" />
 		<result column="voip_password" property="voipPassword"
 			jdbcType="VARCHAR" />
@@ -43,7 +43,7 @@
 				voip_account = #{voipPassword},
 			</if>
 			<if test="userId !=null and userId != ''">
-				user_id = #{userId}
+				user_id = #{userId},
 			</if>
 			<if test="dateCreated !=null and dateCreated != ''">
 				date_created = #{dateCreated},
@@ -55,7 +55,7 @@
 				sub_account_sid = #{subAccountSid},
 			</if>
 			<if test="subToken !=null and voipPassword != ''">
-				sub_token = #{subToken},
+				sub_token = #{subToken}
 			</if>
 		</set>
 		where id = #{id}

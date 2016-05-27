@@ -17,7 +17,7 @@
 	</delete>
 	<insert id="insert" parameterType="com.mlnx.chronic.entity.TBloodSugarCollection">
 		<selectKey resultType="java.lang.Integer" keyProperty="id"
-			order="BEFORE">
+			order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 		insert into t_blood_sugar_collection (id, high, low,
