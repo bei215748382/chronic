@@ -31,11 +31,17 @@ public class BloodSugarServiceTest extends TestBase {
 	
 	@Test
 	public void addBloodSugar() throws ParseException {
-		TPatientBloodSugar bloodSugar = new TPatientBloodSugar();
-		bloodSugar.setPatientId(15);
-		bloodSugar.setValue("6");
-		bloodSugar.setDateTime(sdf.parse("2016-05-12 12:21:23"));
-		System.out.println(bloodSugarService.addBloodSugar(bloodSugar));
+		Date base = new Date(2015-1900,5-1,31,8,0);
+		long oneday = 24*3600*1000;
+		for(int i = 0;i<200;i++){
+			float value = (float) ((Math.random()-0.5)*10+7);
+			Date date = new Date(base.getTime()+oneday*i);
+			TPatientBloodSugar bs = new TPatientBloodSugar();
+			bs.setPatientId(19);
+			bs.setValue(value+"");
+			bs.setDateTime(date);
+			bloodSugarService.addBloodSugar(bs);
+		}
 	}
 	
 	@Test

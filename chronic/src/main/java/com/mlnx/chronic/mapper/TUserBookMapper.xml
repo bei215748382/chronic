@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlnx.chronic.mapper.TUserBookMapper" >
+  <resultMap id="BaseResultMap" type="com.mlnx.chronic.entity.TUserBook" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="doc_id" property="docId" jdbcType="INTEGER" />
+    <result column="pics" property="pics" jdbcType="VARCHAR" />
+    <result column="datetime" property="datetime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="describe" property="describe" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user_book
+    where id = #{id}
+  </delete>
+  <insert id="insert" parameterType="com.mlnx.chronic.entity.TUserBook" >
+    insert into t_user_book (id, user_id, doc_id, 
+      pics, datetime, status, 
+      describe)
+    values (#{id}, #{userId}, #{docId}, 
+      #{pics}, #{datetime}, #{status}, 
+      #{describe})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TUserBook" >
+    update t_user_book
+    set user_id = #{userId},
+      doc_id = #{docId},
+      pics = #{pics},
+      datetime = #{datetime},
+      status = #{status},
+      describe = #{describe}
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, user_id, doc_id, pics, datetime, status, describe
+    from t_user_book
+    where id = #{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, user_id, doc_id, pics, datetime, status, describe
+    from t_user_book
+  </select>
+</mapper>

@@ -7,6 +7,7 @@ import com.mlnx.chronic.entity.THospital;
 import com.mlnx.chronic.entity.TUser;
 
 public class DocVo {
+	
 	private Integer id;//编号
 
 	private TUser user;//用户手机号，密码
@@ -32,6 +33,10 @@ public class DocVo {
 	private String background;
 
 	private String achievement;
+	
+	private String experience;
+	
+	private Integer satisfaction;
 
 	public Integer getId() {
 		return id;
@@ -137,6 +142,22 @@ public class DocVo {
 		this.achievement = achievement;
 	}
 
+	public String getExperience() {
+		return experience;
+	}
+
+	public void setExperience(String experience) {
+		this.experience = experience;
+	}
+
+	public Integer getSatisfaction() {
+		return satisfaction;
+	}
+
+	public void setSatisfaction(Integer satisfaction) {
+		this.satisfaction = satisfaction;
+	}
+
 	@Override
 	public String toString() {
 		return "DocVo [id=" + id + ", user=" + user + ", name=" + name
@@ -144,7 +165,8 @@ public class DocVo {
 				+ office + ", title=" + title + ", skill=" + skill
 				+ ", address=" + address + ", pic=" + pic + ", hospital="
 				+ hospital + ", background=" + background + ", achievement="
-				+ achievement + "]";
+				+ achievement + ", experience=" + experience
+				+ ", satisfaction=" + satisfaction + "]";
 	}
-	
+
 }

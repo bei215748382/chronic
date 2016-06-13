@@ -1,5 +1,8 @@
 package com.mlnx.chronic.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StringUtil {
 
 	public static String accountSid = "aaf98f894e52805a014e717a21831cfb"; // 贝的aaf98f894e52805a014e717a21831cfb  舒乐 aaf98f894ecd7d6a014ed7a711d40f95
@@ -40,4 +43,23 @@ public class StringUtil {
 
 	public static final String BASE_BACK_ROOT_PATH = "chronic";
 	
+	public static String stringArrayToString(List<String> strs){
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0 ; i<strs.size()-1;i++){
+			sb.append(strs.get(i)+",");
+		}
+		sb.append(strs.get(strs.size()-1));
+		return sb.toString();
+	}
+	
+	public static List<String> stringToStringArray(String str){
+		List<String> strArr = new ArrayList<String>();
+		if(str!=null){
+			String[] strs = str.split(",");
+			for(String st : strs){
+				strArr.add(st);
+			}
+		}
+		return strArr;
+	}
 }

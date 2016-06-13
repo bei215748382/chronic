@@ -127,7 +127,7 @@
 		resultMap="DateCountResultMap">
 		select date_format(date_time,'%Y-%m') date,count(1) total
 		from t_patient_blood_pressure where patient_id = #{patientId} group by
-		date_format(date_time,'%Y-%m');
+		date_format(date_time,'%Y-%m') order by date_time desc
 	</select>
 	<select id="getBloodPressureDate" parameterType="map"
 		resultMap="DateCountResultMap">
@@ -135,6 +135,6 @@
 		from t_patient_blood_pressure where patient_id = #{patientId} and
 		year(date_time)=year(#{date}) and month(date_time)=month
 		(#{date})
-		group by date_format(date_time,'%Y-%m-%d');
+		group by date_format(date_time,'%Y-%m-%d') 
 	</select>
 </mapper>

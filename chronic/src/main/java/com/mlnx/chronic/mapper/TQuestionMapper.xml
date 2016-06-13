@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlnx.chronic.mapper.TQuestionMapper">
+	<resultMap id="BaseResultMap" type="com.mlnx.chronic.entity.TQuestion">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="keyword" property="keyword" jdbcType="VARCHAR" />
+		<result column="doc_id" property="docId" jdbcType="INTEGER" />
+		<result column="datetime" property="datetime" jdbcType="TIMESTAMP" />
+		<result column="is_allowed" property="isAllowed" jdbcType="INTEGER" />
+		<result column="pic" property="pic" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_question
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="com.mlnx.chronic.entity.TQuestion">
+		insert into t_question (id,
+		user_id, title,
+		keyword, doc_id, datetime,
+		is_allowed, pic, description
+		)
+		values (#{id}, #{userId}, #{title},
+		#{keyword}, #{docId}, #{datetime},
+		#{isAllowed}, #{pic}, #{description}
+		)
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TQuestion">
+		update t_question
+		<set>
+			<if test="userId != null and userId != ''">
+				user_id = #{userId},
+			</if>
+			<if test="title != null and title != ''">
+				title = #{title},
+			</if>
+			<if test="keyword != null and keyword != ''">
+				keyword = #{keyword},
+			</if>
+			<if test="docId != null and docId != ''">
+				doc_id = #{docId},
+			</if>
+			<if test="datetime != null and datetime != ''">
+				datetime = #{datetime},
+			</if>
+			<if test="isAllowed != null and isAllowed != ''">
+				is_allowed = #{isAllowed},
+			</if>
+			<if test="pic != null and pic != ''">
+				pic = #{pic},
+			</if>
+			<if test="description != null and description != ''">
+				description = #{description}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select *
+		from t_question
+		where id = #{id}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select *
+		from t_question
+	</select>
+	<select id="historyQuestion" resultMap="BaseResultMap">
+		select *
+		from t_question
+		where keyword = #{keyword} order by datetime desc limit #{start},#{end}
+	</select>
+	<select id="docHistoryQuestion" resultMap="BaseResultMap">
+		select *
+		from t_question
+		where doc_id = #{id} order by datetime desc limit #{start},#{end}
+	</select>
+</mapper>

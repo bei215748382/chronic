@@ -12,14 +12,14 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<jdk.version>1.6</jdk.version>
+		<jdk.version>1.7</jdk.version>
 		<spring.version>3.2.8.RELEASE</spring.version>
 		<aspectj.version>1.8.0</aspectj.version>
 		<jackson.version>2.3.2</jackson.version>
 		<hibernate.version>4.3.5.Final</hibernate.version>
 		<spring-data-jpa.version>1.6.0.RELEASE</spring-data-jpa.version>
 		<hibernate-validator.version>5.0.3.Final</hibernate-validator.version>
-		<slf4j.version>1.7.7</slf4j.version>  
+		<slf4j.version>1.7.7</slf4j.version>
 		<logback.version>1.1.2</logback.version>
 		<mybatis.version>3.2.8</mybatis.version>
 		<mybatis.spring.version>1.2.2</mybatis.spring.version>
@@ -270,6 +270,12 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-messaging</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.squareup.retrofit2</groupId>
+			<artifactId>retrofit</artifactId>
+			<version>2.0.2</version>
 		</dependency>
 	</dependencies>
 

@@ -1,20 +1,15 @@
 package com.mlnx.chronic.controller;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mlnx.chronic.entity.TPatientDinner;
 import com.mlnx.chronic.entity.TPatientMedcine;
-import com.mlnx.chronic.entity.TVisit;
 import com.mlnx.chronic.service.MedcineService;
 import com.mlnx.chronic.util.ChronicResponse;
 

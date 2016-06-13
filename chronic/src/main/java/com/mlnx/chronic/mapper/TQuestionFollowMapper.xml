@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlnx.chronic.mapper.TQuestionFollowMapper">
+	<resultMap id="BaseResultMap" type="com.mlnx.chronic.entity.TQuestionFollow">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="identity" property="identity" jdbcType="INTEGER" />
+		<result column="pic" property="pic" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="INTEGER" />
+		<result column="question_id" property="questionId" jdbcType="INTEGER" />
+		<result column="message" property="message" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_question_follow
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="com.mlnx.chronic.entity.TQuestionFollow">
+		insert into t_question_follow (id, user_id, identity,
+		pic, parent_id, question_id,
+		message)
+		values (#{id}, #{userId}, #{identity},
+		#{pic}, #{parentId}, #{questionId},
+		#{message})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TQuestionFollow">
+		update t_question_follow
+		<set>
+			<if test="userId != null and userId != ''">
+				user_id = #{userId},
+			</if>
+			<if test="identity != null and identity != ''">
+				identity = #{identity},
+			</if>
+			<if test="pic != null and pic != ''">
+				pic = #{pic},
+			</if>
+			<if test="parentId != null and parentId != ''">
+				parent_id = #{parentId},
+			</if>
+			<if test="questionId != null and questionId != ''">
+				question_id = #{questionId},
+			</if>
+			<if test="message != null and message != ''">
+				message = #{message}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select id, user_id, identity, pic, parent_id, question_id, message
+		from t_question_follow
+		where id = #{id}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id, user_id, identity, pic, parent_id, question_id, message
+		from t_question_follow
+	</select>
+</mapper>

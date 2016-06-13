@@ -1,17 +1,27 @@
 package com.mlnx.chronic.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mlnx.chronic.entity.TQuestion;
 import com.mlnx.chronic.service.InquiryService;
+import com.mlnx.chronic.util.ChronicResponse;
+import com.mlnx.chronic.util.FileUtils;
+import com.mlnx.chronic.vo.UsrBook;
 
 @Controller
 @RequestMapping(value = "/inquiry")
@@ -79,10 +89,11 @@ public class InquiryCol {
 	 */
 	@RequestMapping(value = "all/doc/like")
 	@ResponseBody
-	public Map<String, Object> findAllDocWithKey(@PathParam("keyStr") String keyStr) {
+	public Map<String, Object> findAllDocWithKey(
+			@PathParam("keyStr") String keyStr) {
 		return inquiryService.findAllDocWithKey(keyStr);
 	}
-	
+
 	/**
 	 * 根据城市
 	 * 
@@ -90,11 +101,61 @@ public class InquiryCol {
 	 */
 	@RequestMapping(value = "all/doc/by/city")
 	@ResponseBody
-	public Map<String, Object> findAllDocByCity(@PathParam("cityId") String cityId,@PathParam("disease") String disease) {
-		Map<String,Object> map = new HashMap<String,Object>();
+	public Map<String, Object> findAllDocByCity(
+			@PathParam("cityId") String cityId,
+			@PathParam("disease") String disease) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("cityId", cityId);
 		map.put("disease", disease);
 		return inquiryService.findAllDocByCity(map);
+	}
+
+	/**
+	 * 发起提问
+	 * 
+	 * @param question
+	 * @return
+	 */
+	@RequestMapping(value = "question")
+	@ResponseBody
+	public ChronicResponse question(@RequestBody TQuestion question) {
+		return inquiryService.question(question);
+	}
+
+	/**
+	 * 咨询历史
+	 * 
+	 * @param keyword
+	 * @param limit
+	 * @return
+	 */
+	@RequestMapping(value = "history/question")
+	@ResponseBody
+	public Map<String, Object> historyQuestion(
+			@RequestParam(value = "keyword", required = false) String keyword,@RequestParam(value = "start", defaultValue = "0") Integer start,
+			@RequestParam(value = "end", defaultValue = "10") Integer end) {
+		return inquiryService.historyQuestion(keyword, start,end);
+	}
+
+	@RequestMapping(value = "doc/history/question")
+	@ResponseBody
+	public Map<String, Object> docHistoryQuestion(
+			@RequestParam(value = "id", required = false) String id,@RequestParam(value = "start", defaultValue = "0") Integer start,
+			@RequestParam(value = "end", defaultValue = "10") Integer end) {
+		return inquiryService.docHistoryQuestion(id, start,end);
+	}
+	
+	@RequestMapping(value = "book")
+	@ResponseBody
+	public ChronicResponse book(UsrBook usrBook,HttpServletRequest request,HttpServletResponse response) throws IllegalStateException, IOException {
+		List<String> str = FileUtils.uploadFiles(request, response);
+		usrBook.setPics(str);
+		return inquiryService.book(usrBook);
+	}
+	
+	@RequestMapping(value = "fileUpload")
+	public String index(){
+		return "fileUpload";
 	}
 	
 }

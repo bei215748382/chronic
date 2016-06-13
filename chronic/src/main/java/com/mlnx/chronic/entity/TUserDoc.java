@@ -28,6 +28,10 @@ public class TUserDoc {
 	private String background;
 
 	private String achievement;
+	
+	private String experience;
+	
+	private Integer satisfaction;
 
 	public Integer getId() {
 		return id;
@@ -133,6 +137,22 @@ public class TUserDoc {
 		this.achievement = achievement;
 	}
 
+	public String getExperience() {
+		return experience;
+	}
+
+	public void setExperience(String experience) {
+		this.experience = experience;
+	}
+
+	public Integer getSatisfaction() {
+		return satisfaction;
+	}
+
+	public void setSatisfaction(Integer satisfaction) {
+		this.satisfaction = satisfaction;
+	}
+
 	@Override
 	public String toString() {
 		return "TUserDoc [id=" + id + ", userId=" + userId + ", name=" + name
@@ -140,7 +160,8 @@ public class TUserDoc {
 				+ office + ", title=" + title + ", skill=" + skill
 				+ ", addressId=" + addressId + ", pic=" + pic + ", hospitalId="
 				+ hospitalId + ", background=" + background + ", achievement="
-				+ achievement + "]";
+				+ achievement + ", experience=" + experience
+				+ ", satisfaction=" + satisfaction + "]";
 	}
 
 }

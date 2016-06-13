@@ -15,6 +15,8 @@
 		<result column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
 		<result column="background" property="background" jdbcType="LONGVARCHAR" />
 		<result column="achievement" property="achievement" jdbcType="LONGVARCHAR" />
+		<result column="experience" property="experience" jdbcType="LONGVARCHAR" />
+		<result column="satisfaction" property="satisfaction" jdbcType="INTEGER" />
 	</resultMap>
 	<resultMap id="DocVoResultMap" type="com.mlnx.chronic.vo.DocVo">
 		<id column="id" property="id" jdbcType="INTEGER" />
@@ -27,6 +29,8 @@
 		<result column="pic" property="pic" jdbcType="VARCHAR" />
 		<result column="background" property="background" jdbcType="LONGVARCHAR" />
 		<result column="achievement" property="achievement" jdbcType="LONGVARCHAR" />
+		<result column="experience" property="experience" jdbcType="LONGVARCHAR" />
+		<result column="satisfaction" property="satisfaction" jdbcType="INTEGER" />
 		<association property="user" javaType="com.mlnx.chronic.entity.TUser">
 			<id column="uid" property="id" />
 			<result column="phone" property="phone" />
@@ -51,6 +55,8 @@
 		doc.pic,
 		doc.background,
 		doc.achievement,
+		doc.experience,
+		doc.satisfaction,
 		user.id uid,
 		user.phone,
 		user.password,
@@ -84,12 +90,12 @@
 		title, skill, address_id,
 		pic,
 		hospital_id, background,
-		achievement)
+		achievement,experience,satisfaction)
 		values (#{id}, #{userId}, #{name},
 		#{sex}, #{birthday}, #{office},
 		#{title}, #{skill}, #{addressId},
 		#{pic}, #{hospitalId}, #{background},
-		#{achievement})
+		#{achievement},#{experience},#{satisfaction})
 	</insert>
 	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TUserDoc">
 		update t_user_doc
@@ -97,7 +103,6 @@
 			<if test="userId != null and userId != ''">
 				user_id = #{userId},
 			</if>
-
 			<if test="name != null and name != ''">
 				name = #{name},
 			</if>
@@ -110,7 +115,6 @@
 			<if test="office != null and office != ''">
 				office = #{office},
 			</if>
-
 			<if test="title != null and title != ''">
 				title = #{title},
 			</if>
@@ -130,35 +134,31 @@
 				background = #{background},
 			</if>
 			<if test="achievement != null and achievement != ''">
-				achievement = #{achievement}
+				achievement = #{achievement},
+			</if>
+			<if test="experience != null and experience != ''">
+				experience = #{experience},
+			</if>
+			<if test="satisfaction != null and satisfaction != ''">
+				satisfaction = #{satisfaction}
 			</if>
 		</set>
 		where id = #{id}
 	</update>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
-		select id, user_id, name, sex, birthday, office, title,
-		skill, address_id,
-		pic, hospital_id,
-		background, achievement
+		select *
 		from
 		t_user_doc
 		where id = #{id}
 	</select>
 	<select id="selectAll" resultMap="BaseResultMap">
-		select id, user_id, name, sex,
-		birthday, office, title, skill, address_id,
-		pic, hospital_id,
-		background, achievement
+		select *
 		from t_user_doc
 	</select>
 	<select id="findByRegistPhone" resultMap="BaseResultMap"
 		parameterType="string">
-		select id, user_id, name, sex,
-		birthday, office, title,
-		skill, address_id,
-		pic, hospital_id,
-		background, achievement
+		select *
 		from
 		t_user_doc where user_id
 		= (select id from t_user where phone =

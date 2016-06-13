@@ -120,7 +120,8 @@ public class ExerciseController {
 	 */
 	@RequestMapping(value = "/addExercise", method = RequestMethod.POST)
 	@ResponseBody
-	public ApiResponse<Void> addExercise(TExercise exercise) {
+	public ApiResponse<Void> addExercise(@RequestBody TExercise exercise) {
+		System.out.println(exercise.toString());
 		return exerciseService.addExercise(exercise);
 //		Exercise exercise = JSON.parseObject(string, Exercise.class);
 //		System.out.println(exercise);

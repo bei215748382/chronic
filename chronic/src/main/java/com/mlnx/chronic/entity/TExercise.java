@@ -92,4 +92,14 @@ public class TExercise {
     public void setMotionDistance(Float motionDistance) {
         this.motionDistance = motionDistance;
     }
+
+	@Override
+	public String toString() {
+		return "TExercise [id=" + id + ", patientId=" + patientId
+				+ ", exerciseTypeId=" + exerciseTypeId + ", startExerciseTime="
+				+ startExerciseTime + ", stopExerciseTime=" + stopExerciseTime
+				+ ", met=" + met + ", energy=" + energy + ", summary="
+				+ summary + ", motionDistance=" + motionDistance + "]";
+	}
+    
 }

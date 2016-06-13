@@ -120,7 +120,13 @@ public class EnumCollection {
 				"000161", "获取血压的月和月统计数成功"), GET_BLOOD_PRESSURE_MONTH_COUNT_BY_PATIENT_ID_ERROR(
 				"000162", "获取血压的月和月统计数失败"), GET_BLOOD_PRESSURE_DATE_COUNT_BY_PATIENT_ID_SUCCESS(
 				"000163", "获取血压的日期和月统计数成功"), GET_BLOOD_PRESSURE_DATE_COUNT_BY_PATIENT_ID_ERROR(
-				"000164", "获取血压的日期和月统计数失败");
+				"000164", "获取血压的日期和月统计数失败"), INQUIRY_QUESTION_SUCCESS("000165",
+				"提问成功"), INQUIRY_QUESTION_ERROR("000166", "提问失败"), INQUIRY_HISTORY_QUESTION_SUCCESS(
+				"000167", "查找咨询历史成功"), INQUIRY_HISTORY_QUESTION_ERROR("000168",
+				"查找咨询历史失败"), INQUIRY_DOC_HISTORY_QUESTION_SUCCESS("000169",
+				"查找医生咨询历史成功"), INQUIRY_DOC_HISTORY_QUESTION_ERROR("000170",
+				"查找医生咨询历史失败"), INQUIRY_BOOK_SUCCESS("000171", "预定医生信息成功"), INQUIRY_BOOK_ERROR(
+				"000172", "预定医生信息失败");
 
 		// 成员变量
 		private String code;
