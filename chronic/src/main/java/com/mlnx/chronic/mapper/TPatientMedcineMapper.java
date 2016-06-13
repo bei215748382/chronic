@@ -2,6 +2,7 @@ package com.mlnx.chronic.mapper;
 
 import com.mlnx.chronic.entity.TPatientMedcine;
 import com.mlnx.chronic.vo.Prescription;
+import com.mlnx.chronic.vo.medcine.MedicinePrescription;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface TPatientMedcineMapper {
     int updateByPrimaryKey(TPatientMedcine record);
 
 	List<Prescription> getMedcine(TPatientMedcine tpm);
+
+	List<MedicinePrescription> getMedcinePrescription(Integer id);
 }

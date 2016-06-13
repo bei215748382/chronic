@@ -11,6 +11,7 @@
 		<result column="startTime" property="starttime" jdbcType="TIMESTAMP" />
 		<result column="doc_id" property="docId" jdbcType="INTEGER" />
 		<result column="timestamp" property="timestamp" jdbcType="TIMESTAMP" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
 	</resultMap>
 	<resultMap type="com.mlnx.chronic.vo.Prescription" id="PrescriptionResultMap">
 		<id column="id" property="id" jdbcType="INTEGER" />
@@ -30,6 +31,30 @@
 			<result column="type" property="type" jdbcType="VARCHAR" />
 		</association>
 	</resultMap>
+	<resultMap type="com.mlnx.chronic.vo.medcine.MedicinePrescription"
+		id="MedicinePrescriptionResultMap">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="patient_id" property="patientID" jdbcType="INTEGER" />
+		<result column="startTime" property="startMpTime" jdbcType="TIMESTAMP" />
+		<result column="doc_id" property="doctorID" jdbcType="INTEGER" />
+		<result column="doctor_name" property="doctorName" jdbcType="VARCHAR" />
+		<result column="type" property="prescriptionType" jdbcType="VARCHAR" />
+		<association property="medicinePs"
+			javaType="com.mlnx.chronic.vo.medcine.MedicineP">
+			<id column="mid" property="id" jdbcType="INTEGER" />
+			<result column="drug_name" property="drugName" jdbcType="VARCHAR" />
+			<result column="img" property="img" jdbcType="VARCHAR" />
+			<result column="blfy" property="blfy" jdbcType="VARCHAR" />
+			<result column="jj" property="jj" jdbcType="VARCHAR" />
+			<result column="manu" property="manu" jdbcType="VARCHAR" />
+			<result column="pzwh" property="pzwh" jdbcType="VARCHAR" />
+			<result column="syz" property="syz" jdbcType="VARCHAR" />
+			<result column="zc" property="zc" jdbcType="VARCHAR" />
+			<result column="zycf" property="zycf" jdbcType="VARCHAR" />
+			<result column="yfyl" property="yfyl" jdbcType="VARCHAR" />
+		</association>
+
+	</resultMap>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from
 		t_patient_medcine
@@ -40,12 +65,13 @@
 		(id, patient_id, medcine_id,
 		dosis, dosingTime, times,
 		startTime,
-		doc_id, timestamp
+		doc_id, timestamp,type
 		)
 		values (#{id}, #{patientId}, #{medcineId},
 		#{dosis},
 		#{dosingtime}, #{times},
-		#{starttime}, #{docId}, #{timestamp}
+		#{starttime}, #{docId},
+		#{timestamp},#{type}
 		)
 	</insert>
 	<update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TPatientMedcine">
@@ -73,7 +99,10 @@
 				doc_id = #{docId},
 			</if>
 			<if test="timestamp != null and timestamp != ''">
-				timestamp = #{timestamp}
+				timestamp = #{timestamp},
+			</if>
+			<if test="type != null and type != ''">
+				type = #{type}
 			</if>
 		</set>
 		where id = #{id}
@@ -96,8 +125,22 @@
 		m.pic,
 		m.description,
 		m.type
-		from t_patient_medcine tm left outer join t_medcine m on tm.medcine_id
-		= m.id where tm.patient_id = #{patientId} and tm.dosingtime =
+		from
+		t_patient_medcine tm left outer join t_medcine m on tm.medcine_id
+		=
+		m.id where tm.patient_id = #{patientId} and tm.dosingtime =
 		#{dosingtime}
+	</select>
+	<select id="getMedcinePrescription" parameterType="java.lang.Integer"
+		resultMap="MedicinePrescriptionResultMap">
+		select
+		tm.*,
+		doc.name doctor_name,
+		m.*
+		from t_patient_medcine tm
+		left outer join t_medcine m on tm.medcine_id
+		left outer join t_user_doc doc
+		on doc.user_id = tm.doc_id
+		= m.id where tm.patient_id = #{patientId}
 	</select>
 </mapper>

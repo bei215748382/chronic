@@ -71,7 +71,7 @@
 	<select id="historyQuestion" resultMap="BaseResultMap">
 		select *
 		from t_question
-		where keyword = #{keyword} order by datetime desc limit #{start},#{end}
+		where keyword like '%#{keyword}%' order by datetime desc limit #{start},#{end}
 	</select>
 	<select id="docHistoryQuestion" resultMap="BaseResultMap">
 		select *

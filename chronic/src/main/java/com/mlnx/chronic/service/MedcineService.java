@@ -7,6 +7,7 @@ import com.mlnx.chronic.entity.TMedcine;
 import com.mlnx.chronic.entity.TPatientDinner;
 import com.mlnx.chronic.entity.TPatientMedcine;
 import com.mlnx.chronic.util.ChronicResponse;
+import com.mlnx.chronic.vo.medcine.TakeMedicineInfo;
 
 public interface MedcineService {
 
@@ -27,5 +28,15 @@ public interface MedcineService {
 
 	//获取饭前、饭后的药物
 	public Map<String, Object> getMedcine(TPatientMedcine tpm);
+
+	//获取药物处方
+	public Map<String, Object> getMedcinePrescription(Integer id);
+
+	//获取最近的服药历史
+	public Map<String, Object> getMedcineHistory(Integer id, Long time,
+			Integer limit);
+
+	//保存服药记录
+	public ChronicResponse saveTakeMedcine(TakeMedicineInfo info);
 
 }

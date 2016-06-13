@@ -19,6 +19,8 @@ import com.mlnx.chronic.util.ChronicResponse;
 import com.mlnx.chronic.util.EnumCollection.ResponseCode;
 import com.mlnx.chronic.util.StringUtil;
 import com.mlnx.chronic.vo.Prescription;
+import com.mlnx.chronic.vo.medcine.MedicinePrescription;
+import com.mlnx.chronic.vo.medcine.TakeMedicineInfo;
 
 @Transactional
 @Service
@@ -84,6 +86,31 @@ public class MedcineServiceImpl implements MedcineService {
 		List<Prescription>  list = tPatientMedcineMapper.getMedcine(tpm);
 		map.put(StringUtil.responseObjList,list);
 		return map;
+	}
+
+	@Override
+	public Map<String, Object> getMedcinePrescription(Integer id) {
+		Map<String,Object> map = new HashMap<String, Object>();
+		try{
+			List<MedicinePrescription>  list = tPatientMedcineMapper.getMedcinePrescription(id);
+			map.put(StringUtil.responseObjList,list);
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> getMedcineHistory(Integer id, Long time,
+			Integer limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ChronicResponse saveTakeMedcine(TakeMedicineInfo info) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

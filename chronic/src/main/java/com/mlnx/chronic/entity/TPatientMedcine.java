@@ -20,6 +20,8 @@ public class TPatientMedcine {
     private Integer docId;//医生id
 
     private Date timestamp;//开药物处方的时间
+    
+    private String type;//医生开的处方类型
 
     public Integer getId() {
         return id;
@@ -92,4 +94,13 @@ public class TPatientMedcine {
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+    
 }
