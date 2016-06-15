@@ -192,7 +192,7 @@
 						 <span class="hidden-xs">药物管理</span>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a class="ajax-link" href="medcine_info">列表</a></li>
+						<li><a class="ajax-link" href="medicine_info">列表</a></li>
 					</ul>
 				</li>
 			</ul>

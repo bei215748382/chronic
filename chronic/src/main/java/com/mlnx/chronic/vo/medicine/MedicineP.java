@@ -1,4 +1,6 @@
-package com.mlnx.chronic.vo.medcine;
+package com.mlnx.chronic.vo.medicine;
+
+import java.util.Arrays;
 
 /**
  * Created by Administrator on 2016/5/9.
@@ -80,5 +82,12 @@ public class MedicineP extends Medicine {
         return alreadyEatCount >= totalCount;
     }
 
+    @Override
+    public String toString() {
+        return "MedicineP [isRemind=" + isRemind + ", dosage=" + dosage
+                + ", eatStatuses=" + Arrays.toString(eatStatuses)
+                + ", totalCount=" + totalCount + ", alreadyEatCount="
+                + alreadyEatCount + "]";
+    }
 
 }

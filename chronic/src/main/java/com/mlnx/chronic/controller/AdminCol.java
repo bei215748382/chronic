@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mlnx.chronic.entity.TFeedback;
-import com.mlnx.chronic.entity.TMedcine;
+import com.mlnx.chronic.entity.TMedicine;
 import com.mlnx.chronic.entity.TRemind;
 import com.mlnx.chronic.entity.TReport;
 import com.mlnx.chronic.entity.TReportContent;
@@ -30,7 +30,7 @@ import com.mlnx.chronic.entity.TUserExt;
 import com.mlnx.chronic.entity.TVoipAccount;
 import com.mlnx.chronic.entity2.TAdminUser;
 import com.mlnx.chronic.mapper.TFeedbackMapper;
-import com.mlnx.chronic.mapper.TMedcineMapper;
+import com.mlnx.chronic.mapper.TMedicineMapper;
 import com.mlnx.chronic.mapper.TRemindMapper;
 import com.mlnx.chronic.mapper.TReportContentMapper;
 import com.mlnx.chronic.mapper.TReportMapper;
@@ -66,7 +66,7 @@ public class AdminCol {
 	private TFeedbackMapper tFeedbackMapper;
 
 	@Autowired
-	private TMedcineMapper tMedcineMapper;
+	private TMedicineMapper tMedicineMapper;
 
 	@Autowired
 	private TRemindMapper tRemindMapper;
@@ -251,44 +251,44 @@ public class AdminCol {
 
 	@RequestMapping(value = "remind_add")
 	public String remind_add() {
-		return "admin/ajax/medcine_add";
+		return "admin/ajax/medicine_add";
 	}
 
 	@RequestMapping(value = "remind_edit")
 	public ModelAndView remind_edit(int id) {
-		ModelAndView mav = new ModelAndView("admin/ajax/medcine_edit");
+		ModelAndView mav = new ModelAndView("admin/ajax/medicine_edit");
 		return mav;
 	}
 
 	@RequestMapping(value = "remind_add_json")
-	public void remind_add_json(MultipartFile file, TMedcine tMedcine,
+	public void remind_add_json(MultipartFile file, TMedicine tMedicine,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		if (file != null && file.getOriginalFilename() != "") {
 			String pic = FileUtil.savePic(request, file);
-			tMedcine.setPic(pic);
+			tMedicine.setPic(pic);
 		}
-		tMedcineMapper.insert(tMedcine);
-		response.sendRedirect("index.do#medcine_info.do");
+		tMedicineMapper.insert(tMedicine);
+		response.sendRedirect("index.do#medicine_info.do");
 	}
 
 	@RequestMapping(value = "remind_edit_json")
-	public void remind_edit_json(MultipartFile file, TMedcine tMedcine,
+	public void remind_edit_json(MultipartFile file, TMedicine tMedicine,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		if (file != null && file.getOriginalFilename() != "") {
 			String pic = FileUtil.savePic(request, file);
-			tMedcine.setPic(pic);
+			tMedicine.setPic(pic);
 		}
-		tMedcineMapper.updateByPrimaryKey(tMedcine);
-		response.sendRedirect("index.do#medcine_info.do");
+		tMedicineMapper.updateByPrimaryKey(tMedicine);
+		response.sendRedirect("index.do#medicine_info.do");
 	}
 
 	@RequestMapping(value = "remind_delete_json")
 	public void remind_delete_json(int id, HttpServletResponse response)
 			throws IOException {
-		tMedcineMapper.deleteByPrimaryKey(id);
-		response.sendRedirect("index.do#medcine_info.do");
+		tMedicineMapper.deleteByPrimaryKey(id);
+		response.sendRedirect("index.do#medicine_info.do");
 	}
 
 	// --------------------------------------- 报告管理
@@ -412,56 +412,56 @@ public class AdminCol {
 
 	// -------------------------------------- 药物管理
 	// ---------------------------------------
-	@RequestMapping(value = "medcine_info")
-	public ModelAndView medcine_info() {
-		List<TMedcine> medcines = tMedcineMapper.selectAll();
-		ModelAndView modelAndView = new ModelAndView("admin/ajax/medcine_info");
-		modelAndView.addObject("medcines", medcines);
+	@RequestMapping(value = "medicine_info")
+	public ModelAndView medicine_info() {
+		List<TMedicine> medicines = tMedicineMapper.selectAll();
+		ModelAndView modelAndView = new ModelAndView("admin/ajax/medicine_info");
+		modelAndView.addObject("medicines", medicines);
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "medcine_add")
-	public String medcine_add() {
-		return "admin/ajax/medcine_add";
+	@RequestMapping(value = "medicine_add")
+	public String medicine_add() {
+		return "admin/ajax/medicine_add";
 	}
 
-	@RequestMapping(value = "medcine_edit")
-	public ModelAndView medcine_edit(int id) {
-		TMedcine medcine = tMedcineMapper.selectByPrimaryKey(id);
-		ModelAndView mav = new ModelAndView("admin/ajax/medcine_edit");
-		mav.addObject("medcine", medcine);
+	@RequestMapping(value = "medicine_edit")
+	public ModelAndView medicine_edit(int id) {
+		TMedicine medicine = tMedicineMapper.selectByPrimaryKey(id);
+		ModelAndView mav = new ModelAndView("admin/ajax/medicine_edit");
+		mav.addObject("medicine", medicine);
 		return mav;
 	}
 
-	@RequestMapping(value = "medcine_add_json")
-	public void medcine_add_json(MultipartFile file, TMedcine tMedcine,
+	@RequestMapping(value = "medicine_add_json")
+	public void medicine_add_json(MultipartFile file, TMedicine tMedicine,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		if (file != null && file.getOriginalFilename() != "") {
 			String pic = FileUtil.savePic(request, file);
-			tMedcine.setPic(pic);
+			tMedicine.setPic(pic);
 		}
-		tMedcineMapper.insert(tMedcine);
-		response.sendRedirect("index.do#medcine_info.do");
+		tMedicineMapper.insert(tMedicine);
+		response.sendRedirect("index.do#medicine_info.do");
 	}
 
-	@RequestMapping(value = "medcine_edit_json")
-	public void medcine_edit_json(MultipartFile file, TMedcine tMedcine,
+	@RequestMapping(value = "medicine_edit_json")
+	public void medicine_edit_json(MultipartFile file, TMedicine tMedicine,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		if (file != null && file.getOriginalFilename() != "") {
 			String pic = FileUtil.savePic(request, file);
-			tMedcine.setPic(pic);
+			tMedicine.setPic(pic);
 		}
-		tMedcineMapper.updateByPrimaryKey(tMedcine);
-		response.sendRedirect("index.do#medcine_info.do");
+		tMedicineMapper.updateByPrimaryKey(tMedicine);
+		response.sendRedirect("index.do#medicine_info.do");
 	}
 
-	@RequestMapping(value = "medcine_delete_json")
-	public void medcine_delete_json(int id, HttpServletResponse response)
+	@RequestMapping(value = "medicine_delete_json")
+	public void medicine_delete_json(int id, HttpServletResponse response)
 			throws IOException {
-		tMedcineMapper.deleteByPrimaryKey(id);
-		response.sendRedirect("index.do#medcine_info.do");
+		tMedicineMapper.deleteByPrimaryKey(id);
+		response.sendRedirect("index.do#medicine_info.do");
 	}
 
 }

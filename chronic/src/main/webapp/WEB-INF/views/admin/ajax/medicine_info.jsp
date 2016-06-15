@@ -5,7 +5,7 @@
 	<div id="breadcrumb" class="col-md-12">
 		<ol class="breadcrumb">
 				<li><a href="index.do">医生交流平台</a></li>
-			<li><a href="#" onclick="javacript:LoadAjaxContent('medcine_info.do')">药物管理</a></li>
+			<li><a href="#" onclick="javacript:LoadAjaxContent('medicine_info.do')">药物管理</a></li>
 			<li>药物列表</li>
 		</ol>
 	</div>
@@ -16,7 +16,7 @@
 			<div class="box-header">
 				<div class="box-name">
 					<i class="fa fa-usd"></i>
-					<span>药物列表</span>|<a href="#" onclick="javacript:LoadAjaxContent('medcine_add')">添加</a>
+					<span>药物列表</span>|<a href="#" onclick="javacript:LoadAjaxContent('medicine_add')">添加</a>
 				</div>
 				<div class="box-icons">
 					<a class="collapse-link">
@@ -45,14 +45,14 @@
 					</thead>
 					<tbody>
 					<!-- Start: list_row -->
-						<c:forEach items="${medcines}" var="medcine">
+						<c:forEach items="${medicines}" var="medicine">
 							<tr>
-							<td>${medcine.id}</td>
-							<td>${medcine.name }</td>
-							<td><img  class="img-rounded" alt="${medcine.pic}" src="${medcine.pic}" />${medcine.pic}</td>
-							<td>${medcine.description}</td>
-							<td>${medcine.type}</td>
-							<td><a href="#" onclick="javacript:LoadAjaxContent('medcine_edit?id=${medcine.id}')">编辑</a>|<a href="medcine_delete_json.do?id=${medcine.id}">删除</a></td>
+							<td>${medicine.id}</td>
+							<td>${medicine.name }</td>
+							<td><img  class="img-rounded" alt="${medicine.pic}" src="${medicine.pic}" />${medicine.pic}</td>
+							<td>${medicine.description}</td>
+							<td>${medicine.type}</td>
+							<td><a href="#" onclick="javacript:LoadAjaxContent('medicine_edit?id=${medicine.id}')">编辑</a>|<a href="medicine_delete_json.do?id=${medicine.id}">删除</a></td>
 						</tr>
 						</c:forEach>
 					<!-- End: list_row -->

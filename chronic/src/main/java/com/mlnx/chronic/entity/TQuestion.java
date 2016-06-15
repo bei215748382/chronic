@@ -2,6 +2,8 @@ package com.mlnx.chronic.entity;
 
 import java.util.Date;
 
+import mlnx.com.http.annotation.BodyType;
+
 public class TQuestion {
     private Integer id;
 

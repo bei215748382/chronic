@@ -2,12 +2,12 @@ package com.mlnx.chronic.entity;
 
 import java.util.Date;
 
-public class TPatientMedcine {
+public class TPatientMedicine {
     private Integer id;
 
     private Integer patientId; //患者id
 
-    private Integer medcineId;//药物id
+    private Integer medicineId;//药物id
 
     private String dosis;//服药剂量，一次多少
 
@@ -39,12 +39,12 @@ public class TPatientMedcine {
         this.patientId = patientId;
     }
 
-    public Integer getMedcineId() {
-        return medcineId;
+    public Integer getMedicineId() {
+        return medicineId;
     }
 
-    public void setMedcineId(Integer medcineId) {
-        this.medcineId = medcineId;
+    public void setMedicineId(Integer medicineId) {
+        this.medicineId = medicineId;
     }
 
     public String getDosis() {

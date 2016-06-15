@@ -1,4 +1,4 @@
-package com.mlnx.chronic.vo.medcine;
+package com.mlnx.chronic.vo.medicine;
 
 import java.util.Date;
 import java.util.List;
@@ -75,14 +75,10 @@ public class MedicinePrescription {
 
     @Override
     public String toString() {
-        return "MedicinePrescription{" +
-                "id=" + id +
-                ", patientID=" + patientID +
-                ", medicinePs=" + medicinePs.size() +
-                ", startMpTime=" + startMpTime +
-                ", doctorID=" + doctorID +
-                ", doctorName='" + doctorName + '\'' +
-                ", prescriptionType=" + prescriptionType +
-                '}';
+        return "MedicinePrescription [id=" + id + ", patientID=" + patientID
+                + ", medicinePs=" + medicinePs + ", startMpTime=" + startMpTime
+                + ", doctorID=" + doctorID + ", doctorName=" + doctorName
+                + ", prescriptionType=" + prescriptionType + "]";
     }
+
 }

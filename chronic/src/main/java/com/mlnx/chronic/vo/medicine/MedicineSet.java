@@ -1,4 +1,4 @@
-package com.mlnx.chronic.vo.medcine;
+package com.mlnx.chronic.vo.medicine;
 
 import java.util.Calendar;
 

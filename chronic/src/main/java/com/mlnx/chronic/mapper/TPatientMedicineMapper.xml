@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlnx.chronic.mapper.TPatientMedicineMapper">
+  <resultMap id="BaseResultMap" type="com.mlnx.chronic.entity.TPatientMedicine">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="patient_id" property="patientId" jdbcType="INTEGER" />
+    <result column="medicine_id" property="medicineId" jdbcType="INTEGER" />
+    <result column="dosis" property="dosis" jdbcType="VARCHAR" />
+    <result column="dosingTime" property="dosingtime" jdbcType="VARCHAR" />
+    <result column="times" property="times" jdbcType="VARCHAR" />
+    <result column="startTime" property="starttime" jdbcType="TIMESTAMP" />
+    <result column="doc_id" property="docId" jdbcType="INTEGER" />
+    <result column="timestamp" property="timestamp" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap type="com.mlnx.chronic.vo.medicine.MedicinePrescription"
+    id="MedicinePrescriptionResultMap">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="patient_id" property="patientID" jdbcType="INTEGER" />
+    <result column="startTime" property="startMpTime" jdbcType="TIMESTAMP" />
+    <result column="doc_id" property="doctorID" jdbcType="INTEGER" />
+    <result column="doctor_name" property="doctorName" jdbcType="VARCHAR" />
+    <result column="type" property="prescriptionType" jdbcType="VARCHAR" />
+    <collection property="medicinePs"
+      ofType="com.mlnx.chronic.vo.medicine.MedicineP">
+      <id column="mid" property="id" jdbcType="INTEGER" />
+      <result column="drug_name" property="drugName" jdbcType="VARCHAR" />
+      <result column="img" property="img" jdbcType="VARCHAR" />
+      <result column="blfy" property="blfy" jdbcType="VARCHAR" />
+      <result column="jj" property="jj" jdbcType="VARCHAR" />
+      <result column="manu" property="manu" jdbcType="VARCHAR" />
+      <result column="pzwh" property="pzwh" jdbcType="VARCHAR" />
+      <result column="syz" property="syz" jdbcType="VARCHAR" />
+      <result column="zc" property="zc" jdbcType="VARCHAR" />
+      <result column="zycf" property="zycf" jdbcType="VARCHAR" />
+      <result column="yfyl" property="yfyl" jdbcType="VARCHAR" />
+      <result column="isRemind" property="isRemind"
+        typeHandler="com.mlnx.chronic.mybatis.handler.IntegerToBooleanHandler" />
+      <result column="dosage" property="dosage" jdbcType="VARCHAR" />
+      <result column="eatStatuses" property="eatStatuses"
+        typeHandler="com.mlnx.chronic.mybatis.handler.VarcharToEatStatusHandler" />
+      <result column="pm_sum" property="totalCount" jdbcType="VARCHAR" />
+      <result column="already" property="alreadyEatCount"
+        jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from
+    t_patient_medicine
+    where id = #{id}
+  </delete>
+  <insert id="insert" parameterType="com.mlnx.chronic.entity.TPatientMedicine">
+    insert into t_patient_medicine
+    (id, patient_id, medicine_id,
+    dosis, dosingTime, times,
+    startTime,
+    doc_id, timestamp,type
+    )
+    values (#{id}, #{patientId}, #{medicineId},
+    #{dosis},
+    #{dosingtime}, #{times},
+    #{starttime}, #{docId},
+    #{timestamp},#{type}
+    )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.mlnx.chronic.entity.TPatientMedicine">
+    update t_patient_medicine
+    <set>
+      <if test="patientId != null and patientId != ''">
+        patient_id = #{patientId},
+      </if>
+      <if test="medicineId != null and medicineId != ''">
+        medicine_id = #{medicineId},
+      </if>
+      <if test="dosis != null and dosis != ''">
+        dosis = #{dosis},
+      </if>
+      <if test="dosingtime != null and dosingtime != ''">
+        dosingTime = #{dosingtime},
+      </if>
+      <if test="times != null and times != ''">
+        times = #{times},
+      </if>
+      <if test="starttime != null and starttime != ''">
+        startTime = #{starttime},
+      </if>
+      <if test="docId != null and docId != ''">
+        doc_id = #{docId},
+      </if>
+      <if test="timestamp != null and timestamp != ''">
+        timestamp = #{timestamp},
+      </if>
+      <if test="type != null and type != ''">
+        type = #{type}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+    parameterType="java.lang.Integer">
+    select *
+    from t_patient_medicine
+    where id = #{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from t_patient_medicine
+  </select>
+  <select id="getMedicinePrescription" parameterType="java.lang.Integer"
+    resultMap="MedicinePrescriptionResultMap">
+    select
+    tm.id id,
+    tm.patient_id,
+    tm.startTime,
+    tm.doc_id,
+    tm.type,
+    doc.name doctor_name,
+    m.id mid,
+    m.name drug_name,
+    m.pic img,
+    m.adr blfy,
+    m.incompatibility jj,
+    m.factory manu,
+    m.permit pzwh,
+    m.indications syz,
+    m.store zc,
+    m.constitute zycf,
+    m.temp yfyl,
+    m.pm_sum,
+    m.already,
+    m.isRemind,
+    m.dosage,
+    m.eatStatuses
+    from t_patient_medicine tm
+    left outer join (
+    select
+    mm.*,
+    pm.prescription_id pid,
+    pm.sum pm_sum,
+    pm.already,
+    pm.isRemind,
+    pm.dosage,
+    pm.eatStatuses
+    from t_prescription_medicine pm
+    left outer join t_medicine mm on mm.id = pm.medicine_id
+    ) m on tm.id = m.pid
+    left outer join t_user_doc doc
+    on doc.user_id = tm.doc_id
+    = m.id where tm.patient_id = #{patientId}
+  </select>
+</mapper>

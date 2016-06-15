@@ -1,31 +1,37 @@
 package com.mlnx.chronic.entity;
 
-public class TMedcine {
+public class TMedicine {
     private Integer id;
 
-    private String name;
+    private String name; //药品名称
 
-    private String pic;
+    private String pic;//药品图片
 
-    private String description;
+    private String description;//药品描述
 
-    private String type;
+    private String type;//药品类型
     
-    private String adr;
+    private String adr;//不良反应
     
-    private String incompatibility;
+    private String incompatibility;//禁忌
     
-    private String factory;
+    private String factory;//药厂公司
     
-    private String permit;
+    private String permit;//国药准字号
     
-    private String indications;
+    private String indications;//使用症状
     
-    private String store;
+    private String store;//存储
     
-    private String constitute;
+    private String constitute;//药品组成
     
-    private String temp;
+    private String temp;//临时变量
+    
+    private String price;//价格
+    
+    private String sum;//总量
+    
+    private String validTime;//有效期
     
     public Integer getId() {
         return id;
@@ -131,14 +137,39 @@ public class TMedcine {
 		this.temp = temp;
 	}
 
-	@Override
-	public String toString() {
-		return "TMedcine [id=" + id + ", name=" + name + ", pic=" + pic
-				+ ", description=" + description + ", type=" + type + ", adr="
-				+ adr + ", incompatibility=" + incompatibility + ", factory="
-				+ factory + ", permit=" + permit + ", indications="
-				+ indications + ", store=" + store + ", constitute="
-				+ constitute + ", temp=" + temp + "]";
-	}
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getSum() {
+        return sum;
+    }
+
+    public void setSum(String sum) {
+        this.sum = sum;
+    }
+
+    public String getValidTime() {
+        return validTime;
+    }
+
+    public void setValidTime(String validTime) {
+        this.validTime = validTime;
+    }
+
+    @Override
+    public String toString() {
+        return "TMedicine [id=" + id + ", name=" + name + ", pic=" + pic
+                + ", description=" + description + ", type=" + type + ", adr="
+                + adr + ", incompatibility=" + incompatibility + ", factory="
+                + factory + ", permit=" + permit + ", indications="
+                + indications + ", store=" + store + ", constitute="
+                + constitute + ", temp=" + temp + ", price=" + price + ", sum="
+                + sum + ", validTime=" + validTime + "]";
+    }
 
 }

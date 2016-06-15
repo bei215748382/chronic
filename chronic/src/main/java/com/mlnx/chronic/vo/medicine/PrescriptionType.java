@@ -1,4 +1,4 @@
-package com.mlnx.chronic.vo.medcine;
+package com.mlnx.chronic.vo.medicine;
 
 /**
  * Created by Administrator on 2016/5/9.

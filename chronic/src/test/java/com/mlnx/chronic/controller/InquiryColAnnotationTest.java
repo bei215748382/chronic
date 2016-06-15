@@ -1,7 +1,10 @@
 package com.mlnx.chronic.controller;
 
 
+import java.util.Date;
+
 import mlnx.com.http.HttpUtils;
+import mlnx.com.http.annotation.BodyType;
 import mlnx.com.http.bean.ApiResponse;
 import mlnx.com.http.okhttp.RetrofitCall;
 
@@ -18,7 +21,8 @@ import com.mlnx.chronic.entity.TQuestion;
 import com.mlnx.chronic.mapper.TestBase;
 
 public class InquiryColAnnotationTest extends TestBase{
-	
+    
+    @BodyType(bodyDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
 	public interface HttpInquiryTest {
 			
 		@POST("chronic/inquiry/question")
@@ -31,7 +35,7 @@ public class InquiryColAnnotationTest extends TestBase{
 		Call<ApiResponse<TProvince>> docHistoryQuestion(@Query("id") Integer id,@Query("start") Integer start,@Query("end") Integer end);//根据医生id查找咨询历史
 	}
 	
-	private RetrofitCall retrofitCall = HttpUtils.Retrofit().baseUrl("http://localhost:8082/").buildRetrofit();
+	private static RetrofitCall retrofitCall = HttpUtils.Retrofit().baseUrl("http://localhost:8082/").buildRetrofit();
 	
 	//提问
 	@Test
@@ -40,6 +44,7 @@ public class InquiryColAnnotationTest extends TestBase{
 		try {
 			TQuestion question = new TQuestion();
 			question.setTitle("问题1");
+			question.setDatetime(new Date());
 			ApiResponse<TProvince> apiResponse = retrofitCall.call(retrofitCall.conver(HttpInquiryTest.class).question(question));
 			System.out.println(apiResponse.toString());
 		} catch (Exception e) {
@@ -69,4 +74,17 @@ public class InquiryColAnnotationTest extends TestBase{
 			e.printStackTrace();
 		}
 	}
+	
+	public static void main(String[] args) {
+	 // 同步请求
+        try {
+            TQuestion question = new TQuestion();
+            question.setTitle("问题1");
+            question.setDatetime(new Date());
+            ApiResponse<TProvince> apiResponse = retrofitCall.call(retrofitCall.conver(HttpInquiryTest.class).question(question));
+            System.out.println(apiResponse.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

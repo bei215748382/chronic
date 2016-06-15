@@ -1,4 +1,4 @@
-package com.mlnx.chronic.vo.medcine;
+package com.mlnx.chronic.vo.medicine;
 
 /**
  * Created by Administrator on 2016/5/9.
@@ -21,6 +21,8 @@ public class Medicine {
     private String zycf;    // 药品组成
 
     private String yfyl;    // 临时变量
+    
+    
 
     public Medicine() {
 

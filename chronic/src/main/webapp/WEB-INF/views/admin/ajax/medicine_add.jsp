@@ -6,8 +6,8 @@
 		<ol class="breadcrumb">
 			<li><a href="index.do">医生交流平台</a></li>
 			<li><a href="#"
-				onclick="javacript:LoadAjaxContent('medcine_info.do')">药物管理</a></li>
-			<li>药物编辑</li>
+				onclick="javacript:LoadAjaxContent('medicine_info.do')">药物管理</a></li>
+			<li>药物添加</li>
 		</ol>
 	</div>
 </div>
@@ -16,7 +16,7 @@
 		<div class="box">
 			<div class="box-header">
 				<div class="box-name">
-					<i class="fa fa-search"></i> <span>编辑药物详情</span>
+					<i class="fa fa-search"></i> <span>增加药物详情</span>
 				</div>
 				<div class="box-icons">
 					<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
@@ -27,24 +27,23 @@
 				<div class="no-move"></div>
 			</div>
 			<div class="box-content">
-				<h4 class="page-header">编辑药物信息</h4>
+				<h4 class="page-header">填写药物信息</h4>
 				<form class="form-horizontal" role="form" method="POST"
-					id="defaultForm" action="medcine_edit_json.do"
+					id="defaultForm" action="medicine_add_json.do"
 					enctype="multipart/form-data">
-					<input type="hidden" name="id" value="${medcine.id}"/>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">名称</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" name="name" value="${medcine.name}"/>
+							<input type="text" class="form-control" name="name" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">图片</label>
 						<div id="localImag" class="col-sm-4">
-							<img id="preview" class="img-rounded" alt="图片" src="${medcine.pic}"/>
+							<img id="preview" class="img-rounded" alt="图片" />
 							<div class="margin-top-15">
 								<input id="doc" type="file" name="file"
-									onchange="javascript:setImagePreview(this,localImag,preview);" value="${medcine.name}">
+									onchange="javascript:setImagePreview(this,localImag,preview);">
 							</div>
 						</div>
 						<div class="col-sm-4">
@@ -55,13 +54,13 @@
 						<label class="col-sm-2 control-label">描述</label>
 						<div class="col-sm-4">
 							<textarea class="form-control" rows="5" id="description"
-								name="description">${medcine.description}</textarea>
+								name="description"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">类别</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" name="type" value="${medcine.type}"/>
+							<input type="text" class="form-control" name="type" />
 						</div>
 					</div>
 					<div class="clearfix"></div>
